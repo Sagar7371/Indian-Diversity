@@ -2018,6 +2018,10 @@ footer p { color: var(--muted); }
 
 footer p strong { color: var(--ink); }
 
+.footerCreator { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; }
+.footerCreator p { margin: 0; }
+.footerCreator button { color: #2d70bd; font-weight: 700; }
+
 .footerLinks { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
 .footerLinks a,
 .footerLinks button { color: #2d70bd; text-decoration: none; font-weight: 700; }
@@ -2079,6 +2083,11 @@ footer button {
 .contactCard input:focus,
 .contactCard textarea:focus { border-color: #5d9bdf; box-shadow: 0 0 0 3px rgba(93, 155, 223, .14); }
 .contactSubmit { justify-content: center; margin-top: 4px; }
+.contactSubmit:disabled { cursor: wait; opacity: .7; }
+.contactSuccess,
+.contactError { margin: 14px 0 0; padding: 11px 13px; border-radius: 10px; font-size: 13px; font-weight: 700; }
+.contactSuccess { background: #e7f6ed; color: #28734a; }
+.contactError { background: #fff0f0; color: #a33b3b; }
 .instagramLink { display: inline-flex; align-items: center; gap: 7px; margin-top: 17px; color: #bd5b99; font-weight: 800; text-decoration: none; }
 .instagramLink:hover { text-decoration: underline; }
 

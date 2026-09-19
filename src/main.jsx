@@ -562,6 +562,7 @@ function App() {
   const [selectedPoliticalState, setSelectedPoliticalState] = useState(null);
   const [showAllPoliticalStates, setShowAllPoliticalStates] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [contactStatus, setContactStatus] = useState('');
   const navigate = useNavigate();
 
   const regions = ['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'];
@@ -1475,8 +1476,8 @@ function App() {
           <span className="brandMark">✦</span>
           Indian Culture
         </div>
-        <div className="footerLinks"><button onClick={() => navScroll('politics')}>Politics</button><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">Official Government Sources</a><button type="button" onClick={() => setContactOpen(true)}>Contact me</button></div>
-        <p>Created by <strong>Suman Sagar</strong></p>
+        <div className="footerCreator"><p>Created by <strong>Suman Sagar</strong></p><button type="button" onClick={() => { setContactStatus(''); setContactOpen(true); }}>Contact me</button></div>
+        <div className="footerLinks"><button onClick={() => navScroll('politics')}>Politics</button><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">Official Government Sources</a></div>
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top ↑</button>
       </footer>
 
@@ -1487,18 +1488,29 @@ function App() {
             <div className="eyebrow dark">GET IN TOUCH</div>
             <h2>Contact Suman Sagar</h2>
             <p className="contactIntro">Have a question or suggestion about Indian Culture Explorer? Send a message or connect through Instagram.</p>
-            <form onSubmit={(event) => {
+            <form onSubmit={async (event) => {
               event.preventDefault();
-              const formData = new FormData(event.currentTarget);
-              const subject = encodeURIComponent(`Indian Culture Explorer message from ${formData.get('name')}`);
-              const body = encodeURIComponent(`Name: ${formData.get('name')}\nEmail: ${formData.get('email')}\n\n${formData.get('message')}`);
-              window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=yadavsagar1409@gmail.com&su=${subject}&body=${body}`, '_blank', 'noopener,noreferrer');
+              setContactStatus('sending');
+              try {
+                const response = await fetch('https://formspree.io/f/myezkgra', {
+                  method: 'POST',
+                  body: new FormData(event.currentTarget),
+                  headers: { Accept: 'application/json' }
+                });
+                if (!response.ok) throw new Error('Form submission failed');
+                event.currentTarget.reset();
+                setContactStatus('success');
+              } catch {
+                setContactStatus('error');
+              }
             }}>
               <label>Name<input name="name" required placeholder="Your name" /></label>
               <label>Email<input name="email" type="email" required placeholder="you@example.com" /></label>
               <label>Message<textarea name="message" required rows="4" placeholder="Write your message..."></textarea></label>
-              <button className="primary contactSubmit" type="submit"><Mail size={16} /> Send through Gmail</button>
+              <button className="primary contactSubmit" type="submit" disabled={contactStatus === 'sending'}><Mail size={16} /> {contactStatus === 'sending' ? 'Sending...' : 'Send message'}</button>
             </form>
+            {contactStatus === 'success' && <p className="contactSuccess">Message sent successfully. Thank you for contacting me.</p>}
+            {contactStatus === 'error' && <p className="contactError">Message could not be sent. Please try again.</p>}
             <a className="instagramLink" href="https://www.instagram.com/yadav_sagar14/?hl=en" target="_blank" rel="noreferrer"><Instagram size={18} /> Follow on Instagram <ExternalLink size={14} /></a>
           </div>
         </div>
