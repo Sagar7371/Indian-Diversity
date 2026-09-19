@@ -1472,13 +1472,30 @@ function App() {
       </main>
 
       <footer>
-        <div className="brand">
-          <span className="brandMark">✦</span>
-          Indian Culture
+        <div className="footerIntro">
+          <div className="brand"><span className="brandMark">✦</span>Indian Culture Explorer</div>
+          <p>Explore India's many languages, foods, festivals, arts, traditions and stories through one learning-focused cultural journey.</p>
+          <p className="footerSmall">An educational college project celebrating unity in diversity.</p>
         </div>
-        <div className="footerCreator"><p>Created by <strong>Suman Sagar</strong></p><button type="button" onClick={() => { setContactStatus(''); setContactOpen(true); }}>Contact me</button></div>
-        <div className="footerLinks"><button onClick={() => navScroll('politics')}>Politics</button><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">Official Government Sources</a></div>
-        <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top ↑</button>
+        <div className="footerColumn">
+          <h3>Quick Links</h3>
+          <button onClick={() => navScroll('home')}>Home</button>
+          <button onClick={() => navScroll('states')}>Explore States</button>
+          <button onClick={() => navScroll('gallery')}>Cultural Gallery</button>
+          <button onClick={() => navScroll('politics')}>Politics & Governance</button>
+          <button onClick={() => navScroll('about')}>About the Project</button>
+        </div>
+        <div className="footerColumn footerConnect">
+          <h3>Connect With Me</h3>
+          <a href="mailto:yadavsagar1409@gmail.com"><Mail size={19} /> yadavsagar1409@gmail.com</a>
+          <a href="https://www.instagram.com/yadav_sagar14/?hl=en" target="_blank" rel="noreferrer"><Instagram size={19} /> @yadav_sagar14</a>
+          <div className="footerCreator"><p>Created by <strong>Suman Sagar</strong></p><button type="button" onClick={() => { setContactStatus(''); setContactOpen(true); }}><Mail size={15} /> Contact me</button></div>
+        </div>
+        <div className="footerSideActions">
+          <span className="footerLine"></span>
+          <button className="backTopButton" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top">↑</button>
+        </div>
+        <div className="footerBottom"><span>© 2026 Indian Culture Explorer</span><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">Official Government Sources</a></div>
       </footer>
 
       {contactOpen && (
