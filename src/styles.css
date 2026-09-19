@@ -1910,25 +1910,37 @@ main > * { order: 50; }
 
 .galleryGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
 }
+
+.gallery {
+  background: #f3f3f1;
+  border-bottom-color: #e2e2df;
+}
+
+.gallery .sectionHead { margin-bottom: 34px; }
+.gallery .eyebrow.dark { color: #9a6b00; letter-spacing: .18em; }
+.gallery .sectionHead h2 { color: #111820; font-size: clamp(38px, 5vw, 64px); letter-spacing: -.035em; }
 
 .galleryItem {
   position: relative;
   min-width: 0;
-  height: 190px;
+  height: auto;
   margin: 0;
   overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #dceeff;
-  box-shadow: var(--shadow);
+  border: 1px solid #e2e2df;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(25, 31, 35, .08);
+  transition: transform .25s ease, box-shadow .25s ease;
 }
+
+.galleryItem:hover { transform: translateY(-5px); box-shadow: 0 16px 30px rgba(25, 31, 35, .14); }
 
 .galleryItem img {
   width: 100%;
-  height: 100%;
+  height: 210px;
   object-fit: cover;
   transition: transform .35s ease, filter .35s ease;
 }
@@ -1939,16 +1951,14 @@ main > * { order: 50; }
 }
 
 .galleryItem figcaption {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 3px;
-  padding: 26px 13px 12px;
-  background: linear-gradient(transparent, rgba(10, 33, 59, .86));
-  color: #fff;
+  min-height: 94px;
+  padding: 15px 17px 16px;
+  background: #fff;
+  color: #111820;
 }
 
 .galleryItem figcaption span {
@@ -1956,10 +1966,11 @@ main > * { order: 50; }
   font-weight: 800;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: #c9e4ff;
+  color: #8c6507;
 }
 
-.galleryItem figcaption strong { font-size: 14px; }
+.galleryItem figcaption strong { font-size: 18px; line-height: 1.25; }
+.galleryItem figcaption::after { content: 'Explore collection  →'; margin-top: auto; padding-top: 10px; color: #a87500; font-size: 12px; font-weight: 800; }
 
 .facts {
   margin: 0 7vw 30px;
@@ -2196,6 +2207,7 @@ footer button {
   .detailGrid { grid-template-columns: 1fr; }
   .searchWide { min-width: 100%; }
   .stateGrid { grid-template-columns: 1fr; }
-  .galleryGrid { grid-template-columns: 1fr 1fr; }
+  .galleryGrid { grid-template-columns: 1fr; gap: 18px; }
+  .galleryItem img { height: 220px; }
   footer { flex-direction: column; align-items: flex-start; }
 }
