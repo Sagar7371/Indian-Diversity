@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 900">
+  <rect width="1000" height="900" fill="#f5f0e7"/>
+
+  <g stroke="#bb8a46" stroke-width="2.5" stroke-linejoin="round">
+    <polygon points="110,170 180,120 240,145 220,210 150,220 110,195" fill="#d9d2f5"/>
+    <polygon points="175,220 250,195 285,235 250,290 190,285 165,245" fill="#d4f0a8"/>
+    <polygon points="250,210 330,180 370,215 350,285 290,300 245,265" fill="#d9d1a3"/>
+    <polygon points="340,170 410,150 460,200 440,270 370,275 330,225" fill="#e7c998"/>
+    <polygon points="445,180 545,150 600,195 560,270 490,290 430,245" fill="#d8f0a8"/>
+    <polygon points="560,200 640,160 700,180 710,245 660,290 590,285 550,245" fill="#d4c0ea"/>
+    <polygon points="680,180 760,195 820,240 775,300 700,310 660,250" fill="#f0d7b8"/>
+    <polygon points="770,250 840,220 900,260 885,315 820,335 760,300" fill="#b9d5f0"/>
+    <polygon points="825,330 895,310 940,360 915,420 850,430 800,390" fill="#e5d0ed"/>
+    <polygon points="725,325 790,315 820,380 790,440 720,430 690,375" fill="#c8e4bc"/>
+    <polygon points="615,315 700,310 745,350 720,420 650,435 595,395" fill="#d4b8d5"/>
+    <polygon points="545,330 610,315 645,390 620,445 560,455 520,405" fill="#c4d8af"/>
+    <polygon points="465,300 530,290 575,345 550,420 485,430 445,370" fill="#d5e1b1"/>
+    <polygon points="400,320 465,305 505,380 480,440 420,450 385,395" fill="#d8b0a7"/>
+    <polygon points="340,330 410,320 445,385 420,450 350,455 315,395" fill="#d7d0f1"/>
+    <polygon points="280,355 355,335 390,405 360,475 295,475 255,420" fill="#d9e1c4"/>
+    <polygon points="200,410 285,390 335,450 315,530 240,545 185,490" fill="#f0c6a0"/>
+    <polygon points="285,485 375,470 420,520 405,610 335,630 280,575" fill="#cfe0ba"/>
+    <polygon points="390,500 470,485 520,555 500,630 430,655 380,597" fill="#d8d7f5"/>
+    <polygon points="505,550 590,540 635,600 615,685 545,700 490,645" fill="#e8c8b7"/>
+    <polygon points="590,650 675,630 720,690 700,760 630,785 560,740" fill="#d7b99b"/>
+    <polygon points="690,675 770,660 820,720 795,810 715,815 665,760" fill="#c9d3f8"/>
+    <polygon points="780,745 850,720 900,780 875,845 810,860 770,810" fill="#d7e9d3"/>
+    <polygon points="255,620 335,610 375,670 355,745 290,765 230,715" fill="#d4e5e7"/>
+    <polygon points="325,770 410,760 455,815 435,885 355,900 305,850" fill="#d4cbe7"/>
+    <polygon points="515,760 585,742 620,805 595,870 525,875 490,820" fill="#e7d6a7"/>
+  </g>
+
+  <g font-family="Arial, sans-serif" font-weight="700" fill="#2a211d" font-size="18">
+    <text x="170" y="315">Rajasthan</text>
+    <text x="370" y="250">Punjab</text>
+    <text x="470" y="220">Himachal</text>
+    <text x="635" y="245">Uttarakhand</text>
+    <text x="445" y="370">Haryana</text>
+    <text x="530" y="400">Delhi</text>
+    <text x="660" y="410">Uttar Pradesh</text>
+    <text x="715" y="545">Bihar</text>
+    <text x="800" y="540">West Bengal</text>
+    <text x="745" y="650">Odisha</text>
+    <text x="505" y="540">Madhya Pradesh</text>
+    <text x="470" y="715">Maharashtra</text>
+    <text x="310" y="690">Gujarat</text>
+    <text x="625" y="725">Telangana</text>
+    <text x="760" y="820">Andhra Pradesh</text>
+    <text x="520" y="845">Karnataka</text>
+    <text x="350" y="840">Tamil Nadu</text>
+    <text x="285" y="860">Kerala</text>
+    <text x="865" y="400">Assam</text>
+    <text x="890" y="310">Arunachal Pradesh</text>
+    <text x="820" y="230">Sikkim</text>
+    <text x="870" y="200">Nagaland</text>
+    <text x="890" y="485">Manipur</text>
+    <text x="780" y="590">Tripura</text>
+  </g>
+</svg>
