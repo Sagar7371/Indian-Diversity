@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import indiaMap from '@svg-maps/india';
-import { Search, ArrowRight, Menu, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun } from 'lucide-react';
+import { Search, ArrowRight, Menu, PanelRightOpen, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun } from 'lucide-react';
 import './styles.css';
 
 const states = [
@@ -281,6 +281,15 @@ const facts = [
   'Pochampally is renowned for its ikat textile tradition in Telangana.',
   'Aipan is a traditional decorative art associated with Uttarakhand.',
   'Madhubani painting is strongly associated with Bihar.'
+];
+
+const quickNavItems = [
+  ['States & Regions', 'states'],
+  ['Languages', 'languages'],
+  ['Cuisine', 'cuisine'],
+  ['Festivals', 'festivals'],
+  ['Sports', 'sports'],
+  ['Politics & Governance', 'politics']
 ];
 
 function getStateImage(name, index) {
@@ -563,6 +572,7 @@ function App() {
   const [showAllPoliticalStates, setShowAllPoliticalStates] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [contactStatus, setContactStatus] = useState('');
+  const [cultureMenuOpen, setCultureMenuOpen] = useState(false);
   const navigate = useNavigate();
 
   const regions = ['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'];
@@ -607,6 +617,7 @@ function App() {
   const navScroll = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMobileMenu(false);
+    setCultureMenuOpen(false);
   };
 
   return (
@@ -647,8 +658,37 @@ function App() {
               placeholder="Search culture..."
             />
           </div>
+          <button
+            className="cultureMenuToggle"
+            type="button"
+            onClick={() => setCultureMenuOpen(true)}
+            aria-label="Open culture navigation"
+            title="Open culture navigation"
+          >
+            <PanelRightOpen size={20} />
+          </button>
         </nav>
       </header>
+
+      {cultureMenuOpen && (
+        <div className="cultureDrawerLayer" onClick={() => setCultureMenuOpen(false)}>
+          <aside className="cultureDrawer" onClick={(event) => event.stopPropagation()}>
+            <div className="cultureDrawerHeader">
+              <div><span className="eyebrow dark">EXPLORE INDIA</span><h2>Culture menu</h2></div>
+              <button className="drawerClose" type="button" onClick={() => setCultureMenuOpen(false)} aria-label="Close culture navigation"><X size={20} /></button>
+            </div>
+            <div className="drawerNavList">
+              {quickNavItems.map(([label, target], index) => (
+                <button key={target} type="button" onClick={() => navScroll(target)}>
+                  <span className="drawerIndex">{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{label}</strong>
+                  <ArrowRight size={18} />
+                </button>
+              ))}
+            </div>
+          </aside>
+        </div>
+      )}
 
       <main>
         <section id="home" className="hero">
@@ -670,22 +710,6 @@ function App() {
               </button>
             </div>
 
-            <div className="quickNavGrid">
-              {[
-                ['States & Regions', 'states'],
-                ['Languages', 'languages'],
-                ['Cuisine', 'cuisine'],
-                ['Festivals', 'festivals'],
-                ['Sports', 'sports'],
-                ['Politics & Governance', 'politics']
-              ].map(([label, target], index) => (
-                <button key={label} type="button" className="quickNavCard" onClick={() => navScroll(target)}>
-                  <span className="quickNavIndex">{String(index + 1).padStart(2, '0')}</span>
-                  <span>{label}</span>
-                  <ArrowRight className="quickNavArrow" size={15} />
-                </button>
-              ))}
-            </div>
           </div>
         </section>
 

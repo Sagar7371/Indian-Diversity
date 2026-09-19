@@ -237,6 +237,59 @@ main > * { order: 50; }
   background: transparent;
 }
 
+.cultureMenuToggle {
+  display: grid !important;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  margin-left: 8px;
+  padding: 0 !important;
+  border: 1px solid rgba(91, 132, 204, .25) !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, .86) !important;
+  color: #284b78 !important;
+}
+.cultureMenuToggle:hover { color: #1656a0 !important; transform: translateY(-2px); }
+.app.theme-dark .cultureMenuToggle { background: rgba(18, 38, 61, .92) !important; color: #c5ddf8 !important; }
+
+.cultureDrawerLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(12, 24, 39, .34);
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  animation: drawerBackdropIn .2s ease;
+}
+.cultureDrawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(430px, 92vw);
+  height: 100%;
+  padding: 34px 28px;
+  overflow-y: auto;
+  border-left: 1px solid rgba(255, 255, 255, .35);
+  background: linear-gradient(155deg, rgba(245, 249, 255, .98), rgba(232, 239, 250, .97) 55%, rgba(249, 237, 246, .96));
+  box-shadow: -20px 0 55px rgba(13, 29, 50, .22);
+  animation: drawerSlideIn .28s ease;
+}
+.cultureDrawerHeader { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; margin-bottom: 30px; }
+.cultureDrawerHeader h2 { margin: 4px 0 0; color: #172f4c; font: 700 34px/1.1 'Playfair Display', serif; }
+.drawerClose { display: grid; width: 40px; height: 40px; place-items: center; padding: 0; border: 1px solid rgba(42, 73, 111, .2); border-radius: 50%; background: rgba(255,255,255,.75); color: #173f70; }
+.drawerClose:hover { background: #fff; transform: rotate(8deg); }
+.drawerNavList { display: grid; gap: 14px; }
+.drawerNavList button { display: grid; grid-template-columns: 37px minmax(0, 1fr) 20px; align-items: center; gap: 13px; min-height: 70px; padding: 13px 16px; border: 1px solid rgba(64, 103, 143, .28); border-radius: 15px; background: linear-gradient(110deg, rgba(54, 95, 132, .78), rgba(75, 91, 119, .72) 55%, rgba(100, 72, 107, .7)); color: #fff; text-align: left; box-shadow: 0 10px 20px rgba(36, 67, 101, .14); transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.drawerNavList button:hover { transform: translateX(-5px); border-color: #f4c31e; background: linear-gradient(110deg, rgba(38, 99, 127, .92), rgba(100, 72, 107, .9)); }
+.drawerNavList button strong { font-size: 16px; line-height: 1.25; }
+.drawerNavList button svg { opacity: .8; transition: transform .2s ease; }
+.drawerNavList button:hover svg { transform: translateX(4px); opacity: 1; }
+.drawerIndex { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid rgba(255,255,255,.42); border-radius: 10px; color: #e7f2ff; font-size: 11px; font-weight: 800; }
+@keyframes drawerBackdropIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes drawerSlideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
 .hamb { display: none; background: none; border: 0; }
 
 .hero {
@@ -2187,6 +2240,7 @@ footer button {
   }
   .nav nav.open { display: flex; }
   .nav nav button { width: 100%; text-align: left; }
+  .nav nav .cultureMenuToggle { width: 42px !important; align-self: flex-end; text-align: center; }
   .nav nav > button:not(.themeToggle)::after { left: 13px; right: auto; width: 42px; }
   .hamb { display: block; }
   .search { margin-left: 0; width: 100%; }
