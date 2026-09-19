@@ -703,13 +703,20 @@ function App() {
             <p>Explore languages, food, festivals, arts, traditions and stories across all 28 states of India.</p>
             <div className="actions">
               <button className="primary" onClick={() => navScroll('states')}>
-                Explore States <ArrowRight />
+                Explore India <ArrowRight />
               </button>
-              <button className="ghost" onClick={() => navScroll('map')}>
-                View Map
+              <button className="ghost" onClick={() => navScroll('languages')}>
+                Discover cultures
               </button>
             </div>
 
+          </div>
+          <div className="heroStats">
+            <div><strong>28</strong><span>States</span></div>
+            <div><strong>8</strong><span>Union Territories</span></div>
+            <div><strong>Many</strong><span>Languages</span></div>
+            <div><strong>1000+</strong><span>Festivals</span></div>
+            <div><strong>∞</strong><span>Living stories</span></div>
           </div>
         </section>
 

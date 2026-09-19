@@ -105,11 +105,13 @@ main > * { order: 50; }
   align-items: center;
   justify-content: space-between;
   padding: 0 7vw;
-  position: sticky;
+  position: absolute;
+  left: 0;
+  right: 0;
   top: 0;
   z-index: 50;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 24px rgba(55, 103, 170, 0.08);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(55, 103, 170, 0.04);
 }
 
 .brand {
@@ -293,9 +295,10 @@ main > * { order: 50; }
 .hamb { display: none; background: none; border: 0; }
 
 .hero {
-  min-height: 680px;
+  position: relative;
+  min-height: 760px;
   background:
-    linear-gradient(135deg, rgba(12, 50, 102, 0.78), rgba(43, 111, 186, 0.42) 45%, rgba(218, 231, 255, 0.24) 100%),
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(12, 38, 64, .24)),
     url('../diversity_of_india_hd.jpg') center/cover;
   border-bottom: 2px solid rgba(107, 140, 255, 0.45);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35), 0 18px 50px rgba(119, 168, 255, 0.18);
@@ -304,10 +307,13 @@ main > * { order: 50; }
 }
 
 .heroOverlay {
-  width: min(900px, 86%);
+  position: relative;
+  z-index: 1;
+  width: min(760px, 86%);
   margin: auto;
-  color: #fff;
-  padding: 80px 0;
+  color: #11283f;
+  padding: 145px 0 175px;
+  text-align: center;
 }
 
 .eyebrow {
@@ -322,12 +328,12 @@ main > * { order: 50; }
 
 .hero h1 {
   font-family: 'Playfair Display', serif;
-  font-size: clamp(58px, 7vw, 100px);
+  font-size: clamp(50px, 6vw, 88px);
   line-height: 0.96;
   margin: 0 0 20px;
 }
 
-.hero h1 span { color: #f9cf6c; }
+.hero h1 span { color: #e95e25; }
 
 .hero h2 {
   font: 600 26px 'Playfair Display', serif;
@@ -338,13 +344,22 @@ main > * { order: 50; }
   font-size: 18px;
   line-height: 1.65;
   max-width: 650px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .actions {
   display: flex;
   gap: 18px;
   flex-wrap: wrap;
+  justify-content: center;
 }
+
+.heroStats { position: absolute; right: 0; bottom: 0; left: 0; z-index: 2; display: grid; grid-template-columns: repeat(5, 1fr); padding: 19px 7vw; background: rgba(12, 31, 49, .9); color: #fff; }
+.heroStats div { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 50px; border-right: 1px solid rgba(255,255,255,.18); }
+.heroStats div:last-child { border-right: 0; }
+.heroStats strong { color: #f4bd18; font: 700 25px/1 'Playfair Display', serif; }
+.heroStats span { color: rgba(255,255,255,.86); font-size: 12px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; }
 
 .quickNavGrid {
   display: grid;
@@ -2239,6 +2254,7 @@ footer button {
 
 @media (max-width: 980px) {
   .mapLayout, .unity, .about, .quizCard { grid-template-columns: 1fr; }
+  .heroStats { padding-right: 20px; padding-left: 20px; }
   footer { grid-template-columns: 1fr 1fr; gap: 32px; }
   .footerSideActions { display: none; }
   .politicsHero, .unionOfficeGrid { grid-template-columns: 1fr; }
@@ -2280,6 +2296,15 @@ footer button {
 
 @media (max-width: 640px) {
   .section { padding: 52px 5vw; }
+  .hero { min-height: 720px; }
+  .heroOverlay { padding-top: 120px; padding-bottom: 180px; }
+  .heroStats { grid-template-columns: repeat(2, 1fr); gap: 8px 0; padding: 12px 5vw; }
+  .heroStats div { min-height: 42px; }
+  .heroStats div:nth-child(2) { border-right: 0; }
+  .heroStats div:nth-child(3) { border-top: 1px solid rgba(255,255,255,.18); }
+  .heroStats div:nth-child(4), .heroStats div:nth-child(5) { border-top: 1px solid rgba(255,255,255,.18); }
+  .heroStats strong { font-size: 21px; }
+  .heroStats span { font-size: 9px; }
   .languageShowcaseHead { display: block; }
   .languageCount { width: max-content; margin-top: 24px; }
   .languageTile { flex-basis: 255px; }
