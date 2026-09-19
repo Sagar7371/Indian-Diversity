@@ -751,20 +751,21 @@ function App() {
         </section>
 
         <section id="languages" className="section languageSection">
-          <div className="sectionHead">
-            <div>
+          <div className="languageShowcaseHead">
+            <div className="languageShowcaseIntro">
               <div className="eyebrow dark">LANGUAGES & SCRIPTS</div>
-              <h2>A multilingual nation</h2>
-              <p>India is home to many languages, scripts and oral traditions, each shaping everyday life, literature and identity.</p>
+              <h2>Many scripts.<br /><span>One living map.</span></h2>
+              <p>India's languages carry memory through everyday speech, literature, music and oral traditions.</p>
             </div>
+            <div className="languageCount"><strong>{languageCards.length}</strong><span>featured<br />language worlds</span></div>
           </div>
 
-          <div className="languageGrid">
+          <div className="languageRail">
             {languageCards.map((item) => (
-              <article key={item.name} className="miniCard languageCard">
+              <article key={item.name} className="languageTile">
                 <div className="scriptBadge">{item.script}</div>
-                <h3>{item.name}</h3>
-                <p>{item.note}</p>
+                <div className="languageTileBody"><span>Language {String(languageCards.indexOf(item) + 1).padStart(2, '0')}</span><h3>{item.name}</h3><p>{item.note}</p></div>
+                <ArrowRight className="languageTileArrow" size={18} />
               </article>
             ))}
           </div>
