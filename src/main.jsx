@@ -1490,18 +1490,19 @@ function App() {
             <p className="contactIntro">Have a question or suggestion about Indian Culture Explorer? Send a message or connect through Instagram.</p>
             <form onSubmit={async (event) => {
               event.preventDefault();
+              const form = event.currentTarget;
               setContactStatus('sending');
               try {
                 const response = await fetch('https://formspree.io/f/myezkgra', {
                   method: 'POST',
-                  body: new FormData(event.currentTarget),
+                  body: new FormData(form),
                   headers: { Accept: 'application/json' }
                 });
                 if (!response.ok) {
                   const result = await response.json().catch(() => null);
                   throw new Error(result?.errors?.map((item) => item.message).join(', ') || `Submission failed (${response.status})`);
                 }
-                event.currentTarget.reset();
+                form.reset();
                 setContactStatus('success');
               } catch (error) {
                 setContactStatus(error.message || 'Message could not be sent. Please try again.');
