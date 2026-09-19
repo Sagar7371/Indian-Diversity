@@ -1492,12 +1492,12 @@ function App() {
               const formData = new FormData(event.currentTarget);
               const subject = encodeURIComponent(`Indian Culture Explorer message from ${formData.get('name')}`);
               const body = encodeURIComponent(`Name: ${formData.get('name')}\nEmail: ${formData.get('email')}\n\n${formData.get('message')}`);
-              window.location.href = `mailto:yadavsagar1409@gmail.com?subject=${subject}&body=${body}`;
+              window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=yadavsagar1409@gmail.com&su=${subject}&body=${body}`, '_blank', 'noopener,noreferrer');
             }}>
               <label>Name<input name="name" required placeholder="Your name" /></label>
               <label>Email<input name="email" type="email" required placeholder="you@example.com" /></label>
               <label>Message<textarea name="message" required rows="4" placeholder="Write your message..."></textarea></label>
-              <button className="primary contactSubmit" type="submit"><Mail size={16} /> Open Gmail</button>
+              <button className="primary contactSubmit" type="submit"><Mail size={16} /> Send through Gmail</button>
             </form>
             <a className="instagramLink" href="https://www.instagram.com/yadav_sagar14/?hl=en" target="_blank" rel="noreferrer"><Instagram size={18} /> Follow on Instagram <ExternalLink size={14} /></a>
           </div>
