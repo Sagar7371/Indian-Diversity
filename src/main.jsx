@@ -1497,20 +1497,24 @@ function App() {
                   body: new FormData(event.currentTarget),
                   headers: { Accept: 'application/json' }
                 });
-                if (!response.ok) throw new Error('Form submission failed');
+                if (!response.ok) {
+                  const result = await response.json().catch(() => null);
+                  throw new Error(result?.errors?.map((item) => item.message).join(', ') || `Submission failed (${response.status})`);
+                }
                 event.currentTarget.reset();
                 setContactStatus('success');
-              } catch {
-                setContactStatus('error');
+              } catch (error) {
+                setContactStatus(error.message || 'Message could not be sent. Please try again.');
               }
             }}>
               <label>Name<input name="name" required placeholder="Your name" /></label>
-              <label>Email<input name="email" type="email" required placeholder="you@example.com" /></label>
+              <input type="hidden" name="_subject" value="Indian Culture Explorer contact message" />
+              <label>Email<input name="_replyto" type="email" required placeholder="you@example.com" /></label>
               <label>Message<textarea name="message" required rows="4" placeholder="Write your message..."></textarea></label>
               <button className="primary contactSubmit" type="submit" disabled={contactStatus === 'sending'}><Mail size={16} /> {contactStatus === 'sending' ? 'Sending...' : 'Send message'}</button>
             </form>
             {contactStatus === 'success' && <p className="contactSuccess">Message sent successfully. Thank you for contacting me.</p>}
-            {contactStatus === 'error' && <p className="contactError">Message could not be sent. Please try again.</p>}
+            {contactStatus && contactStatus !== 'sending' && contactStatus !== 'success' && <p className="contactError">{contactStatus}</p>}
             <a className="instagramLink" href="https://www.instagram.com/yadav_sagar14/?hl=en" target="_blank" rel="noreferrer"><Instagram size={18} /> Follow on Instagram <ExternalLink size={14} /></a>
           </div>
         </div>
