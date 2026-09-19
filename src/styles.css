@@ -2016,6 +2016,14 @@ footer {
 
 footer p { color: var(--muted); }
 
+footer p strong { color: var(--ink); }
+
+.footerLinks { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; }
+.footerLinks a,
+.footerLinks button { color: #2d70bd; text-decoration: none; font-weight: 700; }
+.footerLinks a:hover,
+.footerLinks button:hover { color: #bd5b99; }
+
 footer button {
   background: none;
   border: 1px solid var(--line);
@@ -2051,6 +2059,28 @@ footer button {
 }
 
 .modalContent { padding: 24px; }
+
+.contactCard {
+  position: relative;
+  width: min(560px, 100%);
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fffdf7;
+  box-shadow: 0 20px 46px rgba(0, 0, 0, .2);
+}
+
+.contactCard h2 { margin: 4px 0 8px; color: #173f70; font: 700 34px/1.15 'Playfair Display', serif; }
+.contactIntro { margin: 0 0 20px; color: #536a80; line-height: 1.6; }
+.contactCard form { display: grid; gap: 13px; }
+.contactCard label { display: grid; gap: 6px; color: #245891; font-size: 12px; font-weight: 800; }
+.contactCard input,
+.contactCard textarea { width: 100%; padding: 11px 12px; border: 1px solid rgba(107, 157, 225, .35); border-radius: 10px; outline: 0; background: #f8fbff; color: var(--ink); resize: vertical; }
+.contactCard input:focus,
+.contactCard textarea:focus { border-color: #5d9bdf; box-shadow: 0 0 0 3px rgba(93, 155, 223, .14); }
+.contactSubmit { justify-content: center; margin-top: 4px; }
+.instagramLink { display: inline-flex; align-items: center; gap: 7px; margin-top: 17px; color: #bd5b99; font-weight: 800; text-decoration: none; }
+.instagramLink:hover { text-decoration: underline; }
 
 .lead {
   font-size: 18px;

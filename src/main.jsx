@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import indiaMap from '@svg-maps/india';
-import { Search, ArrowRight, Menu, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield } from 'lucide-react';
+import { Search, ArrowRight, Menu, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram } from 'lucide-react';
 import './styles.css';
 
 const states = [
@@ -561,6 +561,7 @@ function App() {
   const [politicalRegion, setPoliticalRegion] = useState('All');
   const [selectedPoliticalState, setSelectedPoliticalState] = useState(null);
   const [showAllPoliticalStates, setShowAllPoliticalStates] = useState(false);
+  const [contactOpen, setContactOpen] = useState(false);
   const navigate = useNavigate();
 
   const regions = ['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'];
@@ -1474,10 +1475,34 @@ function App() {
           <span className="brandMark">✦</span>
           Indian Culture
         </div>
-        <div className="footerLinks"><button onClick={() => navScroll('politics')}>Politics</button><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">Official Government Sources</a></div>
-        <p>Unity in Diversity · Educational College Project</p>
+        <div className="footerLinks"><button onClick={() => navScroll('politics')}>Politics</button><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">Official Government Sources</a><button type="button" onClick={() => setContactOpen(true)}>Contact me</button></div>
+        <p>Created by <strong>Suman Sagar</strong></p>
         <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top ↑</button>
       </footer>
+
+      {contactOpen && (
+        <div className="modal contactModal" onClick={() => setContactOpen(false)}>
+          <div className="contactCard" onClick={(event) => event.stopPropagation()}>
+            <button className="close" type="button" onClick={() => setContactOpen(false)} aria-label="Close contact form"><X /></button>
+            <div className="eyebrow dark">GET IN TOUCH</div>
+            <h2>Contact Suman Sagar</h2>
+            <p className="contactIntro">Have a question or suggestion about Indian Culture Explorer? Send a message or connect through Instagram.</p>
+            <form onSubmit={(event) => {
+              event.preventDefault();
+              const formData = new FormData(event.currentTarget);
+              const subject = encodeURIComponent(`Indian Culture Explorer message from ${formData.get('name')}`);
+              const body = encodeURIComponent(`Name: ${formData.get('name')}\nEmail: ${formData.get('email')}\n\n${formData.get('message')}`);
+              window.location.href = `mailto:yadavsagar1409@gmail.com?subject=${subject}&body=${body}`;
+            }}>
+              <label>Name<input name="name" required placeholder="Your name" /></label>
+              <label>Email<input name="email" type="email" required placeholder="you@example.com" /></label>
+              <label>Message<textarea name="message" required rows="4" placeholder="Write your message..."></textarea></label>
+              <button className="primary contactSubmit" type="submit"><Mail size={16} /> Open Gmail</button>
+            </form>
+            <a className="instagramLink" href="https://www.instagram.com/yadav_sagar14/?hl=en" target="_blank" rel="noreferrer"><Instagram size={18} /> Follow on Instagram <ExternalLink size={14} /></a>
+          </div>
+        </div>
+      )}
 
       {selected && (
         <div className="modal" onClick={() => setSelected(null)}>
