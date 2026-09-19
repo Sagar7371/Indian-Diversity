@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import indiaMap from '@svg-maps/india';
-import { Search, ArrowRight, Menu, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram } from 'lucide-react';
+import { Search, ArrowRight, Menu, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun } from 'lucide-react';
 import './styles.css';
 
 const states = [
@@ -627,8 +627,14 @@ function App() {
               {label}
             </button>
           ))}
-          <button className="themeToggle" onClick={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}>
-            {theme === 'light' ? 'Dark mode' : 'Light mode'}
+          <button
+            className="themeToggle"
+            type="button"
+            onClick={() => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))}
+            aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+            title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+          >
+            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
           </button>
           <div className="search">
             <Search size={17} />

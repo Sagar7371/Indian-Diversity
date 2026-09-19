@@ -175,6 +175,12 @@ main > * { order: 50; }
 .nav nav > button:not(.themeToggle):hover::after { transform: scaleX(1); }
 
 .themeToggle {
+  display: grid !important;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  padding: 0 !important;
+  border-radius: 50% !important;
   background: linear-gradient(135deg, #d8edff, #efdaf0) !important;
   border: 1px solid rgba(111, 137, 218, 0.25) !important;
   color: #254975 !important;
@@ -187,6 +193,10 @@ main > * { order: 50; }
   transform: translateY(-2px);
   border-color: rgba(92, 126, 218, 0.5) !important;
 }
+
+.themeToggle svg { transition: transform .25s ease; }
+.themeToggle:hover svg { transform: rotate(-18deg) scale(1.08); }
+.app.theme-dark .themeToggle { background: linear-gradient(135deg, #294465, #765c32) !important; color: #ffe29a !important; }
 
 .nav nav button:hover { background: rgba(122, 175, 255, 0.12); color: #173152; }
 .app.theme-dark .nav nav button:hover { background: rgba(255,255,255,0.05); color: var(--ink); }
