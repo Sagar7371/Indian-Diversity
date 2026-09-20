@@ -557,6 +557,7 @@ function App() {
   const [search, setSearch] = useState('');
   const [region, setRegion] = useState('All');
   const [selected, setSelected] = useState(null);
+  const [activeView, setActiveView] = useState('home');
   const [mobileMenu, setMobileMenu] = useState(false);
   const [factIndex, setFactIndex] = useState(0);
   const [compareA, setCompareA] = useState('Punjab');
@@ -615,6 +616,7 @@ function App() {
   };
 
   const navScroll = (id) => {
+    setActiveView(id);
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMobileMenu(false);
     setCultureMenuOpen(false);
@@ -691,822 +693,809 @@ function App() {
       )}
 
       <main>
-        <section id="home" className="hero">
-          <div className="heroOverlay">
-            <div className="eyebrow">IN A LIVING CULTURAL JOURNEY</div>
-            <h1>
-              Diversity of
-              <br />
-              <span>Indian Culture</span>
-            </h1> 
-            <h2>Unity in Diversity</h2>
-            <p>Explore languages, food, festivals, arts, traditions and stories across all 28 states of India.</p>
-            <div className="actions">
-              <button className="primary" onClick={() => navScroll('states')}>
-                Explore India <ArrowRight />
-              </button>
-              <button className="ghost" onClick={() => navScroll('languages')}>
-                Discover cultures
-              </button>
-            </div>
-
-          </div>
-          <div className="heroStats">
-            <div><strong>28</strong><span>States</span></div>
-            <div><strong>8</strong><span>Union Territories</span></div>
-            <div><strong>Many</strong><span>Languages</span></div>
-            <div><strong>1000+</strong><span>Festivals</span></div>
-            <div><strong>∞</strong><span>Living stories</span></div>
-          </div>
-        </section>
-
-        <section className="intro">
-          <div>
-            <div className="eyebrow dark">INDIA, IN MANY VOICES</div>
-            <h2>One country, many cultural worlds.</h2>
-          </div>
-          <p>
-            India's cultural landscape is shaped by many languages, communities, landscapes, histories and artistic traditions.
-            Explore examples rather than treating any state as culturally uniform.
-          </p>
-        </section>
-
-        <section className="section regionSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">GEOGRAPHICAL & REGIONAL DIVERSITY</div>
-              <h2>India's regional landscapes</h2>
-              <p>Every region carries a distinct blend of climate, language, food, dress, heritage and culture.</p>
-            </div>
-          </div>
-
-          <div className="regionGrid">
-            {regionProfiles.map((region) => (
-              <article key={region.name} className="regionCard">
-                <h3>{region.name}</h3>
-                <p><b>Major states:</b> {region.states}</p>
-                <p><b>Languages:</b> {region.languages}</p>
-                <p><b>Dress:</b> {region.dress}</p>
-                <p><b>Food:</b> {region.food}</p>
-                <p><b>Festivals:</b> {region.festivals}</p>
-                <p><b>Dance/Music:</b> {region.dance}</p>
-                <p><b>Art:</b> {region.art}</p>
-                <p><b>Heritage:</b> {region.heritage}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="languages" className="section languageSection">
-          <div className="languageShowcaseHead">
-            <div className="languageShowcaseIntro">
-              <div className="eyebrow dark">LANGUAGES & SCRIPTS</div>
-              <h2>Many scripts.<br /><span>One living map.</span></h2>
-              <p>India's languages carry memory through everyday speech, literature, music and oral traditions.</p>
-            </div>
-            <div className="languageCount"><strong>{languageCards.length}</strong><span>featured<br />language worlds</span></div>
-          </div>
-
-          <div className="languageRail">
-            {languageCards.map((item) => (
-              <article key={item.name} className="languageTile">
-                <div className="scriptBadge">{item.script}</div>
-                <div className="languageTileBody"><span>Language {String(languageCards.indexOf(item) + 1).padStart(2, '0')}</span><h3>{item.name}</h3><p>{item.note}</p></div>
-                <ArrowRight className="languageTileArrow" size={18} />
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="dresses" className="section dressSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">TRADITIONAL DRESSES</div>
-              <h2>Regional identity in cloth</h2>
-              <p>Fabrics, drapes and garments vary with climate, heritage, craft and local meaning.</p>
-            </div>
-          </div>
-
-          <div className="cardGrid">
-            {dressCards.map((dress) => (
-              <article key={dress.state} className="featureCard">
-                <img src={dress.image} alt={dress.name} />
-                <div className="featureText">
-                  <span>{dress.state}</span>
-                  <h3>{dress.name}</h3>
-                  <p>{dress.summary}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="cuisine" className="section cuisineSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">INDIAN CUISINE</div>
-              <h2>A taste of every region</h2>
-              <p>Food traditions reflect local agriculture, climate, rituals and social life.</p>
-            </div>
-          </div>
-
-          <div className="cardGrid">
-            {cuisineCards.map((food) => (
-              <article key={food.name} className="featureCard">
-                <img src={food.image} alt={food.name} />
-                <div className="featureText">
-                  <span>{food.region}</span>
-                  <h3>{food.name}</h3>
-                  <p>{food.description}</p>
-                  <small>{food.background}</small>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="festivals" className="section festivalSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">FESTIVALS</div>
-              <h2>Celebrations across communities</h2>
-              <p>Festivals bring communities together and also reflect local rituals and seasonal rhythms.</p>
-            </div>
-          </div>
-
-          <div className="cardGrid">
-            {festivalCards.map((festival) => (
-              <article key={festival.name} className="featureCard">
-                <img src={festival.image} alt={festival.name} />
-                <div className="featureText">
-                  <span>{festival.region}</span>
-                  <h3>{festival.name}</h3>
-                  <p><b>Season:</b> {festival.season}</p>
-                  <p>{festival.significance}</p>
-                  <small>{festival.celebration}</small>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="music" className="section musicSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">MUSIC & DANCE</div>
-              <h2>Rhythm, art and identity</h2>
-              <p>India's classical and folk traditions continue to inspire performance, memory and community culture.</p>
-            </div>
-          </div>
-
-          <div className="cardGrid">
-            {musicCards.map((item) => (
-              <article key={item.name} className="featureCard">
-                <img src={item.image} alt={item.name} />
-                <div className="featureText">
-                  <span>{item.type}</span>
-                  <h3>{item.name}</h3>
-                  <p>{item.note}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="art" className="section artSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">ART & HANDICRAFTS</div>
-              <h2>Living traditions of making</h2>
-              <p>Traditional art forms preserve memory, symbolism and community identity in visible form.</p>
-            </div>
-          </div>
-
-          <div className="cardGrid">
-            {artCards.map((art) => (
-              <article key={art.name} className="featureCard">
-                <img src={art.image} alt={art.name} />
-                <div className="featureText">
-                  <span>{art.state}</span>
-                  <h3>{art.name}</h3>
-                  <p>{art.background}</p>
-                  <small>{art.note}</small>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="heritage" className="section heritageSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">ARCHITECTURE & HERITAGE</div>
-              <h2>Stone, memory and identity</h2>
-              <p>India’s architectural heritage reflects centuries of faith, trade, empire, artistry and local craft.</p>
-            </div>
-          </div>
-
-          <div className="cardGrid">
-            {heritageCards.map((site) => (
-              <article key={site.name} className="featureCard">
-                <img src={site.image} alt={site.name} />
-                <div className="featureText">
-                  <span>{site.location}</span>
-                  <h3>{site.name}</h3>
-                  <p><b>{site.style}</b></p>
-                  <small>{site.significance}</small>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="knowledge" className="section knowledgeSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">INDIAN KNOWLEDGE & TRADITIONS</div>
-              <h2>Knowledge systems and lived wisdom</h2>
-              <p>India’s intellectual heritage includes language, philosophy, medicine, education and ecological understanding.</p>
-            </div>
-          </div>
-
-          <div className="knowledgeGrid">
-            {knowledgeCards.map((item) => (
-              <article key={item.title} className="miniCard knowledgeFeatureCard">
-                <img src={item.image} alt={item.title} />
-                <div className="knowledgeCardBody">
-                  <span>Living knowledge</span>
-                <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section unitySection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">UNITY IN DIVERSITY</div>
-              <h2>Different cultures, one shared heritage</h2>
-              <p>India’s diversity is not a contradiction of unity; it is a living form of coexistence shaped by exchange and mutual belonging.</p>
-            </div>
-          </div>
-
-          <div className="sharedHeritageLayout">
-            <div className="sharedHeritageVisual">
-              <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1200&q=85" alt="People sharing a joyful community moment" />
-              <div className="heritageQuote">
-                <span>Many voices</span>
-                <strong>One belonging</strong>
-              </div>
-            </div>
-
-            <div className="sharedHeritageContent">
-              <div className="heritageIntro">
-                <span className="heritageNumber">01</span>
-                <div>
-                  <h3>Culture connects communities</h3>
-                  <p>Languages, recipes, clothing and celebrations may change from one region to another, but they all carry memory, creativity and a sense of belonging.</p>
-                </div>
-              </div>
-
-              <div className="unityFlow">
-                <div className="flowNode">Languages</div>
-                <div className="flowArrow">→</div>
-                <div className="flowNode">Food</div>
-                <div className="flowArrow">→</div>
-                <div className="flowNode">Dress</div>
-                <div className="flowArrow">→</div>
-                <div className="flowNode">Festivals</div>
-                <div className="flowArrow">→</div>
-                <div className="flowNode highlight">Shared Heritage</div>
-                <div className="flowArrow">→</div>
-                <div className="flowNode unityNode">Unity</div>
-              </div>
-
-              <div className="heritageNote">
-                <span>02</span>
-                <p>Unity grows when every tradition is respected, remembered and allowed to evolve.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="modern" className="section modernSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">MODERN INDIA</div>
-              <h2>Cultural evolution in contemporary life</h2>
-              <p>Indian culture continues to evolve through migration, media, education, digital exchange and inter-state connection.</p>
-            </div>
-          </div>
-
-          <div className="knowledgeGrid">
-            {modernCards.map((item) => (
-              <article key={item.title} className="miniCard knowledgeFeatureCard">
-                <img src={item.image} alt={item.title} />
-                <div className="knowledgeCardBody">
-                  <span>Contemporary India</span>
-                <h3>{item.title}</h3>
-                  <p>{item.description}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="states" className="section statesSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">EXPLORE ALL STATES</div>
-              <h2>28 States & Their Diversity</h2>
-              <p>Click any state to open a detailed cultural profile.</p>
-            </div>
-            <div className="count">
-              {visibleStates.length}
-              <small> states shown</small>
-            </div>
-          </div>
-
-          <div className="toolbar">
-            <div className="filterRow">
-              {regions.map((r) => (
-                <button key={r} className={region === r ? 'active' : ''} onClick={() => setRegion(r)}>
-                  {r}
-                </button>
-              ))}
-            </div>
-
-            <div className="searchWide">
-              <Search size={18} />
-              <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search state, language, food, art..." />
-            </div>
-          </div>
-
-          <div className="stateGrid">
-            {visibleStates.map((state, index) => (
-              <article className="stateCard" key={state.name} onClick={() => openState(state)}>
-                <div className="stateImg">
-                  <img src={getStateImage(state.name, index)} alt={state.name} />
-                  <span>{state.region}</span>
-                </div>
-                <div className="stateBody">
-                  <h3>{state.name}</h3>
-                  <p>{state.languages}</p>
-                  <div className="chips">
-                    <b>{state.food.split(',')[0]}</b>
-                    <b>{state.dance.split(',')[0]}</b>
-                    <b>{state.art.split(',')[0]}</b>
-                  </div>
-                  <button>
-                    Explore culture <ArrowRight size={15} />
+        {activeView === 'home' && (
+          <>
+            <section id="home" className="hero">
+              <div className="heroOverlay">
+                <div className="eyebrow">IN A LIVING CULTURAL JOURNEY</div>
+                <h1>
+                  Diversity of
+                  <br />
+                  <span>Indian Culture</span>
+                </h1>
+                <h2>Unity in Diversity</h2>
+                <p>Explore languages, food, festivals, arts, traditions and stories across all 28 states of India.</p>
+                <div className="actions">
+                  <button className="primary" onClick={() => navScroll('states')}>
+                    Explore India <ArrowRight />
+                  </button>
+                  <button className="ghost" onClick={() => navScroll('languages')}>
+                    Discover cultures
                   </button>
                 </div>
-              </article>
-            ))}
-          </div>
-
-          {filteredStates.length > 4 && (
-            <div className="statesMoreWrap">
-              <button className="statesMoreButton" type="button" onClick={() => setShowAllStates((current) => !current)}>
-                {showAllStates ? 'Show fewer states' : `View all ${filteredStates.length} states`}
-                <ArrowRight className={showAllStates ? 'rotateArrow' : ''} size={16} />
-              </button>
-            </div>
-          )}
-        </section>
-
-        <section id="map" className="section mapSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">INTERACTIVE INDIA MAP</div>
-              <h2>Hover and click each state</h2>
-              <p>Move the cursor over a state to highlight it and click to open its complete cultural details.</p>
-            </div>
-          </div>
-
-          <div className="mapLayout">
-            <div className="indiaMapPanel">
-              <svg className="indiaMapSvg" viewBox={indiaMap.viewBox} role="img" aria-label="Interactive map of India">
-                <title>Click a state boundary to open its cultural profile</title>
-                {indiaMap.locations.map((location, index) => {
-                  const stateInfo = states.find((state) => state.name === location.name);
-                  if (!stateInfo) return null;
-                  const isActive = mapFocus === stateInfo.name;
-                  return (
-                    <path
-                      key={location.id}
-                      d={location.path}
-                      className={isActive ? 'stateBoundary active' : 'stateBoundary'}
-                      style={{ '--state-color': mapColors[index % mapColors.length] }}
-                      onMouseEnter={() => setMapFocus(stateInfo.name)}
-                      onClick={() => openState(stateInfo)}
-                      aria-label={`Open ${stateInfo.name} details`}
-                      role="button"
-                      tabIndex="0"
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === ' ') openState(stateInfo);
-                      }}
-                    />
-                  );
-                })}
-                {Object.entries(mapLabelPositions).map(([name, [x, y]]) => (
-                  <text key={name} x={x} y={y} className="stateMapLabel" textAnchor="middle">
-                    {name === 'Jammu and Kashmir' ? 'J&K' : name}
-                  </text>
-                ))}
-              </svg>
-            </div>
-
-            <aside className="mapDetail">
-              <div className="eyebrow dark">STATE FOCUS</div>
-              <h3>{activeMapState.name}</h3>
-              <p className="mapIntro">{activeMapState.tradition}</p>
-              <div className="detailGrid compact">
-                <div><b>Region</b><span>{activeMapState.region}</span></div>
-                <div><b>Languages</b><span>{activeMapState.languages}</span></div>
-                <div><b>Food</b><span>{activeMapState.food}</span></div>
-                <div><b>Dress</b><span>{activeMapState.dress}</span></div>
-                <div><b>Festival</b><span>{activeMapState.festival}</span></div>
-                <div><b>Dance</b><span>{activeMapState.dance}</span></div>
               </div>
-              <div className="mapPoliticsSummary"><b>Politics</b><span>Chief Minister: {activePoliticalState.chiefMinister}</span><span>Capital: {activePoliticalState.capital}</span><button type="button" onClick={() => setSelectedPoliticalState(activePoliticalState)}>Open politics details <ArrowRight size={14} /></button></div>
-              <button className="primary" onClick={() => openState(activeMapState)}>
-                Open full details
-              </button>
-            </aside>
-          </div>
-        </section>
+            </section>
 
-        <section id="compare" className="section compareSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">STATE COMPARISON</div>
-              <h2>Compare any two states</h2>
-              <p>See the differences in food, dress, festivals, language and art side by side.</p>
-            </div>
-          </div>
-
-          <div className="compareControls">
-            <label>
-              State 1
-              <select value={compareA} onChange={(e) => setCompareA(e.target.value)}>
-                {states.map((state) => (
-                  <option key={state.name} value={state.name}>{state.name}</option>
-                ))}
-              </select>
-            </label>
-
-            <button
-              className="swapBtn"
-              onClick={() => {
-                const temp = compareA;
-                setCompareA(compareB);
-                setCompareB(temp);
-              }}
-            >
-              Swap
-            </button>
-
-            <label>
-              State 2
-              <select value={compareB} onChange={(e) => setCompareB(e.target.value)}>
-                {states.map((state) => (
-                  <option key={state.name} value={state.name}>{state.name}</option>
-                ))}
-              </select>
-            </label>
-          </div>
-
-          <div className="compareTable">
-            <div className="compareHeader compareRow">
-              <div className="compareCell label">Category</div>
-              <div className="compareCell stateName">{leftState.name}</div>
-              <div className="compareCell stateName">{rightState.name}</div>
-            </div>
-
-            {compareFields.map((field) => (
-              <div key={field.key} className="compareRow">
-                <div className="compareCell label">{field.label}</div>
-                <div className="compareCell">{leftState[field.key]}</div>
-                <div className="compareCell">{rightState[field.key]}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section id="sports" className="section sportsSection">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">INDIA IN SPORT</div>
-              <h2>Champions, disciplines and winning moments</h2>
-              <p>Explore the sports that bring India together and the athletes whose discipline, courage and achievements have inspired generations.</p>
-            </div>
-          </div>
-
-          <div className="sportsSubsection">
-            <div className="subsectionHeading">
-              <span>01</span>
+            <section className="intro">
               <div>
-                <h3>Indian sports & disciplines</h3>
-                <p>From cricket and hockey to chess, athletics and para-sports, Indian sporting culture is broad, regional and constantly evolving.</p>
+                <div className="eyebrow dark">INDIA, IN MANY VOICES</div>
+                <h2>One country, many cultural worlds.</h2>
               </div>
-            </div>
-            <div className="sportsDisciplineGrid">
-              {sportsDisciplines.map((item) => (
-                <button
-                  key={item.name}
-                  type="button"
-                  className={item.name === 'Cricket' ? 'disciplineCard disciplineCardButton activeDiscipline' : 'disciplineCard disciplineCardButton'}
-                  onClick={() => item.name === 'Cricket' && setCricketOpen((current) => !current)}
-                >
-                  <div className="disciplineIcon" aria-hidden="true">{item.icon}</div>
-                  <div>
-                    <h4>{item.name}</h4>
-                    <p>{item.note}</p>
-                    {item.name === 'Cricket' && <span className="disciplineAction">{cricketOpen ? 'Hide cricket roster' : 'Open player roster'} <ArrowRight size={14} /></span>}
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
+              <p>
+                India's cultural landscape is shaped by many languages, communities, landscapes, histories and artistic traditions.
+                Explore examples rather than treating any state as culturally uniform.
+              </p>
+            </section>
 
-          <div className={cricketOpen ? 'sportsSubsection championsSubsection cricketRoster isOpen' : 'sportsSubsection championsSubsection cricketRoster'}>
-            <div className="subsectionHeading">
-              <span>02</span>
-              <div>
-                <h3>{cricketOpen ? 'Indian cricket player roster' : 'Indian champions'}</h3>
-                <p>{cricketOpen ? 'Select any player to open a fuller profile with career context and major milestones.' : 'Meet athletes from different sports and generations, with their landmark achievements in a quick, visual format.'}</p>
-              </div>
-            </div>
-            <div className="sportsPlayerGrid">
-              {(cricketOpen ? cricketPlayers : sportsPlayers).map((player) => (
-                <article key={player.name} className="sportsPlayerCard">
-                  <img src={player.image} alt={player.name} />
-                  <div className="sportsPlayerBody">
-                    <span>{player.sport}</span>
-                    <h4>{player.name}</h4>
-                    <p>{player.achievement}</p>
-                    {cricketOpen && <button type="button" className="playerDetailsButton" onClick={() => setSelectedCricketer(player)}>View details <ArrowRight size={14} /></button>}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div className="sportsSubsection winningSubsection">
-            <div className="subsectionHeading">
-              <span>03</span>
-              <div>
-                <h3>Winning moments</h3>
-                <p>A visual timeline of landmark victories that have shaped India’s sporting memory.</p>
-              </div>
-            </div>
-            <div className="winningMomentGrid">
-              {winningMoments.map((moment) => (
-                <article key={moment.year + moment.title} className="winningMomentCard">
-                  <img src={moment.image} alt={moment.title} />
-                  <div>
-                    <strong>{moment.year}</strong>
-                    <h4>{moment.title}</h4>
-                    <p>{moment.text}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="politics" className="section politicsSection">
-          <div className="politicsHero">
-            <div>
-              <div className="eyebrow dark">CIVIC LEARNING</div>
-              <h2>Politics & Governance of India 🇮🇳</h2>
-              <p className="politicsLead">Understanding India's democratic institutions, elected representatives and state governments.</p>
-              <p>Explore India's Union Government and the governments of all 28 states through factual information about constitutional offices and public representatives.</p>
-            </div>
-            <div className="politicsStats">
-              <div><Shield size={20} /><strong>Prime Minister</strong><span>Union executive</span></div>
-              <div><Building2 size={20} /><strong>28 States</strong><span>State governments</span></div>
-              <div><Landmark size={20} /><strong>8 UTs</strong><span>Union Territories</span></div>
-            </div>
-          </div>
-
-          <div className="unionOfficeGrid">
-            <article className="primeMinisterCard">
-              <div className="officePhoto"><img src={politicalData.primeMinister.image} alt={politicalData.primeMinister.name} /></div>
-              <div className="officeBody">
-                <span className="politicsLabel">UNION GOVERNMENT</span>
-                <h3>Prime Minister of India</h3>
-                <h4>{politicalData.primeMinister.name}</h4>
-                <p><b>Office:</b> {politicalData.primeMinister.office}</p>
-                <p><b>In office since:</b> {politicalData.primeMinister.since}</p>
-                <a href={politicalData.primeMinister.source} target="_blank" rel="noreferrer">Official profile <ExternalLink size={14} /></a>
-              </div>
-            </article>
-            <article className="unionInfoCard">
-              <span className="politicsLabel">CONSTITUTIONAL OFFICE</span>
-              <h3>President of India</h3>
-              <p className="unionName">{politicalData.president.name}</p>
-              <p>The President is the constitutional Head of State. The official profile and current information are maintained by the President's Secretariat.</p>
-              <a href={politicalData.president.source} target="_blank" rel="noreferrer">President of India <ExternalLink size={14} /></a>
-            </article>
-          </div>
-
-          <div className="politicsSectionHead">
-            <div>
-              <div className="eyebrow dark">STATE GOVERNMENTS</div>
-              <h3>Chief Ministers of India's 28 States</h3>
-              <p>Search a state, office-holder or party. Select a card for the state’s politics and culture overview.</p>
-            </div>
-            <small>Political information last verified: {politicalData.lastVerified}</small>
-          </div>
-
-          <div className="politicsToolbar">
-            <div className="politicsSearch"><Search size={17} /><input value={politicalSearch} onChange={(e) => setPoliticalSearch(e.target.value)} placeholder="Search states, Chief Ministers or public representatives..." /></div>
-            <div className="politicsFilters">
-              {['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'].map((item) => (
-                <button key={item} className={politicalRegion === item ? 'active' : ''} onClick={() => setPoliticalRegion(item)}>{item}</button>
-              ))}
-            </div>
-          </div>
-
-          <div className="politicalStateGrid">
-            {visiblePoliticalStates.map((politicalState) => (
-              <article key={politicalState.name} className="politicalStateCard" onClick={() => setSelectedPoliticalState(politicalState)}>
-                <div className="politicalCardTop"><span>{politicalState.region}</span><span>{politicalState.capital}</span></div>
-                <h4>{politicalState.name}</h4>
-                <p className="cmName">{politicalState.chiefMinister}</p>
-                <p className="officeMuted">Chief Minister · {politicalState.party}</p>
-                <div className="politicalCardFooter">View public representatives <ArrowRight size={15} /></div>
-              </article>
-            ))}
-          </div>
-
-          {politicalStates.length > 4 && (
-            <div className="statesMoreWrap politicsMoreWrap">
-              <button className="statesMoreButton" type="button" onClick={() => setShowAllPoliticalStates((current) => !current)}>
-                {showAllPoliticalStates ? 'Show fewer states' : `View all ${politicalStates.length} states`}
-                <ArrowRight className={showAllPoliticalStates ? 'rotateArrow' : ''} size={16} />
-              </button>
-            </div>
-          )}
-
-          <div className="governanceLearning">
-            <div className="politicsSectionHead compactHead"><div><div className="eyebrow dark">CIVIC STRUCTURE</div><h3>How India's Democracy Works</h3></div></div>
-            <div className="democracyFlow">
-              {['Citizens', 'Elections', 'Elected Representatives', 'Legislatures', 'Government', 'Public Administration'].map((item, index) => <div key={item} className="democracyStep"><span>{String(index + 1).padStart(2, '0')}</span><strong>{item}</strong>{index < 5 && <ArrowRight size={16} />}</div>)}
-            </div>
-            <p className="governanceNote">India has a Union Government and State Governments. Parliament legislates at the Union level, while State Legislative Assemblies make laws within the constitutional division of responsibilities. The President and Governors are constitutional heads; the Prime Minister and Chief Ministers lead their respective elected governments.</p>
-          </div>
-
-          <div className="governmentCompareWrap">
-            <h3>Union Government vs State Government</h3>
-            <div className="governmentCompare"><div className="compareGovRow compareGovHeader"><b>Feature</b><b>Union Government</b><b>State Government</b></div><div className="compareGovRow"><span>Head of State</span><span>President</span><span>Governor</span></div><div className="compareGovRow"><span>Head of Government</span><span>Prime Minister</span><span>Chief Minister</span></div><div className="compareGovRow"><span>Legislature</span><span>Parliament</span><span>State Legislature</span></div><div className="compareGovRow"><span>Main legislative bodies</span><span>Lok Sabha & Rajya Sabha</span><span>Legislative Assembly; Council where applicable</span></div><div className="compareGovRow"><span>Jurisdiction</span><span>Union subjects and shared constitutional responsibilities</span><span>State subjects and shared constitutional responsibilities</span></div></div>
-          </div>
-
-          <div className="unionCabinetAndParties">
-            <article className="unionCabinetCard"><div className="eyebrow dark">UNION GOVERNMENT</div><h3>Union Government of India</h3><p>The Union executive includes the President, Prime Minister and Council of Ministers. Portfolios and office-holders can change, so use the official Cabinet Secretariat and PM India pages for the current list.</p><a href="https://cabsec.gov.in/" target="_blank" rel="noreferrer">View current Union Council of Ministers <ExternalLink size={14} /></a></article>
-            <article className="partyPanel"><div className="eyebrow dark">NEUTRAL OVERVIEW</div><h3>Political Parties</h3><p>India has national and state-level political parties. This list is informational and does not rank or recommend any party.</p><div className="partyGrid">{politicalParties.map(([name, category, source]) => <a key={name} href={source} target="_blank" rel="noreferrer"><strong>{name}</strong><span>{category} party <ExternalLink size={12} /></span></a>)}</div></article>
-          </div>
-
-          <div className="politicalSources"><h3>Sources & References</h3><p>Office-holder information may change following elections, appointments or other constitutional processes. Please refer to the linked official sources for the latest information.</p><div><a href="https://www.pmindia.gov.in/en/" target="_blank" rel="noreferrer">PM India <ExternalLink size={13} /></a><a href="https://www.presidentofindia.gov.in/" target="_blank" rel="noreferrer">President of India <ExternalLink size={13} /></a><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">National Portal of India <ExternalLink size={13} /></a><a href="https://sansad.in/" target="_blank" rel="noreferrer">Parliament of India <ExternalLink size={13} /></a></div></div>
-        </section>
-
-        <section id="discover" className="section discover">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">CULTURAL LAYERS</div>
-              <h2>Explore India's Diversity</h2>
-            </div>
-          </div>
-
-          <div className="featureGrid">
-            {sections.map(([title, sub, desc], i) => (
-              <article className="feature" key={title}>
-                <div className="featureIcon">
-                  {[
-                    <Languages key="lang" />,
-                    <Crown key="crown" />,
-                    <Utensils key="utensils" />,
-                    <CalendarDays key="calendar" />,
-                    <Music key="music" />,
-                    <Palette key="palette" />,
-                    <Landmark key="landmark" />,
-                    <BookOpen key="book" />
-                  ][i]}
-                </div>
+            <section className="section exploreHub">
+              <div className="sectionHead">
                 <div>
-                  <h3>{title}</h3>
-                  <h4>{sub}</h4>
-                  <p>{desc}</p>
+                  <div className="eyebrow dark">EXPLORE INDIA</div>
+                  <h2>Choose what you want to discover</h2>
                 </div>
-              </article>
-            ))}
-          </div>
-        </section>
+              </div>
+              <div className="exploreHubGrid">
+                {[
+                  ['states', 'Explore States'],
+                  ['languages', 'Languages'],
+                  ['sports', 'Sports'],
+                  ['politics', 'Governance'],
+                  ['about', 'About'],
+                  ['map', 'State Map']
+                ].map(([id, label]) => (
+                  <button key={id} type="button" className="exploreHubCard" onClick={() => navScroll(id)}>
+                    <span>{label}</span>
+                    <ArrowRight size={16} />
+                  </button>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
 
-        <section className="unity">
-          <div className="unityArt">
-            <div className="orbit">LANGUAGES</div>
-            <div className="orbit o2">FOOD</div>
-            <div className="orbit o3">DRESS</div>
-            <div className="center">
-              SHARED
-              <br />
-              <span>HERITAGE</span>
-            </div>
-          </div>
+        {activeView === 'languages' && (
+          <>
+            <section className="section regionSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">GEOGRAPHICAL & REGIONAL DIVERSITY</div>
+                  <h2>India's regional landscapes</h2>
+                  <p>Every region carries a distinct blend of climate, language, food, dress, heritage and culture.</p>
+                </div>
+              </div>
 
-          <div>
-            <div className="eyebrow dark">UNITY IN DIVERSITY</div>
-            <h2>
-              Different paths.
-              <br />
-              One shared heritage.
-            </h2>
-            <p>
-              Languages, cuisines, clothing, festivals, music, art and traditions can be different while communities participate in a shared civic and cultural life.
-            </p>
-            <div className="flow">
-              <span>Different Cultures</span>
-              <b>→</b>
-              <span>Shared Heritage</span>
-              <b>→</b>
-              <span>Unity</span>
-            </div>
-          </div>
-        </section>
+              <div className="regionGrid">
+                {regionProfiles.map((region) => (
+                  <article key={region.name} className="regionCard">
+                    <h3>{region.name}</h3>
+                    <p><b>Major states:</b> {region.states}</p>
+                    <p><b>Languages:</b> {region.languages}</p>
+                    <p><b>Dress:</b> {region.dress}</p>
+                    <p><b>Food:</b> {region.food}</p>
+                    <p><b>Festivals:</b> {region.festivals}</p>
+                    <p><b>Dance/Music:</b> {region.dance}</p>
+                    <p><b>Art:</b> {region.art}</p>
+                    <p><b>Heritage:</b> {region.heritage}</p>
+                  </article>
+                ))}
+              </div>
+            </section>
 
-        <section id="quiz" className="section quiz">
-          <div className="quizCard">
-            <div>
-              <div className="eyebrow dark">CULTURAL QUIZ</div>
-              <h2>Test Your Knowledge</h2>
-              <p>Question 1 of 4</p>
-              <h3>Which state is famous for Madhubani painting?</h3>
-              <div className="answers">
-                <button>Bihar</button>
-                <button>Gujarat</button>
-                <button>Kerala</button>
-                <button>Punjab</button>
+            <section id="languages" className="section languageSection">
+              <div className="languageShowcaseHead">
+                <div className="languageShowcaseIntro">
+                  <div className="eyebrow dark">LANGUAGES & SCRIPTS</div>
+                  <h2>Many scripts.<br /><span>One living map.</span></h2>
+                  <p>India's languages carry memory through everyday speech, literature, music and oral traditions.</p>
+                </div>
+                <div className="languageCount"><strong>{languageCards.length}</strong><span>featured<br />language worlds</span></div>
+              </div>
+
+              <div className="languageRail">
+                {languageCards.map((item) => (
+                  <article key={item.name} className="languageTile">
+                    <div className="scriptBadge">{item.script}</div>
+                    <div className="languageTileBody"><span>Language {String(languageCards.indexOf(item) + 1).padStart(2, '0')}</span><h3>{item.name}</h3><p>{item.note}</p></div>
+                    <ArrowRight className="languageTileArrow" size={18} />
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="dresses" className="section dressSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">TRADITIONAL DRESSES</div>
+                  <h2>Regional identity in cloth</h2>
+                  <p>Fabrics, drapes and garments vary with climate, heritage, craft and local meaning.</p>
+                </div>
+              </div>
+
+              <div className="cardGrid">
+                {dressCards.map((dress) => (
+                  <article key={dress.state} className="featureCard">
+                    <img src={dress.image} alt={dress.name} />
+                    <div className="featureText">
+                      <span>{dress.state}</span>
+                      <h3>{dress.name}</h3>
+                      <p>{dress.summary}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="cuisine" className="section cuisineSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">INDIAN CUISINE</div>
+                  <h2>A taste of every region</h2>
+                  <p>Food traditions reflect local agriculture, climate, rituals and social life.</p>
+                </div>
+              </div>
+
+              <div className="cardGrid">
+                {cuisineCards.map((food) => (
+                  <article key={food.name} className="featureCard">
+                    <img src={food.image} alt={food.name} />
+                    <div className="featureText">
+                      <span>{food.region}</span>
+                      <h3>{food.name}</h3>
+                      <p>{food.description}</p>
+                      <small>{food.background}</small>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="festivals" className="section festivalSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">FESTIVALS</div>
+                  <h2>Celebrations across communities</h2>
+                  <p>Festivals bring communities together and also reflect local rituals and seasonal rhythms.</p>
+                </div>
+              </div>
+
+              <div className="cardGrid">
+                {festivalCards.map((festival) => (
+                  <article key={festival.name} className="featureCard">
+                    <img src={festival.image} alt={festival.name} />
+                    <div className="featureText">
+                      <span>{festival.region}</span>
+                      <h3>{festival.name}</h3>
+                      <p><b>Season:</b> {festival.season}</p>
+                      <p>{festival.significance}</p>
+                      <small>{festival.celebration}</small>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="music" className="section musicSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">MUSIC & DANCE</div>
+                  <h2>Rhythm, art and identity</h2>
+                  <p>India's classical and folk traditions continue to inspire performance, memory and community culture.</p>
+                </div>
+              </div>
+
+              <div className="cardGrid">
+                {musicCards.map((item) => (
+                  <article key={item.name} className="featureCard">
+                    <img src={item.image} alt={item.name} />
+                    <div className="featureText">
+                      <span>{item.type}</span>
+                      <h3>{item.name}</h3>
+                      <p>{item.note}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="art" className="section artSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">ART & HANDICRAFTS</div>
+                  <h2>Living traditions of making</h2>
+                  <p>Traditional art forms preserve memory, symbolism and community identity in visible form.</p>
+                </div>
+              </div>
+
+              <div className="cardGrid">
+                {artCards.map((art) => (
+                  <article key={art.name} className="featureCard">
+                    <img src={art.image} alt={art.name} />
+                    <div className="featureText">
+                      <span>{art.state}</span>
+                      <h3>{art.name}</h3>
+                      <p>{art.background}</p>
+                      <small>{art.note}</small>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="heritage" className="section heritageSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">ARCHITECTURE & HERITAGE</div>
+                  <h2>Stone, memory and identity</h2>
+                  <p>India’s architectural heritage reflects centuries of faith, trade, empire, artistry and local craft.</p>
+                </div>
+              </div>
+
+              <div className="cardGrid">
+                {heritageCards.map((site) => (
+                  <article key={site.name} className="featureCard">
+                    <img src={site.image} alt={site.name} />
+                    <div className="featureText">
+                      <span>{site.location}</span>
+                      <h3>{site.name}</h3>
+                      <p><b>{site.style}</b></p>
+                      <small>{site.significance}</small>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="knowledge" className="section knowledgeSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">INDIAN KNOWLEDGE & TRADITIONS</div>
+                  <h2>Knowledge systems and lived wisdom</h2>
+                  <p>India’s intellectual heritage includes language, philosophy, medicine, education and ecological understanding.</p>
+                </div>
+              </div>
+
+              <div className="knowledgeGrid">
+                {knowledgeCards.map((item) => (
+                  <article key={item.title} className="miniCard knowledgeFeatureCard">
+                    <img src={item.image} alt={item.title} />
+                    <div className="knowledgeCardBody">
+                      <span>Living knowledge</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section id="modern" className="section modernSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">MODERN INDIA</div>
+                  <h2>Cultural evolution in contemporary life</h2>
+                  <p>Indian culture continues to evolve through migration, media, education, digital exchange and inter-state connection.</p>
+                </div>
+              </div>
+
+              <div className="knowledgeGrid">
+                {modernCards.map((item) => (
+                  <article key={item.title} className="miniCard knowledgeFeatureCard">
+                    <img src={item.image} alt={item.title} />
+                    <div className="knowledgeCardBody">
+                      <span>Contemporary India</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+
+        {activeView === 'states' && (
+          <>
+            <section id="states" className="section statesSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">EXPLORE ALL STATES</div>
+                  <h2>28 States & Their Diversity</h2>
+                  <p>Click any state to open a detailed cultural profile.</p>
+                </div>
+                <div className="count">
+                  {visibleStates.length}
+                  <small> states shown</small>
+                </div>
+              </div>
+
+              <div className="toolbar">
+                <div className="filterRow">
+                  {regions.map((r) => (
+                    <button key={r} className={region === r ? 'active' : ''} onClick={() => setRegion(r)}>
+                      {r}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="searchWide">
+                  <Search size={18} />
+                  <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search state, language, food, art..." />
+                </div>
+              </div>
+
+              <div className="stateGrid">
+                {visibleStates.map((state, index) => (
+                  <article className="stateCard" key={state.name} onClick={() => openState(state)}>
+                    <div className="stateImg">
+                      <img src={getStateImage(state.name, index)} alt={state.name} />
+                      <span>{state.region}</span>
+                    </div>
+                    <div className="stateBody">
+                      <h3>{state.name}</h3>
+                      <p>{state.languages}</p>
+                      <div className="chips">
+                        <b>{state.food.split(',')[0]}</b>
+                        <b>{state.dance.split(',')[0]}</b>
+                        <b>{state.art.split(',')[0]}</b>
+                      </div>
+                      <button>
+                        Explore culture <ArrowRight size={15} />
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+
+              {filteredStates.length > 4 && (
+                <div className="statesMoreWrap">
+                  <button className="statesMoreButton" type="button" onClick={() => setShowAllStates((current) => !current)}>
+                    {showAllStates ? 'Show fewer states' : `View all ${filteredStates.length} states`}
+                    <ArrowRight className={showAllStates ? 'rotateArrow' : ''} size={16} />
+                  </button>
+                </div>
+              )}
+            </section>
+
+            <section id="map" className="section mapSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">INTERACTIVE INDIA MAP</div>
+                  <h2>Hover and click each state</h2>
+                  <p>Move the cursor over a state to highlight it and click to open its complete cultural details.</p>
+                </div>
+              </div>
+
+              <div className="mapLayout">
+                <div className="indiaMapPanel">
+                  <svg className="indiaMapSvg" viewBox={indiaMap.viewBox} role="img" aria-label="Interactive map of India">
+                    <title>Click a state boundary to open its cultural profile</title>
+                    {indiaMap.locations.map((location, index) => {
+                      const stateInfo = states.find((state) => state.name === location.name);
+                      if (!stateInfo) return null;
+                      const isActive = mapFocus === stateInfo.name;
+                      return (
+                        <path
+                          key={location.id}
+                          d={location.path}
+                          className={isActive ? 'stateBoundary active' : 'stateBoundary'}
+                          style={{ '--state-color': mapColors[index % mapColors.length] }}
+                          onMouseEnter={() => setMapFocus(stateInfo.name)}
+                          onClick={() => openState(stateInfo)}
+                          aria-label={`Open ${stateInfo.name} details`}
+                          role="button"
+                          tabIndex="0"
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') openState(stateInfo);
+                          }}
+                        />
+                      );
+                    })}
+                    {Object.entries(mapLabelPositions).map(([name, [x, y]]) => (
+                      <text key={name} x={x} y={y} className="stateMapLabel" textAnchor="middle">
+                        {name === 'Jammu and Kashmir' ? 'J&K' : name}
+                      </text>
+                    ))}
+                  </svg>
+                </div>
+
+                <aside className="mapDetail">
+                  <div className="eyebrow dark">STATE FOCUS</div>
+                  <h3>{activeMapState.name}</h3>
+                  <p className="mapIntro">{activeMapState.tradition}</p>
+                  <div className="detailGrid compact">
+                    <div><b>Region</b><span>{activeMapState.region}</span></div>
+                    <div><b>Languages</b><span>{activeMapState.languages}</span></div>
+                    <div><b>Food</b><span>{activeMapState.food}</span></div>
+                    <div><b>Dress</b><span>{activeMapState.dress}</span></div>
+                    <div><b>Festival</b><span>{activeMapState.festival}</span></div>
+                    <div><b>Dance</b><span>{activeMapState.dance}</span></div>
+                  </div>
+                  <div className="mapPoliticsSummary"><b>Politics</b><span>Chief Minister: {activePoliticalState.chiefMinister}</span><span>Capital: {activePoliticalState.capital}</span><button type="button" onClick={() => setSelectedPoliticalState(activePoliticalState)}>Open politics details <ArrowRight size={14} /></button></div>
+                  <button className="primary" onClick={() => openState(activeMapState)}>
+                    Open full details
+                  </button>
+                </aside>
+              </div>
+            </section>
+
+            <section id="compare" className="section compareSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">STATE COMPARISON</div>
+                  <h2>Compare any two states</h2>
+                  <p>See the differences in food, dress, festivals, language and art side by side.</p>
+                </div>
+              </div>
+
+              <div className="compareControls">
+                <label>
+                  State 1
+                  <select value={compareA} onChange={(e) => setCompareA(e.target.value)}>
+                    {states.map((state) => (
+                      <option key={state.name} value={state.name}>{state.name}</option>
+                    ))}
+                  </select>
+                </label>
+
+                <button
+                  className="swapBtn"
+                  onClick={() => {
+                    const temp = compareA;
+                    setCompareA(compareB);
+                    setCompareB(temp);
+                  }}
+                >
+                  Swap
+                </button>
+
+                <label>
+                  State 2
+                  <select value={compareB} onChange={(e) => setCompareB(e.target.value)}>
+                    {states.map((state) => (
+                      <option key={state.name} value={state.name}>{state.name}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+
+              <div className="compareTable">
+                <div className="compareHeader compareRow">
+                  <div className="compareCell label">Category</div>
+                  <div className="compareCell stateName">{leftState.name}</div>
+                  <div className="compareCell stateName">{rightState.name}</div>
+                </div>
+
+                {compareFields.map((field) => (
+                  <div key={field.key} className="compareRow">
+                    <div className="compareCell label">{field.label}</div>
+                    <div className="compareCell">{leftState[field.key]}</div>
+                    <div className="compareCell">{rightState[field.key]}</div>
+                  </div>
+                ))}
+              </div>
+            </section>
+          </>
+        )}
+
+        {activeView === 'sports' && (
+          <section id="sports" className="section sportsSection">
+            <div className="sectionHead">
+              <div>
+                <div className="eyebrow dark">INDIA IN SPORT</div>
+                <h2>Champions, disciplines and winning moments</h2>
+                <p>Explore the sports that bring India together and the athletes whose discipline, courage and achievements have inspired generations.</p>
               </div>
             </div>
 
-            <div className="quizVisual">
-              🇮🇳
-              <span>Learn<br />through<br />curiosity.</span>
+            <div className="sportsSubsection">
+              <div className="subsectionHeading">
+                <span>01</span>
+                <div>
+                  <h3>Indian sports & disciplines</h3>
+                  <p>From cricket and hockey to chess, athletics and para-sports, Indian sporting culture is broad, regional and constantly evolving.</p>
+                </div>
+              </div>
+              <div className="sportsDisciplineGrid">
+                {sportsDisciplines.map((item) => (
+                  <button
+                    key={item.name}
+                    type="button"
+                    className={item.name === 'Cricket' ? 'disciplineCard disciplineCardButton activeDiscipline' : 'disciplineCard disciplineCardButton'}
+                    onClick={() => item.name === 'Cricket' && setCricketOpen((current) => !current)}
+                  >
+                    <div className="disciplineIcon" aria-hidden="true">{item.icon}</div>
+                    <div>
+                      <h4>{item.name}</h4>
+                      <p>{item.note}</p>
+                      {item.name === 'Cricket' && <span className="disciplineAction">{cricketOpen ? 'Hide cricket roster' : 'Open player roster'} <ArrowRight size={14} /></span>}
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        </section>
 
-        <section id="gallery" className="section gallery">
-          <div className="sectionHead">
-            <div>
-              <div className="eyebrow dark">VISUAL JOURNEY</div>
-              <h2>Cultural Gallery</h2>
+            <div className={cricketOpen ? 'sportsSubsection championsSubsection cricketRoster isOpen' : 'sportsSubsection championsSubsection cricketRoster'}>
+              <div className="subsectionHeading">
+                <span>02</span>
+                <div>
+                  <h3>{cricketOpen ? 'Indian cricket player roster' : 'Indian champions'}</h3>
+                  <p>{cricketOpen ? 'Select any player to open a fuller profile with career context and major milestones.' : 'Meet athletes from different sports and generations, with their landmark achievements in a quick, visual format.'}</p>
+                </div>
+              </div>
+              <div className="sportsPlayerGrid">
+                {(cricketOpen ? cricketPlayers : sportsPlayers).map((player) => (
+                  <article key={player.name} className="sportsPlayerCard">
+                    <img src={player.image} alt={player.name} />
+                    <div className="sportsPlayerBody">
+                      <span>{player.sport}</span>
+                      <h4>{player.name}</h4>
+                      <p>{player.achievement}</p>
+                      {cricketOpen && <button type="button" className="playerDetailsButton" onClick={() => setSelectedCricketer(player)}>View details <ArrowRight size={14} /></button>}
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="galleryGrid">
-            {galleryItems.map((item) => (
-              <figure className="galleryItem" key={item.name}>
-                <img src={item.image} alt={item.name} />
-                <figcaption><span>{item.category}</span><strong>{item.name}</strong></figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
+            <div className="sportsSubsection winningSubsection">
+              <div className="subsectionHeading">
+                <span>03</span>
+                <div>
+                  <h3>Winning moments</h3>
+                  <p>A visual timeline of landmark victories that have shaped India’s sporting memory.</p>
+                </div>
+              </div>
+              <div className="winningMomentGrid">
+                {winningMoments.map((moment) => (
+                  <article key={moment.year + moment.title} className="winningMomentCard">
+                    <img src={moment.image} alt={moment.title} />
+                    <div>
+                      <strong>{moment.year}</strong>
+                      <h4>{moment.title}</h4>
+                      <p>{moment.text}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
-        <section className="facts">
-          <div>
-            <div className="eyebrow">DID YOU KNOW?</div>
-            <h2>{facts[factIndex]}</h2>
-          </div>
-          <button onClick={() => setFactIndex((prev) => (prev + 1) % facts.length)}>
-            <Shuffle /> New fact
-          </button>
-        </section>
+        {activeView === 'politics' && (
+          <section id="politics" className="section politicsSection">
+            <div className="politicsHero">
+              <div>
+                <div className="eyebrow dark">CIVIC LEARNING</div>
+                <h2>Politics & Governance of India 🇮🇳</h2>
+                <p className="politicsLead">Understanding India's democratic institutions, elected representatives and state governments.</p>
+                <p>Explore India's Union Government and the governments of all 28 states through factual information about constitutional offices and public representatives.</p>
+              </div>
+              <div className="politicsStats">
+                <div><Shield size={20} /><strong>Prime Minister</strong><span>Union executive</span></div>
+                <div><Building2 size={20} /><strong>28 States</strong><span>State governments</span></div>
+                <div><Landmark size={20} /><strong>8 UTs</strong><span>Union Territories</span></div>
+              </div>
+            </div>
 
-        <section id="about" className="about section">
-          <div>
-            <div className="eyebrow dark">ABOUT THE PROJECT</div>
-            <h2>Indian Culture Explorer</h2>
-            <p>
-              A presentation-ready educational interface for exploring cultural diversity across India's states.
-              The content is illustrative and intentionally avoids presenting any single tradition as representative of an entire state.
-            </p>
-          </div>
+            <div className="unionOfficeGrid">
+              <article className="primeMinisterCard">
+                <div className="officePhoto"><img src={politicalData.primeMinister.image} alt={politicalData.primeMinister.name} /></div>
+                <div className="officeBody">
+                  <span className="politicsLabel">UNION GOVERNMENT</span>
+                  <h3>Prime Minister of India</h3>
+                  <h4>{politicalData.primeMinister.name}</h4>
+                  <p><b>Office:</b> {politicalData.primeMinister.office}</p>
+                  <p><b>In office since:</b> {politicalData.primeMinister.since}</p>
+                  <a href={politicalData.primeMinister.source} target="_blank" rel="noreferrer">Official profile <ExternalLink size={14} /></a>
+                </div>
+              </article>
+              <article className="unionInfoCard">
+                <span className="politicsLabel">CONSTITUTIONAL OFFICE</span>
+                <h3>President of India</h3>
+                <p className="unionName">{politicalData.president.name}</p>
+                <p>The President is the constitutional Head of State. The official profile and current information are maintained by the President's Secretariat.</p>
+                <a href={politicalData.president.source} target="_blank" rel="noreferrer">President of India <ExternalLink size={14} /></a>
+              </article>
+            </div>
 
-          <div className="refBox">
-            <h3>Sources & References</h3>
-            <p>
-              State/UT structure: Government of India portals. Cultural examples should be cross-checked with state tourism, culture departments, museums and authoritative cultural institutions before academic publication.
-            </p>
-            <p className="small">The current interface includes all 28 states; Union Territories can be added as a separate collection.</p>
-          </div>
-        </section>
+            <div className="politicsSectionHead">
+              <div>
+                <div className="eyebrow dark">STATE GOVERNMENTS</div>
+                <h3>Chief Ministers of India's 28 States</h3>
+                <p>Search a state, office-holder or party. Select a card for the state’s politics and culture overview.</p>
+              </div>
+              <small>Political information last verified: {politicalData.lastVerified}</small>
+            </div>
+
+            <div className="politicsToolbar">
+              <div className="politicsSearch"><Search size={17} /><input value={politicalSearch} onChange={(e) => setPoliticalSearch(e.target.value)} placeholder="Search states, Chief Ministers or public representatives..." /></div>
+              <div className="politicsFilters">
+                {['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'].map((item) => (
+                  <button key={item} className={politicalRegion === item ? 'active' : ''} onClick={() => setPoliticalRegion(item)}>{item}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="politicalStateGrid">
+              {visiblePoliticalStates.map((politicalState) => (
+                <article key={politicalState.name} className="politicalStateCard" onClick={() => setSelectedPoliticalState(politicalState)}>
+                  <div className="politicalCardTop"><span>{politicalState.region}</span><span>{politicalState.capital}</span></div>
+                  <h4>{politicalState.name}</h4>
+                  <p className="cmName">{politicalState.chiefMinister}</p>
+                  <p className="officeMuted">Chief Minister · {politicalState.party}</p>
+                  <div className="politicalCardFooter">View public representatives <ArrowRight size={15} /></div>
+                </article>
+              ))}
+            </div>
+
+            {politicalStates.length > 4 && (
+              <div className="statesMoreWrap politicsMoreWrap">
+                <button className="statesMoreButton" type="button" onClick={() => setShowAllPoliticalStates((current) => !current)}>
+                  {showAllPoliticalStates ? 'Show fewer states' : `View all ${politicalStates.length} states`}
+                  <ArrowRight className={showAllPoliticalStates ? 'rotateArrow' : ''} size={16} />
+                </button>
+              </div>
+            )}
+
+            <div className="governanceLearning">
+              <div className="politicsSectionHead compactHead"><div><div className="eyebrow dark">CIVIC STRUCTURE</div><h3>How India's Democracy Works</h3></div></div>
+              <div className="democracyFlow">
+                {['Citizens', 'Elections', 'Elected Representatives', 'Legislatures', 'Government', 'Public Administration'].map((item, index) => <div key={item} className="democracyStep"><span>{String(index + 1).padStart(2, '0')}</span><strong>{item}</strong>{index < 5 && <ArrowRight size={16} />}</div>)}
+              </div>
+              <p className="governanceNote">India has a Union Government and State Governments. Parliament legislates at the Union level, while State Legislative Assemblies make laws within the constitutional division of responsibilities. The President and Governors are constitutional heads; the Prime Minister and Chief Ministers lead their respective elected governments.</p>
+            </div>
+
+            <div className="governmentCompareWrap">
+              <h3>Union Government vs State Government</h3>
+              <div className="governmentCompare"><div className="compareGovRow compareGovHeader"><b>Feature</b><b>Union Government</b><b>State Government</b></div><div className="compareGovRow"><span>Head of State</span><span>President</span><span>Governor</span></div><div className="compareGovRow"><span>Head of Government</span><span>Prime Minister</span><span>Chief Minister</span></div><div className="compareGovRow"><span>Legislature</span><span>Parliament</span><span>State Legislature</span></div><div className="compareGovRow"><span>Main legislative bodies</span><span>Lok Sabha & Rajya Sabha</span><span>Legislative Assembly; Council where applicable</span></div><div className="compareGovRow"><span>Jurisdiction</span><span>Union subjects and shared constitutional responsibilities</span><span>State subjects and shared constitutional responsibilities</span></div></div>
+            </div>
+
+            <div className="unionCabinetAndParties">
+              <article className="unionCabinetCard"><div className="eyebrow dark">UNION GOVERNMENT</div><h3>Union Government of India</h3><p>The Union executive includes the President, Prime Minister and Council of Ministers. Portfolios and office-holders can change, so use the official Cabinet Secretariat and PM India pages for the current list.</p><a href="https://cabsec.gov.in/" target="_blank" rel="noreferrer">View current Union Council of Ministers <ExternalLink size={14} /></a></article>
+              <article className="partyPanel"><div className="eyebrow dark">NEUTRAL OVERVIEW</div><h3>Political Parties</h3><p>India has national and state-level political parties. This list is informational and does not rank or recommend any party.</p><div className="partyGrid">{politicalParties.map(([name, category, source]) => <a key={name} href={source} target="_blank" rel="noreferrer"><strong>{name}</strong><span>{category} party <ExternalLink size={12} /></span></a>)}</div></article>
+            </div>
+
+            <div className="politicalSources"><h3>Sources & References</h3><p>Office-holder information may change following elections, appointments or other constitutional processes. Please refer to the linked official sources for the latest information.</p><div><a href="https://www.pmindia.gov.in/en/" target="_blank" rel="noreferrer">PM India <ExternalLink size={13} /></a><a href="https://www.presidentofindia.gov.in/" target="_blank" rel="noreferrer">President of India <ExternalLink size={13} /></a><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">National Portal of India <ExternalLink size={13} /></a><a href="https://sansad.in/" target="_blank" rel="noreferrer">Parliament of India <ExternalLink size={13} /></a></div></div>
+          </section>
+        )}
+
+        {activeView === 'about' && (
+          <>
+            <section id="discover" className="section discover">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">CULTURAL LAYERS</div>
+                  <h2>Explore India's Diversity</h2>
+                </div>
+              </div>
+
+              <div className="featureGrid">
+                {sections.map(([title, sub, desc], i) => (
+                  <article className="feature" key={title}>
+                    <div className="featureIcon">
+                      {[
+                        <Languages key="lang" />,
+                        <Crown key="crown" />,
+                        <Utensils key="utensils" />,
+                        <CalendarDays key="calendar" />,
+                        <Music key="music" />,
+                        <Palette key="palette" />,
+                        <Landmark key="landmark" />,
+                        <BookOpen key="book" />
+                      ][i]}
+                    </div>
+                    <div>
+                      <h3>{title}</h3>
+                      <h4>{sub}</h4>
+                      <p>{desc}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="unity">
+              <div className="unityArt">
+                <div className="orbit">LANGUAGES</div>
+                <div className="orbit o2">FOOD</div>
+                <div className="orbit o3">DRESS</div>
+                <div className="center">
+                  SHARED
+                  <br />
+                  <span>HERITAGE</span>
+                </div>
+              </div>
+
+              <div>
+                <div className="eyebrow dark">UNITY IN DIVERSITY</div>
+                <h2>
+                  Different paths.
+                  <br />
+                  One shared heritage.
+                </h2>
+                <p>
+                  Languages, cuisines, clothing, festivals, music, art and traditions can be different while communities participate in a shared civic and cultural life.
+                </p>
+                <div className="flow">
+                  <span>Different Cultures</span>
+                  <b>→</b>
+                  <span>Shared Heritage</span>
+                  <b>→</b>
+                  <span>Unity</span>
+                </div>
+              </div>
+            </section>
+
+            <section id="quiz" className="section quiz">
+              <div className="quizCard">
+                <div>
+                  <div className="eyebrow dark">CULTURAL QUIZ</div>
+                  <h2>Test Your Knowledge</h2>
+                  <p>Question 1 of 4</p>
+                  <h3>Which state is famous for Madhubani painting?</h3>
+                  <div className="answers">
+                    <button>Bihar</button>
+                    <button>Gujarat</button>
+                    <button>Kerala</button>
+                    <button>Punjab</button>
+                  </div>
+                </div>
+
+                <div className="quizVisual">
+                  🇮🇳
+                  <span>Learn<br />through<br />curiosity.</span>
+                </div>
+              </div>
+            </section>
+
+            <section id="gallery" className="section gallery">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">VISUAL JOURNEY</div>
+                  <h2>Cultural Gallery</h2>
+                </div>
+              </div>
+
+              <div className="galleryGrid">
+                {galleryItems.map((item) => (
+                  <figure className="galleryItem" key={item.name}>
+                    <img src={item.image} alt={item.name} />
+                    <figcaption><span>{item.category}</span><strong>{item.name}</strong></figcaption>
+                  </figure>
+                ))}
+              </div>
+            </section>
+
+            <section className="facts">
+              <div>
+                <div className="eyebrow">DID YOU KNOW?</div>
+                <h2>{facts[factIndex]}</h2>
+              </div>
+              <button onClick={() => setFactIndex((prev) => (prev + 1) % facts.length)}>
+                <Shuffle /> New fact
+              </button>
+            </section>
+
+            <section id="about" className="about section">
+              <div>
+                <div className="eyebrow dark">ABOUT THE PROJECT</div>
+                <h2>Indian Culture Explorer</h2>
+                <p>
+                  A presentation-ready educational interface for exploring cultural diversity across India's states.
+                  The content is illustrative and intentionally avoids presenting any single tradition as representative of an entire state.
+                </p>
+              </div>
+
+              <div className="refBox">
+                <h3>Sources & References</h3>
+                <p>
+                  State/UT structure: Government of India portals. Cultural examples should be cross-checked with state tourism, culture departments, museums and authoritative cultural institutions before academic publication.
+                </p>
+                <p className="small">The current interface includes all 28 states; Union Territories can be added as a separate collection.</p>
+              </div>
+            </section>
+          </>
+        )}
       </main>
 
       <footer>
