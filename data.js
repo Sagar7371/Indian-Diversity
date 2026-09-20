@@ -336,3 +336,17 @@ const STATES = [
     "image": "https://images.unsplash.com/photo-1598091383021-15d8a8b7e7f1?auto=format&fit=crop&w=1200&q=80"
   }
 ];
+
+
+// public class Main {
+//   public static void Main(String args[]) {
+//     int arr[]= {10,20,30,40,50,60,70};
+//     int left = 0; 
+//     int right = arr.length-1;
+//     int target=60;
+//     boolean found = false;
+//     while (left <= right ) {
+//       int mid = (left +right-left)/2
+//     }
+//   }
+// }
