@@ -179,8 +179,8 @@ main > * { order: 50; }
 
 .themeToggle {
   display: grid !important;
-  width: 42px;
-  height: 42px;
+  width: 34px;
+  height: 34px;
   place-items: center;
   padding: 0 !important;
   border-radius: 50% !important;
@@ -2316,6 +2316,19 @@ footer button {
     left: 12px;
     right: 12px;
     top: 68px;
+  }
+
+  .themeToggle,
+  .cultureMenuToggle {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px;
+  }
+
+  .themeToggle svg,
+  .cultureMenuToggle svg {
+    width: 16px;
+    height: 16px;
   }
 
   .search {
