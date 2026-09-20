@@ -554,7 +554,8 @@ function StateDetailPage() {
 }
 
 function App() {
-  const [search, setSearch] = useState('');
+  const [navSearch, setNavSearch] = useState('');
+  const [stateSearch, setStateSearch] = useState('');
   const [region, setRegion] = useState('All');
   const [selected, setSelected] = useState(null);
   const [activeView, setActiveView] = useState('home');
@@ -582,16 +583,16 @@ function App() {
     return states.filter((state) => {
       const matchRegion = region === 'All' || state.region === region;
       const text = Object.values(state).join(' ').toLowerCase();
-      const matchSearch = text.includes(search.toLowerCase());
+      const matchSearch = text.includes(stateSearch.toLowerCase());
       return matchRegion && matchSearch;
     });
-  }, [search, region]);
+  }, [stateSearch, region]);
 
   const activeMapState = states.find((state) => state.name === mapFocus) || states[0];
   const activePoliticalState = politicalData.states.find((state) => state.name === activeMapState.name) || politicalData.states[0];
   const leftState = states.find((state) => state.name === compareA) || states[0];
   const rightState = states.find((state) => state.name === compareB) || states[1];
-  const visibleStates = showAllStates || search || region !== 'All' ? filteredStates : filteredStates.slice(0, 4);
+  const visibleStates = showAllStates || stateSearch || region !== 'All' ? filteredStates : filteredStates.slice(0, 4);
   const politicalStates = politicalData.states.filter((state) => {
     const searchText = Object.values(state).join(' ').toLowerCase();
     return (politicalRegion === 'All' || state.region === politicalRegion) && searchText.includes(politicalSearch.toLowerCase());
@@ -652,11 +653,8 @@ function App() {
           <div className="search">
             <Search size={17} />
             <input
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                navScroll('states');
-              }}
+              value={navSearch}
+              onChange={(e) => setNavSearch(e.target.value)}
               placeholder="Search culture..."
             />
           </div>
@@ -1004,7 +1002,7 @@ function App() {
 
                 <div className="searchWide">
                   <Search size={18} />
-                  <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search state, language, food, art..." />
+                  <input value={stateSearch} onChange={(e) => setStateSearch(e.target.value)} placeholder="Search state, language, food, art..." />
                 </div>
               </div>
 
