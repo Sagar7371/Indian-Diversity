@@ -696,24 +696,9 @@ function App() {
         {activeView === 'home' && (
           <>
             <section id="home" className="hero">
-              <div className="heroOverlay">
-                <div className="eyebrow">IN A LIVING CULTURAL JOURNEY</div>
-                <h1>
-                  Diversity of
-                  <br />
-                  <span>Indian Culture</span>
-                </h1>
-                <h2>Unity in Diversity</h2>
-                <p>Explore languages, food, festivals, arts, traditions and stories across all 28 states of India.</p>
-                <div className="actions">
-                  <button className="primary" onClick={() => navScroll('states')}>
-                    Explore India <ArrowRight />
-                  </button>
-                  <button className="ghost" onClick={() => navScroll('languages')}>
-                    Discover cultures
-                  </button>
-                </div>
-              </div>
+              <button className="primary heroExploreButton" type="button" onClick={() => navScroll('states')}>
+                Explore States <ArrowRight />
+              </button>
             </section>
 
             <section className="intro">
