@@ -599,6 +599,51 @@ function App() {
   });
   const visiblePoliticalStates = showAllPoliticalStates || politicalSearch || politicalRegion !== 'All' ? politicalStates : politicalStates.slice(0, 4);
 
+  const globalSearchItems = useMemo(() => [
+    ...states.map((state) => ({
+      type: 'State',
+      title: state.name,
+      detail: `${state.region} · ${state.languages} · ${state.food}`,
+      searchText: Object.values(state).join(' '),
+      state
+    })),
+    ...politicalData.states.map((state) => ({
+      type: 'Governance',
+      title: state.name,
+      detail: `${state.capital} · Chief Minister: ${state.chiefMinister}`,
+      searchText: Object.values(state).join(' '),
+      target: 'politics'
+    })),
+    ...regionProfiles.map((regionProfile) => ({
+      type: 'Region',
+      title: regionProfile.name,
+      detail: `${regionProfile.states} · ${regionProfile.languages}`,
+      searchText: Object.values(regionProfile).join(' '),
+      target: 'states'
+    })),
+    ...languageCards.map((item) => ({ type: 'Language', title: item.name, detail: item.note, searchText: Object.values(item).join(' '), target: 'languages' })),
+    ...dressCards.map((item) => ({ type: 'Dress', title: item.name, detail: `${item.state} · ${item.summary}`, searchText: Object.values(item).join(' '), target: 'dresses' })),
+    ...cuisineCards.map((item) => ({ type: 'Cuisine', title: item.name, detail: `${item.region} · ${item.description}`, searchText: Object.values(item).join(' '), target: 'cuisine' })),
+    ...festivalCards.map((item) => ({ type: 'Festival', title: item.name, detail: `${item.region} · ${item.significance}`, searchText: Object.values(item).join(' '), target: 'festivals' })),
+    ...musicCards.map((item) => ({ type: 'Music & Dance', title: item.name, detail: `${item.type} · ${item.note}`, searchText: Object.values(item).join(' '), target: 'music' })),
+    ...artCards.map((item) => ({ type: 'Art & Craft', title: item.name, detail: `${item.state} · ${item.background}`, searchText: Object.values(item).join(' '), target: 'art' })),
+    ...heritageCards.map((item) => ({ type: 'Heritage', title: item.name, detail: `${item.location} · ${item.style}`, searchText: Object.values(item).join(' '), target: 'heritage' })),
+    ...knowledgeCards.map((item) => ({ type: 'Knowledge', title: item.title, detail: item.description, searchText: Object.values(item).join(' '), target: 'knowledge' })),
+    ...modernCards.map((item) => ({ type: 'Modern Culture', title: item.title, detail: item.description, searchText: Object.values(item).join(' '), target: 'modern' })),
+    ...sportsPlayers.map((item) => ({ type: 'Sports', title: item.name, detail: `${item.sport} · ${item.achievement}`, searchText: Object.values(item).join(' '), target: 'sports' })),
+    ...sportsDisciplines.map((item) => ({ type: 'Sports', title: item.name, detail: item.note, searchText: Object.values(item).join(' '), target: 'sports' })),
+    ...winningMoments.map((item) => ({ type: 'Sports', title: item.title, detail: `${item.year} · ${item.text}`, searchText: Object.values(item).join(' '), target: 'sports' })),
+    ...quickNavItems.map(([title, target]) => ({ type: 'Section', title, detail: `Explore ${title.toLowerCase()}`, searchText: title, target }))
+  ], []);
+
+  const globalResults = useMemo(() => {
+    const query = navSearch.trim().toLowerCase();
+    if (!query) return [];
+    return globalSearchItems
+      .filter((item) => item.searchText.toLowerCase().includes(query))
+      .slice(0, 8);
+  }, [globalSearchItems, navSearch]);
+
   const compareFields = [
     { key: 'region', label: 'Region' },
     { key: 'languages', label: 'Language' },
@@ -621,6 +666,15 @@ function App() {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMobileMenu(false);
     setCultureMenuOpen(false);
+  };
+
+  const openGlobalResult = (result) => {
+    setNavSearch('');
+    if (result.state) {
+      openState(result.state);
+      return;
+    }
+    navScroll(result.target);
   };
 
   return (
@@ -657,6 +711,17 @@ function App() {
               onChange={(e) => setNavSearch(e.target.value)}
               placeholder="Search culture..."
             />
+            {navSearch.trim() && (
+              <div className="globalSearchResults">
+                {globalResults.length > 0 ? globalResults.map((result) => (
+                  <button key={`${result.type}-${result.title}`} type="button" onClick={() => openGlobalResult(result)}>
+                    <span className="globalSearchType">{result.type}</span>
+                    <strong>{result.title}</strong>
+                    <small>{result.detail}</small>
+                  </button>
+                )) : <div className="globalSearchEmpty">No matching culture found</div>}
+              </div>
+            )}
           </div>
           <button
             className="cultureMenuToggle"
