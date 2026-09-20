@@ -2536,7 +2536,12 @@ footer button {
   .knowledgeFeatureCard > img { height: 175px; }
   .knowledgeCardBody { min-height: 0; padding: 16px 17px 19px; }
   .section { padding: 52px 5vw; }
-  .hero { min-height: 720px; }
+  .hero {
+    min-height: 540px;
+    height: 68vh;
+    max-height: 680px;
+    background-position: center center;
+  }
   .heroOverlay { padding-top: 120px; padding-bottom: 180px; }
   .heroStats { grid-template-columns: repeat(2, 1fr); gap: 8px 0; padding: 12px 5vw; }
   .heroStats div { min-height: 42px; }
