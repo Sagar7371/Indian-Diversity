@@ -440,10 +440,19 @@ const featureDetailsByState = {
 function StateDetailPage() {
   const { stateName } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedFeature, setSelectedFeature] = useState(null);
   const [activeFoodImage, setActiveFoodImage] = useState(null);
   const featureDetailRef = useRef(null);
   const state = states.find((item) => item.name === decodeURIComponent(stateName || ''));
+
+  const returnToPrevious = () => {
+    const origin = location.state?.returnTo;
+    if (origin) {
+      navigate('/', { replace: true, state: { activeView: origin.activeView, target: origin.target, scrollY: origin.scrollY } });
+    } else if (window.history.state?.idx > 0) navigate(-1);
+    else navigate('/');
+  };
 
   useEffect(() => {
     if (selectedFeature) {
@@ -483,7 +492,7 @@ function StateDetailPage() {
           <span className="brandMark">✦</span>
           Indian Culture
         </button>
-        <button className="backButton" type="button" onClick={() => navigate(-1)}>
+        <button className="backButton" type="button" onClick={returnToPrevious}>
           <ArrowRight className="backIcon" size={16} /> Back to explorer
         </button>
       </header>
@@ -589,12 +598,12 @@ function StateDetailPage() {
           </button>
         </section>
       </main>
-      <BackButton />
+      <BackButton onBack={returnToPrevious} />
     </div>
   );
 }
 
-function BackButton() {
+function BackButton({ onBack }) {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(true);
 
@@ -622,7 +631,8 @@ function BackButton() {
   }, []);
 
   const goBack = () => {
-    if (window.history.length > 1) navigate(-1);
+    if (onBack) onBack();
+    else if (window.history.state?.idx > 0) navigate(-1);
     else navigate('/');
   };
 
@@ -639,6 +649,22 @@ function BackToTopButton() {
     <button className="backTopButton fixedBackTop" type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top" title="Back to top">
       ↑
     </button>
+  );
+}
+
+function DiversityMarquee({ placement }) {
+  return (
+    <div className={`heroMarquee ${placement}`} role="img" aria-label="Indian Diversity">
+      <div className="heroMarqueeTrack" aria-hidden="true">
+        {[0, 1].map((groupIndex) => (
+          <div className="heroMarqueeGroup" key={groupIndex}>
+            {Array.from({ length: 6 }, (_, itemIndex) => (
+              <span className="heroMarqueeItem" key={itemIndex}>INDIAN DIVERSITY <span>·</span></span>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -665,14 +691,26 @@ function App() {
   const [contactOpen, setContactOpen] = useState(false);
   const [contactStatus, setContactStatus] = useState('');
   const [cultureMenuOpen, setCultureMenuOpen] = useState(false);
+  const [bubbleEffect, setBubbleEffect] = useState({ target: null, run: 0 });
+  const bubbleNavTimer = useRef(null);
+  const sectionHistoryRef = useRef([]);
+  const activeSectionRef = useRef(location.state?.target || 'home');
   const navigate = useNavigate();
 
   useEffect(() => {
     const view = location.state?.activeView;
     const target = location.state?.target;
     if (view) setActiveView(view);
-    if (target) requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' }));
+    if (target) {
+      activeSectionRef.current = target;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        if (typeof location.state?.scrollY === 'number') window.scrollTo({ top: location.state.scrollY, behavior: 'smooth' });
+        else document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
+      }));
+    }
   }, [location.state]);
+
+  useEffect(() => () => window.clearTimeout(bubbleNavTimer.current), []);
 
   const regions = ['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'];
 
@@ -720,14 +758,47 @@ function App() {
 
   const openState = (state) => {
     setMapFocus(state.name);
-    navigate(`/state/${encodeURIComponent(state.name)}`);
+    navigate(`/state/${encodeURIComponent(state.name)}`, {
+      state: { returnTo: { activeView, target: activeSectionRef.current, scrollY: window.scrollY } }
+    });
   };
 
-  const navScroll = (id) => {
+  const navScroll = (id, { remember = true, restoreScrollY } = {}) => {
+    if (bubbleNavTimer.current !== null) {
+      window.clearTimeout(bubbleNavTimer.current);
+      bubbleNavTimer.current = null;
+      setBubbleEffect((current) => ({ ...current, target: null }));
+    }
+    if (activeSectionRef.current !== id) {
+      if (remember) {
+        sectionHistoryRef.current.push({ id: activeSectionRef.current, scrollY: window.scrollY });
+        if (sectionHistoryRef.current.length > 30) sectionHistoryRef.current.shift();
+      }
+      activeSectionRef.current = id;
+    }
     setActiveView(viewForTarget[id] || id);
-    requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })));
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (typeof restoreScrollY === 'number') window.scrollTo({ top: restoreScrollY, behavior: 'smooth' });
+      else document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }));
     setMobileMenu(false);
     setCultureMenuOpen(false);
+  };
+
+  const goBackToPreviousSection = () => {
+    const previous = sectionHistoryRef.current.pop();
+    navScroll(previous?.id || 'home', { remember: false, restoreScrollY: previous?.scrollY ?? 0 });
+  };
+
+  const handleIntroExplore = (event, target) => {
+    event.stopPropagation();
+    window.clearTimeout(bubbleNavTimer.current);
+    setBubbleEffect((current) => ({ target, run: current.run + 1 }));
+    bubbleNavTimer.current = window.setTimeout(() => {
+      bubbleNavTimer.current = null;
+      setBubbleEffect((current) => ({ ...current, target: null }));
+      navScroll(target);
+    }, 700);
   };
 
   const openSearchPage = () => {
@@ -822,11 +893,13 @@ function App() {
       <main>
         {activeView === 'home' && (
           <>
+            <DiversityMarquee placement="heroTopMarquee" />
             <section id="home" className="hero">
               <button className="primary heroExploreButton" type="button" onClick={() => navScroll('states')}>
                 Explore States <ArrowRight />
               </button>
             </section>
+            <DiversityMarquee placement="heroBottomMarquee" />
 
             <section className="intro">
               <div>
@@ -848,15 +921,23 @@ function App() {
                 </div>
               </div>
               <div className="homeIntroGrid">
-                {homeIntroSections.map(({ title, label, description, target, Icon }) => (
+                {homeIntroSections.map(({ title, label, description, target, Icon }, index) => (
                   <article className="homeIntroCard" key={title} role="button" tabIndex={0} onClick={() => navScroll(target)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') navScroll(target); }}>
-                    <div className="homeIntroIcon"><Icon size={21} /></div>
+                    <span className="homeIntroNumber" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                    <div className="homeIntroIcon"><Icon size={23} /></div>
                     <div className="homeIntroCopy">
                       <h3>{title}</h3>
                       <h4>{label}</h4>
                       <p>{description}</p>
                     </div>
-                    <button className="homeIntroButton" type="button" onClick={(event) => { event.stopPropagation(); navScroll(target); }}>Explore <ArrowRight size={15} /></button>
+                    <button className={`homeIntroButton${bubbleEffect.target === target ? ' is-bursting' : ''}`} type="button" onClick={(event) => handleIntroExplore(event, target)}>
+                      Explore <ArrowRight size={15} />
+                      {bubbleEffect.target === target && (
+                        <span className="homeIntroBubbles" key={bubbleEffect.run} aria-hidden="true">
+                          {Array.from({ length: 8 }, (_, bubbleIndex) => <span className="homeIntroBubble" key={bubbleIndex} />)}
+                        </span>
+                      )}
+                    </button>
                   </article>
                 ))}
               </div>
@@ -1761,7 +1842,7 @@ function App() {
           </div>
         </div>
       )}
-      {activeView !== 'home' && <BackButton />}
+      {activeView !== 'home' && <BackButton onBack={goBackToPreviousSection} />}
       <BackToTopButton />
     </div>
   );
