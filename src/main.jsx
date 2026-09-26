@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import indiaMap from '@svg-maps/india';
-import { Search, ArrowRight, Menu, PanelRightOpen, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun } from 'lucide-react';
+import { Search, ArrowRight, Menu, PanelRightOpen, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun, Trophy } from 'lucide-react';
 import './styles.css';
 
 const states = [
@@ -292,6 +292,46 @@ const quickNavItems = [
   ['Politics & Governance', 'politics']
 ];
 
+const homeIntroSections = [
+  { title: 'Languages', label: 'Many voices, many scripts', description: 'Discover India through Hindi, Bengali, Tamil, Telugu, Punjabi, Malayalam and more.', target: 'languages', Icon: Languages },
+  { title: 'Traditional Dress', label: 'Identity in cloth', description: 'Explore textiles, drapes and regional clothing shaped by craft, climate and history.', target: 'dresses', Icon: Crown },
+  { title: 'Cuisine', label: 'A taste of every region', description: 'From litti chokha and dal baati to appam, pakhala and momos, food traditions tell local stories.', target: 'cuisine', Icon: Utensils },
+  { title: 'Festivals', label: 'Celebrating together', description: 'Meet the lights, colours, harvests and community rituals that bring people together.', target: 'festivals', Icon: CalendarDays },
+  { title: 'Music & Dance', label: 'Rhythms of India', description: 'Classical traditions and vibrant folk forms carry stories through movement and sound.', target: 'music', Icon: Music },
+  { title: 'Art & Handicrafts', label: 'Living creativity', description: 'Madhubani, Warli, Pattachitra, Phulkari, Gond and countless local crafts await.', target: 'art', Icon: Palette },
+  { title: 'Architecture', label: 'Heritage in stone', description: 'Temples, forts, mosques, churches, stupas and palaces reveal layered histories.', target: 'heritage', Icon: Landmark },
+  { title: 'Knowledge', label: 'Ideas and traditions', description: 'Explore yoga, Ayurveda, meditation, philosophy and local ecological knowledge.', target: 'knowledge', Icon: BookOpen },
+  { title: 'Sports', label: 'Passion and achievement', description: 'From cricket and hockey to badminton, athletics, chess and para-sports.', target: 'sports', Icon: Trophy },
+  { title: 'Governance', label: 'How India works', description: 'Understand India’s Union and State governments, representatives and civic structure.', target: 'politics', Icon: Building2 }
+];
+
+const viewForTarget = {
+  home: 'home', states: 'states', languages: 'languages', sports: 'sports', politics: 'politics', about: 'about',
+  dresses: 'languages', cuisine: 'languages', festivals: 'languages', music: 'languages', art: 'languages', heritage: 'languages',
+  knowledge: 'home', modern: 'home', map: 'home', compare: 'home', discover: 'about'
+};
+
+function getGlobalSearchItems() {
+  return [
+    ...states.map((state) => ({ type: 'State', title: state.name, detail: `${state.region} · ${state.languages} · ${state.food}`, searchText: Object.values(state).join(' '), state })),
+    ...politicalData.states.map((state) => ({ type: 'Governance', title: state.name, detail: `${state.capital} · Chief Minister: ${state.chiefMinister}`, searchText: Object.values(state).join(' '), target: 'politics' })),
+    ...regionProfiles.map((regionProfile) => ({ type: 'Region', title: regionProfile.name, detail: `${regionProfile.states} · ${regionProfile.languages}`, searchText: Object.values(regionProfile).join(' '), target: 'states' })),
+    ...languageCards.map((item) => ({ type: 'Language', title: item.name, detail: item.note, searchText: Object.values(item).join(' '), target: 'languages' })),
+    ...dressCards.map((item) => ({ type: 'Dress', title: item.name, detail: `${item.state} · ${item.summary}`, searchText: Object.values(item).join(' '), target: 'dresses' })),
+    ...cuisineCards.map((item) => ({ type: 'Cuisine', title: item.name, detail: `${item.region} · ${item.description}`, searchText: Object.values(item).join(' '), target: 'cuisine' })),
+    ...festivalCards.map((item) => ({ type: 'Festival', title: item.name, detail: `${item.region} · ${item.significance}`, searchText: Object.values(item).join(' '), target: 'festivals' })),
+    ...musicCards.map((item) => ({ type: 'Music & Dance', title: item.name, detail: `${item.type} · ${item.note}`, searchText: Object.values(item).join(' '), target: 'music' })),
+    ...artCards.map((item) => ({ type: 'Art & Craft', title: item.name, detail: `${item.state} · ${item.background}`, searchText: Object.values(item).join(' '), target: 'art' })),
+    ...heritageCards.map((item) => ({ type: 'Heritage', title: item.name, detail: `${item.location} · ${item.style}`, searchText: Object.values(item).join(' '), target: 'heritage' })),
+    ...knowledgeCards.map((item) => ({ type: 'Knowledge', title: item.title, detail: item.description, searchText: Object.values(item).join(' '), target: 'knowledge' })),
+    ...modernCards.map((item) => ({ type: 'Modern Culture', title: item.title, detail: item.description, searchText: Object.values(item).join(' '), target: 'modern' })),
+    ...sportsPlayers.map((item) => ({ type: 'Sports', title: item.name, detail: `${item.sport} · ${item.achievement}`, searchText: Object.values(item).join(' '), target: 'sports' })),
+    ...sportsDisciplines.map((item) => ({ type: 'Sports', title: item.name, detail: item.note, searchText: Object.values(item).join(' '), target: 'sports' })),
+    ...winningMoments.map((item) => ({ type: 'Sports', title: item.title, detail: `${item.year} · ${item.text}`, searchText: Object.values(item).join(' '), target: 'sports' })),
+    ...quickNavItems.map(([title, target]) => ({ type: 'Section', title, detail: `Explore ${title.toLowerCase()}`, searchText: title, target }))
+  ];
+}
+
 function getStateImage(name, index) {
   const base = 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80';
   return base + '&sig=' + (index + 7);
@@ -549,16 +589,66 @@ function StateDetailPage() {
           </button>
         </section>
       </main>
+      <BackButton />
     </div>
   );
 }
 
+function BackButton() {
+  const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    let hideTimer;
+    const showButton = () => {
+      setIsVisible(true);
+      window.clearTimeout(hideTimer);
+      hideTimer = window.setTimeout(() => setIsVisible(false), 5000);
+    };
+
+    showButton();
+    window.addEventListener('scroll', showButton, { passive: true });
+    window.addEventListener('wheel', showButton, { passive: true });
+    window.addEventListener('touchmove', showButton, { passive: true });
+    window.addEventListener('pointermove', showButton, { passive: true });
+
+    return () => {
+      window.clearTimeout(hideTimer);
+      window.removeEventListener('scroll', showButton);
+      window.removeEventListener('wheel', showButton);
+      window.removeEventListener('touchmove', showButton);
+      window.removeEventListener('pointermove', showButton);
+    };
+  }, []);
+
+  const goBack = () => {
+    if (window.history.length > 1) navigate(-1);
+    else navigate('/');
+  };
+
+  return (
+    <button className={`fixedBackButton${isVisible ? '' : ' isHidden'}`} type="button" onClick={goBack} aria-label="Go back" title="Go back">
+      <ArrowRight className="backButtonArrow" size={17} />
+      <span>Back</span>
+    </button>
+  );
+}
+
+function BackToTopButton() {
+  return (
+    <button className="backTopButton fixedBackTop" type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top" title="Back to top">
+      ↑
+    </button>
+  );
+}
+
 function App() {
+  const location = useLocation();
   const [navSearch, setNavSearch] = useState('');
   const [stateSearch, setStateSearch] = useState('');
   const [region, setRegion] = useState('All');
   const [selected, setSelected] = useState(null);
-  const [activeView, setActiveView] = useState('home');
+  const [activeView, setActiveView] = useState(location.state?.activeView || 'home');
   const [mobileMenu, setMobileMenu] = useState(false);
   const [factIndex, setFactIndex] = useState(0);
   const [compareA, setCompareA] = useState('Punjab');
@@ -576,6 +666,13 @@ function App() {
   const [contactStatus, setContactStatus] = useState('');
   const [cultureMenuOpen, setCultureMenuOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const view = location.state?.activeView;
+    const target = location.state?.target;
+    if (view) setActiveView(view);
+    if (target) requestAnimationFrame(() => document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' }));
+  }, [location.state]);
 
   const regions = ['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'];
 
@@ -599,42 +696,7 @@ function App() {
   });
   const visiblePoliticalStates = showAllPoliticalStates || politicalSearch || politicalRegion !== 'All' ? politicalStates : politicalStates.slice(0, 4);
 
-  const globalSearchItems = useMemo(() => [
-    ...states.map((state) => ({
-      type: 'State',
-      title: state.name,
-      detail: `${state.region} · ${state.languages} · ${state.food}`,
-      searchText: Object.values(state).join(' '),
-      state
-    })),
-    ...politicalData.states.map((state) => ({
-      type: 'Governance',
-      title: state.name,
-      detail: `${state.capital} · Chief Minister: ${state.chiefMinister}`,
-      searchText: Object.values(state).join(' '),
-      target: 'politics'
-    })),
-    ...regionProfiles.map((regionProfile) => ({
-      type: 'Region',
-      title: regionProfile.name,
-      detail: `${regionProfile.states} · ${regionProfile.languages}`,
-      searchText: Object.values(regionProfile).join(' '),
-      target: 'states'
-    })),
-    ...languageCards.map((item) => ({ type: 'Language', title: item.name, detail: item.note, searchText: Object.values(item).join(' '), target: 'languages' })),
-    ...dressCards.map((item) => ({ type: 'Dress', title: item.name, detail: `${item.state} · ${item.summary}`, searchText: Object.values(item).join(' '), target: 'dresses' })),
-    ...cuisineCards.map((item) => ({ type: 'Cuisine', title: item.name, detail: `${item.region} · ${item.description}`, searchText: Object.values(item).join(' '), target: 'cuisine' })),
-    ...festivalCards.map((item) => ({ type: 'Festival', title: item.name, detail: `${item.region} · ${item.significance}`, searchText: Object.values(item).join(' '), target: 'festivals' })),
-    ...musicCards.map((item) => ({ type: 'Music & Dance', title: item.name, detail: `${item.type} · ${item.note}`, searchText: Object.values(item).join(' '), target: 'music' })),
-    ...artCards.map((item) => ({ type: 'Art & Craft', title: item.name, detail: `${item.state} · ${item.background}`, searchText: Object.values(item).join(' '), target: 'art' })),
-    ...heritageCards.map((item) => ({ type: 'Heritage', title: item.name, detail: `${item.location} · ${item.style}`, searchText: Object.values(item).join(' '), target: 'heritage' })),
-    ...knowledgeCards.map((item) => ({ type: 'Knowledge', title: item.title, detail: item.description, searchText: Object.values(item).join(' '), target: 'knowledge' })),
-    ...modernCards.map((item) => ({ type: 'Modern Culture', title: item.title, detail: item.description, searchText: Object.values(item).join(' '), target: 'modern' })),
-    ...sportsPlayers.map((item) => ({ type: 'Sports', title: item.name, detail: `${item.sport} · ${item.achievement}`, searchText: Object.values(item).join(' '), target: 'sports' })),
-    ...sportsDisciplines.map((item) => ({ type: 'Sports', title: item.name, detail: item.note, searchText: Object.values(item).join(' '), target: 'sports' })),
-    ...winningMoments.map((item) => ({ type: 'Sports', title: item.title, detail: `${item.year} · ${item.text}`, searchText: Object.values(item).join(' '), target: 'sports' })),
-    ...quickNavItems.map(([title, target]) => ({ type: 'Section', title, detail: `Explore ${title.toLowerCase()}`, searchText: title, target }))
-  ], []);
+  const globalSearchItems = useMemo(() => getGlobalSearchItems(), []);
 
   const globalResults = useMemo(() => {
     const query = navSearch.trim().toLowerCase();
@@ -662,23 +724,21 @@ function App() {
   };
 
   const navScroll = (id) => {
-    setActiveView(id);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setActiveView(viewForTarget[id] || id);
+    requestAnimationFrame(() => requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })));
     setMobileMenu(false);
     setCultureMenuOpen(false);
   };
 
-  const openGlobalResult = (result) => {
+  const openSearchPage = () => {
+    const query = navSearch.trim();
+    if (!query) return;
     setNavSearch('');
-    if (result.state) {
-      openState(result.state);
-      return;
-    }
-    navScroll(result.target);
+    navigate(`/search?q=${encodeURIComponent(query)}`);
   };
 
   return (
-    <div className={theme === 'dark' ? 'app theme-dark' : 'app theme-light'}>
+    <div className={`${theme === 'dark' ? 'app theme-dark' : 'app theme-light'} ${activeView !== 'home' ? 'hasBackButton' : ''}`}>
       <header className="nav">
         <div className="brand" onClick={() => navScroll('home')}>
           <span className="brandMark">✦</span>
@@ -709,17 +769,21 @@ function App() {
             <input
               value={navSearch}
               onChange={(e) => setNavSearch(e.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') openSearchPage();
+              }}
               placeholder="Search culture..."
             />
             {navSearch.trim() && (
               <div className="globalSearchResults">
                 {globalResults.length > 0 ? globalResults.map((result) => (
-                  <button key={`${result.type}-${result.title}`} type="button" onClick={() => openGlobalResult(result)}>
+                  <button key={`${result.type}-${result.title}`} type="button" onClick={openSearchPage}>
                     <span className="globalSearchType">{result.type}</span>
                     <strong>{result.title}</strong>
                     <small>{result.detail}</small>
                   </button>
                 )) : <div className="globalSearchEmpty">No matching culture found</div>}
+                {globalResults.length > 0 && <button className="globalSearchAll" type="button" onClick={openSearchPage}>View all results <ArrowRight size={15} /></button>}
               </div>
             )}
           </div>
@@ -773,6 +837,29 @@ function App() {
                 India's cultural landscape is shaped by many languages, communities, landscapes, histories and artistic traditions.
                 Explore examples rather than treating any state as culturally uniform.
               </p>
+            </section>
+
+            <section className="section homeIntroSections">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">A CULTURAL PREVIEW</div>
+                  <h2>Explore every side of India</h2>
+                  <p>Start with an introduction, then open any card to continue into its full cultural page.</p>
+                </div>
+              </div>
+              <div className="homeIntroGrid">
+                {homeIntroSections.map(({ title, label, description, target, Icon }) => (
+                  <article className="homeIntroCard" key={title} role="button" tabIndex={0} onClick={() => navScroll(target)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') navScroll(target); }}>
+                    <div className="homeIntroIcon"><Icon size={21} /></div>
+                    <div className="homeIntroCopy">
+                      <h3>{title}</h3>
+                      <h4>{label}</h4>
+                      <p>{description}</p>
+                    </div>
+                    <button className="homeIntroButton" type="button" onClick={(event) => { event.stopPropagation(); navScroll(target); }}>Explore <ArrowRight size={15} /></button>
+                  </article>
+                ))}
+              </div>
             </section>
 
             <section className="section exploreHub">
@@ -1568,7 +1655,6 @@ function App() {
         </div>
         <div className="footerSideActions">
           <span className="footerLine"></span>
-          <button className="backTopButton" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top">↑</button>
         </div>
         <div className="footerBottom"><span>© 2026 Indian Culture Explorer</span><a href="https://www.india.gov.in/" target="_blank" rel="noreferrer">Official Government Sources</a></div>
       </footer>
@@ -1675,6 +1761,74 @@ function App() {
           </div>
         </div>
       )}
+      {activeView !== 'home' && <BackButton />}
+      <BackToTopButton />
+    </div>
+  );
+}
+
+function SearchResultsPage() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const query = searchParams.get('q') || '';
+  const [searchInput, setSearchInput] = useState(query);
+  const results = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    if (!normalizedQuery) return [];
+    return getGlobalSearchItems().filter((item) => item.searchText.toLowerCase().includes(normalizedQuery));
+  }, [query]);
+
+  const submitSearch = (event) => {
+    event.preventDefault();
+    const nextQuery = searchInput.trim();
+    if (nextQuery) navigate(`/search?q=${encodeURIComponent(nextQuery)}`);
+  };
+
+  const openResult = (result) => {
+    if (result.state) {
+      navigate(`/state/${encodeURIComponent(result.state.name)}`);
+      return;
+    }
+    const pageViews = ['languages', 'states', 'sports', 'politics', 'about'];
+    const activeView = pageViews.includes(result.target) ? result.target : 'home';
+    navigate('/', { state: { activeView, target: result.target } });
+  };
+
+  return (
+    <div className="app theme-light searchPage">
+      <header className="nav searchPageNav">
+        <button className="brand" type="button" onClick={() => navigate('/')}>
+          <span className="brandMark">✦</span>
+          Indian Culture
+        </button>
+        <button className="backButton" type="button" onClick={() => navigate('/')}>
+          <ArrowRight className="backIcon" size={16} /> Back to explorer
+        </button>
+      </header>
+      <main className="searchPageMain">
+        <div className="eyebrow dark">INDIAN CULTURE EXPLORER</div>
+        <h1>Search results</h1>
+        <p className="searchPageIntro">Choose a result to open the exact state profile or culture section.</p>
+        <form className="searchPageForm" onSubmit={submitSearch}>
+          <Search size={19} />
+          <input value={searchInput} onChange={(event) => setSearchInput(event.target.value)} placeholder="Search across India..." autoFocus />
+          <button type="submit">Search <ArrowRight size={16} /></button>
+        </form>
+        {query && <div className="searchResultCount">{results.length} results for <strong>“{query}”</strong></div>}
+        <div className="searchResultGrid">
+          {results.map((result) => (
+            <button className="searchResultCard" key={`${result.type}-${result.title}`} type="button" onClick={() => openResult(result)}>
+              <span className="globalSearchType">{result.type}</span>
+              <strong>{result.title}</strong>
+              <p>{result.detail}</p>
+              <span className="searchResultAction">Open result <ArrowRight size={15} /></span>
+            </button>
+          ))}
+        </div>
+        {query && results.length === 0 && <div className="searchNoResults">No matching culture found. Try a state, language, food, festival, sport or heritage name.</div>}
+      </main>
+      <BackButton />
+      <BackToTopButton />
     </div>
   );
 }
@@ -1684,6 +1838,7 @@ function Root() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/search" element={<SearchResultsPage />} />
         <Route path="/state/:stateName" element={<StateDetailPage />} />
       </Routes>
     </BrowserRouter>
