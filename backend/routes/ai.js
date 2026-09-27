@@ -16,12 +16,25 @@ const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 5 *
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.mimetype)) { const error = new Error('Upload a JPG, PNG, or WEBP image under 5 MB.'); error.status = 400; return cb(error); }
   cb(null, true);
 } });
-const chatSchema = z.object({ message: z.string().trim().min(1).max(2000), conversationId: z.string().nullable().optional() });
+const chatSchema = z.object({
+  message: z.string().trim().min(1).max(2000),
+  conversationId: z.string().nullable().optional(),
+  messages: z.array(z.object({ role: z.enum(['user', 'assistant']), content: z.string().trim().min(1).max(2000) })).max(12).optional()
+});
 const searchSchema = z.object({ query: z.string().trim().min(1).max(300), type: z.enum(['web', 'image']).default('web') });
 const quizSchema = z.object({ topic: z.string().trim().min(1).max(80), difficulty: z.enum(['easy', 'medium', 'hard']), numberOfQuestions: z.coerce.number().int().refine((n) => [5, 10, 15].includes(n)) });
 const stateNames = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat','Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'];
 
 function fail(res, status, error) { return res.status(status).json({ success: false, error }); }
+function aiError(error) {
+  if (error.code === 'AI_NOT_CONFIGURED') return failStatus(503, 'AI service is not configured.');
+  if (error.code === 'AI_AUTH_FAILED') return failStatus(502, 'AI service authentication failed.');
+  if (error.code === 'AI_CREDITS_EXHAUSTED') return failStatus(503, 'AI provider credits are exhausted. Add API credits or use a funded API key.');
+  if (error.code === 'AI_RATE_LIMITED') return failStatus(429, 'AI service is busy. Please try again shortly.');
+  if (error.code === 'AI_UNAVAILABLE') return failStatus(503, 'AI service is temporarily unavailable.');
+  return null;
+}
+function failStatus(status, message) { return { status, message }; }
 aiRouter.post('/search', async (req, res, next) => {
   try {
     const { query, type } = searchSchema.parse(req.body);
@@ -91,24 +104,37 @@ aiRouter.post('/auth/login', async (req, res, next) => {
 
 aiRouter.post('/chat', async (req, res, next) => {
   try {
-    const { message, conversationId } = chatSchema.parse(req.body);
+    const { message, conversationId, messages = [] } = chatSchema.parse(req.body);
     const context = await findCulturalContext(message);
     const profile = req.user && await UserCulturalProfile.findOne({ userId: req.user._id }).lean();
     let conversation = conversationId && req.user ? await AIConversation.findOne({ _id: conversationId, userId: req.user._id }) : null;
-    const history = conversation ? (await AIMessage.find({ conversationId: conversation._id }).sort({ createdAt: -1 }).limit(12).lean()).reverse().map(({ role, content }) => ({ role, content })) : [];
+    const history = conversation
+      ? (await AIMessage.find({ conversationId: conversation._id }).sort({ createdAt: -1 }).limit(12).lean()).reverse().map(({ role, content }) => ({ role, content }))
+      : messages.slice(-12);
     const contextPrompt = `User message: ${message}\nRelevant verified project data (use only when relevant): ${JSON.stringify(context)}\nInterest context: ${JSON.stringify(profile?.interests || [])}`;
     const reply = await askModel({ messages: [{ role: 'system', content: CULTURE_GUIDELINES }, ...history, { role: 'user', content: contextPrompt }] });
     let savedMessageIds = [];
     if (req.user) {
+      const startingNewConversation = !conversation;
       if (!conversation) conversation = new AIConversation({ userId: req.user._id, title: message.slice(0, 80) });
       else if (conversation.title === 'New conversation') conversation.title = message.slice(0, 80);
       await conversation.save();
-      const savedMessages = await AIMessage.insertMany([{ conversationId: conversation._id, role:'user', content:message }, { conversationId: conversation._id, role:'assistant', content:reply }]);
-      savedMessageIds = savedMessages.map((item) => item.id);
+      const messagesToSave = [
+        ...(startingNewConversation ? history : []),
+        { role:'user', content:message },
+        { role:'assistant', content:reply }
+      ].map((item) => ({ conversationId: conversation._id, role:item.role, content:item.content }));
+      const savedMessages = await AIMessage.insertMany(messagesToSave);
+      savedMessageIds = savedMessages.slice(-2).map((item) => item.id);
       await UserCulturalProfile.updateOne({ userId: req.user._id }, { $set: { lastActiveAt: new Date() }, $addToSet: { interests: { $each: message.toLowerCase().split(/\W+/).filter((word) => word.length > 4).slice(0, 4) } } }, { upsert: true });
     }
     res.json({ success: true, reply, conversationId: conversation?.id || null, userMessageId:savedMessageIds[0] || null, assistantMessageId:savedMessageIds[1] || null, related: context.map(({ name }) => name) });
-  } catch (error) { if (error instanceof z.ZodError) return fail(res, 400, 'Enter a message up to 2,000 characters.'); next(error); }
+  } catch (error) {
+    if (error instanceof z.ZodError) return fail(res, 400, 'Enter a message up to 2,000 characters.');
+    const safeError = aiError(error);
+    if (safeError) return fail(res, safeError.status, safeError.message);
+    next(error);
+  }
 });
 
 aiRouter.get('/conversations', requireAuth, async (req, res, next) => {
@@ -241,5 +267,7 @@ aiRouter.post('/journey/explore', requireAuth, async (req, res, next) => {
 aiRouter.use((error, _req, res, _next) => {
   if (error instanceof multer.MulterError) return fail(res, error.code === 'LIMIT_FILE_SIZE' ? 413 : 400, error.code === 'LIMIT_FILE_SIZE' ? 'Image must be 5 MB or smaller.' : 'Upload one image at a time.');
   if (error instanceof z.ZodError) return fail(res, 400, 'Please check the submitted information and try again.');
+  const safeError = aiError(error);
+  if (safeError) return fail(res, safeError.status, safeError.message);
   return fail(res, error.status || 500, error.status ? error.message : 'Unable to complete the request right now. Please try again.');
 });
