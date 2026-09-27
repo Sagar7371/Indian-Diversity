@@ -15,15 +15,27 @@ const politicalData = {
     name: 'Narendra Modi',
     office: 'Prime Minister of India',
     since: '9 June 2024',
-    image: 'https://www.pmindia.gov.in/wp-content/uploads/2018/04/PMO-Profile-Photo.jpg',
+    image: 'https://s7d1.scene7.com/is/image/wbcollab/India_PM_Narendra_Modi-2?qlt=75&resMode=sharp2',
     source: 'https://www.pmindia.gov.in/en/pms-profile/'
   },
-  president: { name: 'Droupadi Murmu', office: 'President of India', source: 'https://www.presidentofindia.gov.in/' },
+  president: {
+    name: 'Droupadi Murmu',
+    office: 'President of India',
+    image: 'https://www.sarkaritel.com/wp-content/uploads/2025/07/presidentofindia-draupati-murmu-scaled-e1751860486871.jpg',
+    source: 'https://www.presidentofindia.gov.in/'
+  },
+  biharPoliticians: [
+    { name: 'Lalu Yadav', image: 'https://cf-images.assettype.com/TNIE/import/2017/8/13/original/Lalu-solo-PTI661.jpg?w=480&auto=format,compress&fit=max' },
+    { name: 'Tejashwi Yadav', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfAXurZxhxfTqnS1CoWBHDltJoXs0_hfgGOkq2-WdNVg&s=10' },
+    { name: 'Nitish Kumar (Ex CM)', image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Shri_Nitish_Kumar_takes_oath_as_the_Chief_Minister_of_Bihar.jpg?width=480' },
+    { name: 'Tej Pratap Yadav', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFOGYbTnguhAitRYWmk_CDGaMMRe-g_8A7QBmIgNz4SGO3mG8wqG2Ux3A&s=10' },
+    { name: 'Pappu Yadav', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSocxwwLCh8b-oO1HhTz-6iXC0EXMXqVdub3UK1tzFh1SIhFcz0o9H14Sk&s=10' }
+  ],
   states: [
     ['Andhra Pradesh', 'Amaravati', 'Chandrababu Naidu', 'TDP', 'South India', 'https://www.ap.gov.in/'],
     ['Arunachal Pradesh', 'Itanagar', 'Pema Khandu', 'BJP', 'North-East India', 'https://arunachalpradesh.gov.in/'],
     ['Assam', 'Dispur', 'Himanta Biswa Sarma', 'BJP', 'North-East India', 'https://assam.gov.in/'],
-    ['Bihar', 'Patna', 'Nitish Kumar', 'JD(U)', 'East India', 'https://state.bihar.gov.in/'],
+    ['Bihar', 'Patna', 'Samrat Choudhary', 'BJP', 'East India', 'https://betastate.bihar.gov.in/iprdwebsite/'],
     ['Chhattisgarh', 'Raipur', 'Vishnu Deo Sai', 'BJP', 'Central India', 'https://cgstate.gov.in/'],
     ['Goa', 'Panaji', 'Pramod Sawant', 'BJP', 'West India', 'https://www.goa.gov.in/'],
     ['Gujarat', 'Gandhinagar', 'Bhupendra Patel', 'BJP', 'West India', 'https://gujaratindia.gov.in/'],
@@ -57,7 +69,7 @@ const politicalParties = [
   ['Aam Aadmi Party', 'National', 'https://aamaadmiparty.org/'],
   ['Communist Party of India (Marxist)', 'National', 'https://cpim.org/'],
   ['Dravida Munnetra Kazhagam', 'State', 'https://www.dmk.in/'],
-  ['Biju Janata Dal', 'State', 'https://www.bjdodisha.org.in/']
+  ['Rashtriya Janata Dal (RJD)', 'State', 'https://en.wikipedia.org/wiki/Rashtriya_Janata_Dal']
 ];
 
 const sections = [
@@ -1523,11 +1535,16 @@ function App() {
                 </div>
               </article>
               <article className="unionInfoCard">
-                <span className="politicsLabel">CONSTITUTIONAL OFFICE</span>
-                <h3>President of India</h3>
-                <p className="unionName">{politicalData.president.name}</p>
-                <p>The President is the constitutional Head of State. The official profile and current information are maintained by the President's Secretariat.</p>
-                <a href={politicalData.president.source} target="_blank" rel="noreferrer">President of India <ExternalLink size={14} /></a>
+                <div className="presidentInfo">
+                  <img src={politicalData.president.image} alt={politicalData.president.name} loading="lazy" referrerPolicy="no-referrer" />
+                  <div>
+                    <span className="politicsLabel">CONSTITUTIONAL OFFICE</span>
+                    <h3>President of India</h3>
+                    <p className="unionName">{politicalData.president.name}</p>
+                    <p>The President is the constitutional Head of State. The official profile and current information are maintained by the President's Secretariat.</p>
+                    <a href={politicalData.president.source} target="_blank" rel="noreferrer">President of India <ExternalLink size={14} /></a>
+                  </div>
+                </div>
               </article>
             </div>
 
@@ -1569,6 +1586,24 @@ function App() {
                 </button>
               </div>
             )}
+
+            <section className="biharPoliticians" aria-labelledby="bihar-politicians-title">
+              <div className="politicsSectionHead compactHead">
+                <div>
+                  <div className="eyebrow dark">BIHAR · PUBLIC FIGURES</div>
+                  <h3 id="bihar-politicians-title">Bihar Political Leaders</h3>
+                  <p>Some well-known political figures associated with Bihar.</p>
+                </div>
+              </div>
+              <div className="biharPoliticianGrid">
+                {politicalData.biharPoliticians.map((politician) => (
+                  <article className="biharPoliticianCard" key={politician.name}>
+                    <img src={politician.image} alt={politician.name} loading="lazy" referrerPolicy="no-referrer" />
+                    <h4>{politician.name}</h4>
+                  </article>
+                ))}
+              </div>
+            </section>
 
             <div className="governanceLearning">
               <div className="politicsSectionHead compactHead"><div><div className="eyebrow dark">CIVIC STRUCTURE</div><h3>How India's Democracy Works</h3></div></div>

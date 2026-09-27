@@ -1878,6 +1878,20 @@ main > * { order: 50; }
 
 .app.theme-dark .politicsSection { background: linear-gradient(145deg,#0d2135,#18253f); }.app.theme-dark .politicsHero,.app.theme-dark .primeMinisterCard,.app.theme-dark .unionInfoCard,.app.theme-dark .politicalStateCard,.app.theme-dark .governanceLearning,.app.theme-dark .governmentCompareWrap,.app.theme-dark .politicalSources,.app.theme-dark .unionCabinetCard,.app.theme-dark .partyPanel { background: rgba(20,43,67,.9); border-color: rgba(137,190,246,.2); }.app.theme-dark .politicsHero h2,.app.theme-dark .politicsSectionHead h3,.app.theme-dark .governmentCompareWrap h3,.app.theme-dark .politicalSources h3,.app.theme-dark .officeBody h3,.app.theme-dark .unionInfoCard h3,.app.theme-dark .politicalStateCard h4,.app.theme-dark .politicsModalHeader h2,.app.theme-dark .unionCabinetCard h3,.app.theme-dark .partyPanel h3 { color: #b9dcff; }.app.theme-dark .politicsHero p,.app.theme-dark .officeBody p,.app.theme-dark .unionInfoCard p,.app.theme-dark .politicsSectionHead p,.app.theme-dark .governanceNote,.app.theme-dark .politicalSources p,.app.theme-dark .unionCabinetCard p,.app.theme-dark .partyPanel p { color: #b4c9df; }.app.theme-dark .politicsStats div,.app.theme-dark .politicsSearch { background: rgba(18,38,61,.9); }.app.theme-dark .politicsFilters button { background: rgba(255,255,255,.08); color: #c6e3ff; }.app.theme-dark .politicsDetailGrid div { background: #132f4a; }.app.theme-dark .politicsRepresentatives { background: #322740; }.app.theme-dark .partyGrid a { color: #c6e3ff; border-color: rgba(137,190,246,.2); }
 
+/* Keep state detail modal text readable over its light cards, regardless of page theme. */
+.politicsModal .politicsModalCard { color: #172f4c; }
+.politicsModal .politicsModalHeader .eyebrow.dark { color: #9a6426 !important; }
+.politicsModal .politicsModalHeader h2 { color: #173f70 !important; }
+.politicsModal .politicsModalHeader p { color: #536a80 !important; }
+.politicsModal .politicsDetailGrid b { color: #8f6129 !important; }
+.politicsModal .politicsDetailGrid span { color: #173f70 !important; }
+.politicsModal .politicsDetailGrid small { color: #536a80 !important; }
+.politicsModal .politicsRepresentatives h3 { color: #173f70 !important; }
+.politicsModal .politicsRepresentatives p { color: #536a80 !important; }
+.politicsModal .politicsRepresentatives a,
+.politicsModal .politicsModalLinks a { color: #24634f !important; }
+.politicsModal .politicsModalLinks button { color: #245e9c !important; }
+
 /* The politics area uses a calm civic palette so information stays easy to scan. */
 .politicsSection {
   --politics-ink: #172f4c;
@@ -1942,6 +1956,20 @@ main > * { order: 50; }
 .politicsSection .politicsSearch { border-color: rgba(183, 121, 44, 0.28); background: #fff; }
 .politicsSection .politicsSearch svg { color: var(--politics-green); }
 .politicsFilters button { border-color: rgba(183, 121, 44, 0.28); background: #fffaf0; color: var(--politics-heading); }
+
+.presidentInfo { display: grid; grid-template-columns: minmax(120px, .65fr) minmax(0, 1fr); align-items: center; gap: 20px; height: 100%; }
+.presidentInfo > img { width: 100%; height: 230px; border-radius: 15px; object-fit: cover; object-position: center 22%; background: #f1eee8; }
+.presidentInfo h3 { margin: 0 0 9px; color: var(--politics-heading); font: 700 25px/1.2 'Playfair Display', serif; }
+.presidentInfo p { line-height: 1.6; }
+.biharPoliticians { margin-top: 36px; padding: 25px; border: 1px solid rgba(183, 121, 44, 0.2); border-radius: 22px; background: var(--politics-paper); box-shadow: 0 12px 26px rgba(48, 73, 84, 0.08); }
+.biharPoliticians .politicsSectionHead { margin: 0 0 18px; }
+.biharPoliticianGrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.biharPoliticianCard { min-width: 0; overflow: hidden; border: 1px solid rgba(183, 121, 44, 0.18); border-radius: 15px; background: #fff; box-shadow: 0 6px 16px rgba(48, 73, 84, 0.07); text-align: center; }
+.biharPoliticianCard img { display: block; width: 100%; height: 190px; object-fit: cover; object-position: center 20%; background: #f1eee8; }
+.biharPoliticianCard h4 { margin: 0; padding: 13px 8px; color: var(--politics-heading); font-size: 15px; line-height: 1.35; }
+.app.theme-dark .biharPoliticians { border-color: rgba(137,190,246,.2); background: rgba(20,43,67,.9); }
+.app.theme-dark .biharPoliticianCard { border-color: rgba(137,190,246,.2); background: #132f4a; }
+.app.theme-dark .biharPoliticianCard h4 { color: #c6e3ff; }
 
 .detailPage { min-height: 100vh; }
 .detailNav { position: relative; }
@@ -2605,6 +2633,7 @@ footer button {
   .politicsHero, .unionOfficeGrid { grid-template-columns: 1fr; }
   .unionCabinetAndParties { grid-template-columns: 1fr; }
   .politicalStateGrid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .biharPoliticianGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .cardGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .knowledgeGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .quickNavGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -2803,6 +2832,11 @@ footer button {
   .politicsHero { padding: 23px 19px; }
   .politicsHero h2 { font-size: 34px; }
   .primeMinisterCard { grid-template-columns: 1fr; }
+  .presidentInfo { grid-template-columns: 1fr; gap: 15px; }
+  .presidentInfo > img { height: 250px; }
+  .biharPoliticians { padding: 18px 14px; }
+  .biharPoliticianGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .biharPoliticianCard img { height: 165px; }
   .officePhoto img { height: 210px; min-height: 0; }
   .politicsSectionHead { display: block; }
   .politicalStateGrid { grid-template-columns: 1fr; }
@@ -2957,6 +2991,52 @@ body {
 
 .app main > section:not(.hero) .eyebrow.dark {
   color: #ffe0a6;
+}
+
+@media (max-width: 980px) {
+  .app .nav nav.open {
+    background: rgba(249, 251, 255, .99);
+    border-color: rgba(47, 88, 137, .2);
+  }
+
+  .app .nav nav.open > button:not(.themeToggle):not(.cultureMenuToggle) {
+    color: #243b58 !important;
+  }
+
+  .app .nav nav.open > button:not(.themeToggle):not(.cultureMenuToggle):hover,
+  .app .nav nav.open > button:not(.themeToggle):not(.cultureMenuToggle):focus-visible {
+    color: #8f482d !important;
+    background: rgba(220, 235, 251, .8);
+  }
+
+  .app .nav nav.open > .themeToggle {
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px;
+    flex: 0 0 28px;
+    align-self: center;
+    margin: 2px auto;
+  }
+
+  .app .nav nav.open > .themeToggle svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .app.theme-dark .nav nav.open {
+    background: rgba(13, 30, 47, .99);
+    border-color: rgba(160, 190, 220, .24);
+  }
+
+  .app.theme-dark .nav nav.open > button:not(.themeToggle):not(.cultureMenuToggle) {
+    color: #e7f0fa !important;
+  }
+
+  .app.theme-dark .nav nav.open > button:not(.themeToggle):not(.cultureMenuToggle):hover,
+  .app.theme-dark .nav nav.open > button:not(.themeToggle):not(.cultureMenuToggle):focus-visible {
+    color: #fff !important;
+    background: rgba(255, 255, 255, .1);
+  }
 }
 
 .app footer {
