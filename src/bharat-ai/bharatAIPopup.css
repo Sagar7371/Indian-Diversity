@@ -1,0 +1,282 @@
+.bharatAIPopup {
+  position: fixed;
+  z-index: 1200;
+  right: 24px;
+  bottom: 24px;
+  width: min(236px, calc(100vw - 32px));
+  padding: 18px 16px 15px;
+  border: 1px solid #ebe5e1;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #fff 5%, #fffaf4 100%);
+  box-shadow: 0 18px 48px #27314c30;
+  text-align: center;
+  animation: bharatPopupIn .25s cubic-bezier(.2,.8,.2,1) both;
+}
+.bharatAIPopup::before {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  border-radius: 18px 0 0 18px;
+  background: linear-gradient(#f4a33a, #dc633d 55%, #558b63);
+  content: '';
+}
+.bharatAIPopupClose {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #8790a0;
+  cursor: pointer;
+  transition: background .16s ease, color .16s ease;
+}
+.bharatAIPopupClose:hover { background: #f6ece4; color: #9b4d31; }
+.bharatAIPopupClose svg { width: 15px; height: 15px; }
+.bharatAIPopupMark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  margin: 0 auto 8px;
+  place-items: center;
+  border: 1px solid #ffd8db;
+  border-radius: 12px;
+  background: #fff0f1;
+  color: #ed1c24;
+  font-size: 18px;
+}
+.bharatAIPopupMark:hover { transform: scale(1.08); border-color: #f9a8d4; background: #fce7f3; color: #db2777; box-shadow: 0 4px 12px #db277733; }
+.bharatAIPopupEyebrow { color: #ed1c24; font-size: 9px; font-weight: 800; letter-spacing: .1em; }
+.bharatAIPopup h2 { margin: 5px 0; color: #ed1c24; font: 700 20px/1.2 'Playfair Display', Georgia, serif; }
+.bharatAIPopup p { margin: 0 auto 12px; max-width: 190px; color: #737d8f; font-size: 12px; line-height: 1.45; }
+.bharatAIPopupAction {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #ed1c24;
+  box-shadow: 0 5px 13px #ed1c2430;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: transform .17s ease, box-shadow .17s ease, background .17s ease;
+}
+.bharatAIPopupAction:hover { transform: translateY(-2px); background: #d91820; box-shadow: 0 8px 17px #ed1c2440; }
+
+.bharatAIPopupLauncher {
+  position: fixed;
+  z-index: 1200;
+  right: 24px;
+  bottom: 24px;
+  display: grid;
+  width: 94px;
+  height: 94px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  filter: drop-shadow(0 0 10px rgba(255, 135, 48, .65)) drop-shadow(0 8px 13px rgba(11, 35, 46, .3));
+  animation: orbFloat 3s ease-in-out infinite;
+}
+.bharatAIPopupLauncher:active { cursor: grabbing; }
+.bharatAIPopupLauncher::before,
+.bharatAIPopupLauncher::after {
+  position: absolute;
+  inset: 5px;
+  border: 2px solid rgba(255, 211, 111, .85);
+  border-radius: 50%;
+  content: '';
+  pointer-events: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.bharatAIPopupLauncher::after { inset: 0; border-color: rgba(242, 110, 48, .75); transform: scale(.91); }
+.bharatAIPopupLauncher:hover::before { transform: scale(1.08); box-shadow: 0 0 18px rgba(255, 196, 76, .8); }
+.bharatAIPopupLauncher:hover::after { transform: scale(1.02); }
+.bharatAIOrbRobot { position: relative; z-index: 1; width: 88px; height: 88px; transition: transform .24s ease; }
+.bharatAIPopupLauncher:hover .bharatAIOrbRobot { transform: scale(1.06) rotate(-3deg); }
+.bharatAIOrbTooltip {
+  position: absolute;
+  right: 56px;
+  bottom: 72px;
+  display: flex;
+  min-width: 154px;
+  flex-direction: column;
+  gap: 3px;
+  padding: 9px 13px;
+  border: 1px solid rgba(231, 223, 210, .95);
+  border-radius: 14px 14px 5px 14px;
+  background: #fffdf9;
+  box-shadow: 0 9px 24px rgba(26, 37, 46, .2);
+  color: #263441;
+  text-align: left;
+  opacity: 1;
+  pointer-events: none;
+  transform: translate(0, 0) scale(1);
+  transform-origin: bottom right;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.bharatAIOrbTooltip::after { position: absolute; right: 15px; bottom: -7px; width: 12px; height: 12px; border-right: 1px solid #e7dfd2; border-bottom: 1px solid #e7dfd2; background: #fffdf9; content: ''; transform: rotate(45deg); }
+.bharatAIOrbTooltip strong { font-size: 13px; line-height: 1.2; }
+.bharatAIOrbTooltip small { color: #637080; font-size: 10px; }
+.bharatAIPopupLauncher:hover .bharatAIOrbTooltip,
+.bharatAIPopupLauncher:focus-visible .bharatAIOrbTooltip { opacity: 1; transform: translate(0, 0) scale(1); }
+@keyframes bharatPopupIn { from { opacity: 0; transform: translateY(10px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes orbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@media (max-width: 600px) {
+  .bharatAIPopup { right: 16px; bottom: 16px; width: min(236px, calc(100vw - 32px)); }
+  .bharatAIPopupLauncher { right: 16px; bottom: 18px; width: 82px; height: 82px; }
+  .bharatAIOrbRobot { width: 78px; height: 78px; }
+  .bharatAIOrbTooltip { right: 48px; bottom: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bharatAIPopup, .bharatAIPopupLauncher, .bharatAIPopup * { animation: none !important; transition: none !important; }
+}
+
+.bharatAIModalOverlay {
+  position: fixed;
+  z-index: 1500;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3.5vw, 42px);
+  background: rgba(17, 25, 36, .42);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: bharatModalFade .18s ease-out both;
+}
+.bharatAIModal {
+  position: relative;
+  display: flex;
+  width: min(580px, calc(100vw - 24px));
+  height: min(620px, calc(100dvh - 24px));
+  min-width: min(360px, calc(100vw - 24px));
+  min-height: min(320px, calc(100dvh - 24px));
+  max-width: calc(100vw - 24px);
+  max-height: calc(100dvh - 24px);
+  flex-direction: column;
+  overflow: hidden;
+  resize: none;
+  border: 1px solid rgba(255, 255, 255, .78);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 28px 90px rgba(11, 19, 31, .34);
+  animation: bharatModalLift .22s cubic-bezier(.2,.8,.2,1) both;
+}
+.bharatAIModalHead {
+  z-index: 1;
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 17px;
+  border-bottom: 1px solid #eee7df;
+  background: linear-gradient(110deg, #fffdfb, #fff5ed);
+}
+.bharatAIModalMark { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; border-radius: 13px; background: linear-gradient(145deg, #ffb742, #ef572c 58%, #168475); color: #fff; font-size: 20px; box-shadow: 0 4px 12px rgba(222, 101, 49, .24); }
+.bharatAIModalHead > span:nth-child(2) { display: grid; gap: 1px; }
+.bharatAIModalHead strong { color: #25334b; font-size: 15px; line-height: 1.2; }
+.bharatAIModalHead small { color: #71809a; font-size: 11px; }
+.bharatAIModalHead > button { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; margin-left: auto; border: 0; border-radius: 50%; background: transparent; color: #475569; cursor: pointer; }
+.bharatAIModalHead > button:hover { background: #f7e8e1; color: #ba3b2c; }
+.bharatAIModalContent { display: flex; min-height: 0; flex: 1; overflow: hidden; }
+.bharatModalLoading { display: grid; height: 100%; place-items: center; color: #71809a; }
+.bharatPage.bharatEmbedded { position: relative; display: flex; width: 100%; height: 100%; min-height: 0; flex: 1 1 0%; flex-direction: column; overflow: hidden; }
+.bharatEmbedded .bharatMain { display: grid; width: 100%; height: auto; min-height: 0; flex: 1 1 0%; grid-template-columns: 118px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); margin: 0; padding: 0; }
+.bharatEmbedded .bharatHero,
+.bharatEmbedded .bharatFootnote { display: none; }
+.bharatEmbedded .bharatTools { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; gap: 4px; margin: 0; padding: 9px 7px; overflow: auto; border-right: 1px solid #eee7df; background: linear-gradient(180deg, #142330, #0c1924); }
+.bharatEmbedded .bharatTools button { display: flex; width: 100%; min-height: 29px; flex: 0 0 auto; align-items: center; justify-content: flex-start; gap: 7px; padding: 5px 7px; border: 1px solid transparent; border-radius: 8px; background: transparent; color: #d5e0e7; font-size: 9px; text-align: left; }
+.bharatEmbedded .bharatTools button span { display: inline; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bharatEmbedded .bharatTools button.active { border-color: #e75124; background: linear-gradient(145deg, #ed4c20, #d52e1a); color: #fff; box-shadow: 0 5px 13px rgba(211, 63, 28, .24); }
+.bharatEmbedded .bharatTools button:hover:not(.active) { background: rgba(255,255,255,.1); color: #fff; }
+.bharatEmbedded .bharatWorkspace { display: flex; grid-column: 2; grid-row: 1; min-width: 0; min-height: 0; height: 100%; align-items: stretch; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; border: 0; border-radius: 0; background: #fff; box-shadow: none; }
+.bharatEmbedded .bharatChat,
+.bharatEmbedded .bharatPanel { width: 100%; max-width: none; min-height: 100%; flex: 0 0 auto; margin: 0; padding: 19px clamp(14px, 3vw, 28px); }
+.bharatEmbedded .bharatChat { height: 100%; min-height: 0; flex: 1 0 100%; overflow: hidden; }
+.bharatEmbedded .bharatPanelHead { gap: 8px; }
+.bharatEmbedded .bharatPanelHead h2 { font-size: 23px; }
+.bharatEmbedded .bharatMessages { min-height: 0; max-height: none; flex: 1 1 0%; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; padding: 13px 4px 13px 2px; scrollbar-gutter: stable; }
+.bharatEmbedded .bharatWelcome { padding: 10px 0 16px; }
+.bharatEmbeddedWelcome { display: flex; min-height: 0; flex: 1; flex-direction: column; justify-content: center; gap: 20px; padding: 12px 0; overflow-y: auto; }
+.bharatEmbeddedGreeting { display: flex; align-items: flex-start; gap: 8px; }
+.bharatEmbeddedGreeting .bharatMessageBadge { flex-basis: 34px; height: 34px; border: 1px solid #d9e9e7; background: linear-gradient(145deg, #e9faf4, #fff3df); color: #15796f; }
+.bharatEmbeddedGreetingBubble { max-width: 100%; padding: 10px 11px; border: 1px solid #eee5ef; border-radius: 5px 14px 14px; background: linear-gradient(140deg, #f5f3ff, #fffaf5); box-shadow: 0 5px 15px rgba(38, 44, 72, .08); color: #27364a; font-size: 12px; line-height: 1.5; }
+.bharatEmbeddedGreetingBubble strong { color: #182f49; }
+.bharatEmbeddedActions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; }
+.bharatEmbeddedActions button { display: flex; min-width: 0; min-height: 38px; align-items: center; justify-content: flex-start; gap: 6px; padding: 7px 9px; border: 1px solid #eee5db; border-radius: 999px; background: linear-gradient(145deg, #fff, #fff9f2); color: #38485e; box-shadow: 0 3px 9px rgba(63, 55, 42, .06); cursor: pointer; font-size: 10px; font-weight: 600; white-space: nowrap; transition: border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
+.bharatEmbeddedActions button:hover { transform: translateY(-2px); border-color: #eda27d; box-shadow: 0 6px 14px rgba(178, 93, 50, .13); }
+.bharatEmbeddedActions button span { overflow: hidden; text-overflow: ellipsis; }
+.bharatEmbeddedHome { display: flex; width: 100%; min-height: 100%; flex-direction: column; justify-content: center; gap: 18px; padding: 14px 13px; background: radial-gradient(ellipse at 50% 0, #fff5eb, #fff 72%); }
+.bharatEmbeddedHomeGreeting { display: grid; justify-items: center; text-align: center; }
+.bharatHomeBot { display: grid; width: 34px; height: 34px; place-items: center; margin-bottom: 5px; border: 1px solid #f4d2ae; border-radius: 12px; background: linear-gradient(145deg, #ffbd45, #ef572c 58%, #158174); color: #fff; box-shadow: 0 5px 14px rgba(221, 100, 47, .2); }
+.bharatEmbeddedHomeGreeting h2 { margin: 0; color: #ed2c20; font: 700 20px/1.15 'DM Sans', sans-serif; }
+.bharatEmbeddedHomeGreeting p { margin: 2px 0 0; color: #44546a; font-size: 11px; font-weight: 600; }
+.bharatEmbeddedHomeActions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.bharatEmbeddedHomeActions > button { display: flex; min-width: 0; min-height: 51px; align-items: center; gap: 7px; padding: 7px; border: 1px solid #eee9e3; border-radius: 13px; background: linear-gradient(145deg, #fff, #fffaf6); box-shadow: 0 4px 12px rgba(34, 45, 59, .07); color: #25334b; cursor: pointer; text-align: left; transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease; }
+.bharatEmbeddedHomeActions > button:hover { transform: translateY(-2px); border-color: #f1b18c; box-shadow: 0 7px 16px rgba(191, 91, 51, .14); }
+.bharatEmbeddedHomeActions > button > span:last-child { display: grid; min-width: 0; gap: 2px; }
+.bharatEmbeddedHomeActions strong { overflow: hidden; font-size: 9px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.bharatEmbeddedHomeActions small { overflow: hidden; color: #778295; font-size: 8px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }
+.homeActionIcon { display: grid; width: 27px; height: 27px; flex: 0 0 auto; place-items: center; border-radius: 9px; background: #fff1df; color: #e87922; font-size: 17px; }
+.homeActionIcon.teal { background: #e4f7f4; color: #169587; }
+.homeActionIcon.coral { background: #fff0e9; color: #f35e40; }
+.homeActionIcon.purple { background: #f3eaff; color: #9b69d5; }
+.bharatEmbedded .bharatPromptGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-top: 14px; }
+.bharatEmbedded .bharatPromptGrid button { padding: 9px 10px; font-size: 12px; }
+.bharatEmbedded .bharatChat > .bharatComposer { display: none; }
+.bharatEmbedded .bharatHint { flex: 0 0 auto; }
+.bharatEmbedded .bharatHint { display: none; }
+.bharatEmbedded .bharatComposer { gap: 3px; padding: 4px 5px 4px 12px; border-radius: 999px; box-shadow: 0 4px 14px rgba(37, 51, 75, .07); }
+.bharatEmbedded .bharatComposer textarea { min-height: 34px; max-height: 70px; padding: 7px 4px; resize: none; font-size: 12px; }
+.bharatEmbedded .bharatVoiceButton { display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; color: #425166; cursor: pointer; }
+.bharatEmbedded .bharatVoiceButton:hover { background: #f3eee8; }
+.bharatEmbedded .bharatComposer > .bharatSendButton,
+.bharatEmbeddedDock > .bharatSendButton { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; padding: 0; border: 0; border-radius: 50%; background: #ed2d18; color: #fff; box-shadow: 0 4px 10px rgba(237, 45, 24, .22); }
+.bharatEmbedded .bharatComposer > .bharatSendButton:hover,
+.bharatEmbeddedDock > .bharatSendButton:hover { background: #d82514; }
+.bharatEmbeddedDock { position: relative; z-index: 4; display: flex; min-height: 48px; flex: 0 0 48px; align-items: center; align-self: stretch; gap: 3px; margin: 0 12px 12px 130px; padding: 4px 5px 4px 13px; border: 1px solid #eee4d9; border-radius: 999px; background: linear-gradient(115deg, #fff, #fffaf5); box-shadow: 0 4px 14px rgba(37, 51, 75, .09); }
+.bharatEmbeddedDock input { display: block; width: 100%; min-width: 0; height: 36px; flex: 1 1 0%; padding: 0 4px; border: 0; outline: 0; background: transparent; color: #25334b; font: 12px/1.4 'DM Sans', sans-serif; pointer-events: auto; }
+.bharatEmbeddedDock input::placeholder { color: #9198a4; }
+.bharatEmbedded .bharatOverlay { z-index: 1510; }
+@keyframes bharatModalFade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bharatModalLift { from { opacity: 0; transform: translateY(10px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 600px) {
+  .bharatAIModalOverlay { padding: 10px; }
+  .bharatAIModal { width: calc(100vw - 20px); height: min(700px, calc(100dvh - 20px)); min-width: 0; min-height: min(420px, calc(100dvh - 20px)); max-width: 100%; max-height: calc(100dvh - 20px); resize: none; border-radius: 17px; }
+  .bharatAIModalHead { min-height: 58px; padding: 8px 12px; }
+  .bharatAIModalMark { width: 34px; height: 34px; }
+  .bharatEmbedded .bharatMain { grid-template-columns: 112px minmax(0, 1fr); }
+  .bharatEmbedded .bharatTools { align-items: stretch; gap: 4px; padding: 9px 6px; }
+  .bharatEmbedded .bharatTools button { display: flex; width: 100%; min-height: 30px; height: auto; border-radius: 8px; }
+  .bharatEmbedded .bharatChat,
+  .bharatEmbedded .bharatPanel { padding: 14px 12px; }
+  .bharatEmbedded .bharatPanelHead h2 { font-size: 20px; }
+  .bharatEmbedded .bharatChatActions { flex-direction: row; }
+  .bharatEmbedded .bharatChatActions .bharatSecondary { font-size: 0; }
+  .bharatEmbedded .bharatChatActions .bharatSecondary svg { width: 16px; height: 16px; }
+  .bharatEmbedded .bharatPromptGrid { grid-template-columns: 1fr 1fr; }
+  .bharatEmbeddedDock { margin-right: 10px; margin-bottom: 10px; margin-left: 124px; }
+}
+@media (max-width: 390px) {
+  .bharatEmbedded .bharatMain { grid-template-columns: 102px minmax(0, 1fr); }
+  .bharatEmbedded .bharatTools { padding-inline: 5px; }
+  .bharatEmbedded .bharatTools button { width: 100%; min-height: 28px; }
+  .bharatEmbedded .bharatPromptGrid { grid-template-columns: 1fr; }
+  .bharatEmbeddedDock { margin-left: 114px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bharatAIModalOverlay, .bharatAIModal, .bharatEmbedded * { animation: none !important; transition: none !important; }
+}

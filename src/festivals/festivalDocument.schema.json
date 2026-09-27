@@ -1,0 +1,65 @@
+{
+  "$jsonSchema": {
+    "bsonType": "object",
+    "required": ["name", "slug", "dates", "states", "regions", "category", "shortDescription", "description", "sources"],
+    "properties": {
+      "name": { "bsonType": "string", "minLength": 1 },
+      "slug": { "bsonType": "string", "minLength": 1 },
+      "dates": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": ["year", "startDate", "endDate"],
+          "properties": {
+            "year": { "bsonType": "int", "minimum": 1900, "maximum": 2200 },
+            "startDate": { "bsonType": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+            "endDate": { "bsonType": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" }
+          }
+        }
+      },
+      "states": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "regions": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "category": { "bsonType": "string" },
+      "traditionType": { "bsonType": "string", "enum": ["Religious", "Cultural", "Civic"] },
+      "scale": { "bsonType": "string", "enum": ["Major", "Minor"] },
+      "tags": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "description": { "bsonType": "string" },
+      "shortDescription": { "bsonType": "string" },
+      "significance": { "bsonType": "string" },
+      "history": { "bsonType": "string" },
+      "traditions": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "rituals": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "traditionalFoods": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "traditionalClothing": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "dances": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "music": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "duration": { "bsonType": "string" },
+      "bestPlaces": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "relatedFestivals": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "relatedStates": { "bsonType": "array", "items": { "bsonType": "string" } },
+      "images": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": ["url", "alt"],
+          "properties": {
+            "url": { "bsonType": "string" },
+            "alt": { "bsonType": "string" },
+            "credit": { "bsonType": "string" }
+          }
+        }
+      },
+      "sources": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "object",
+          "required": ["title", "url"],
+          "properties": {
+            "title": { "bsonType": "string" },
+            "url": { "bsonType": "string" }
+          }
+        }
+      }
+    }
+  }
+}

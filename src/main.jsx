@@ -4,38 +4,10 @@ import { BrowserRouter, Route, Routes, useLocation, useNavigate, useParams, useS
 import indiaMap from '@svg-maps/india';
 import { Search, ArrowRight, Menu, PanelRightOpen, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun, Trophy } from 'lucide-react';
 import './styles.css';
-
-const states = [
-  { name: 'Andhra Pradesh', region: 'South India', languages: 'Telugu, Urdu', dress: 'Dhoti / Saree', food: 'Pulihora, Gongura', festival: 'Ugadi, Sankranti', dance: 'Kuchipudi, Kolatam', art: 'Kalamkari', heritage: 'Tirupati, Lepakshi', tradition: 'Handloom weaving and coastal temple traditions' },
-  { name: 'Arunachal Pradesh', region: 'North-East India', languages: 'English + many indigenous languages', dress: 'Tribal woven attire', food: 'Thukpa, bamboo-shoot dishes', festival: 'Losar, Nyokum', dance: 'Ponung, Aji Lhamu', art: 'Traditional weaving', heritage: 'Tawang Monastery', tradition: 'Rich indigenous textile and community traditions' },
-  { name: 'Assam', region: 'North-East India', languages: 'Assamese, Bodo, Bengali', dress: 'Mekhela Chador, Gamosa', food: 'Khar, Masor Tenga', festival: 'Bihu', dance: 'Bihu dance, Sattriya', art: 'Jaapi and weaving', heritage: 'Sivasagar monuments', tradition: 'Brahmaputra valley cultural traditions' },
-  { name: 'Bihar', region: 'East India', languages: 'Hindi, Maithili, Bhojpuri, Urdu', dress: 'Saree, Dhoti-Kurta', food: 'Litti Chokha, Thekua', festival: 'Chhath Puja', dance: 'Jat-Jatin', art: 'Madhubani painting', heritage: 'Nalanda, Bodh Gaya', tradition: 'Folk painting, literature and Buddhist heritage' },
-  { name: 'Chhattisgarh', region: 'Central India', languages: 'Hindi, Chhattisgarhi, Gondi', dress: 'Kosa silk saree', food: 'Chila, Fara', festival: 'Bastar Dussehra', dance: 'Panthi, Raut Nacha', art: 'Bell metal craft', heritage: 'Sirpur, Bastar', tradition: 'Adivasi arts, metalwork and forest-linked knowledge' },
-  { name: 'Goa', region: 'West India', languages: 'Konkani, Marathi, English', dress: 'Kunbi saree / regional attire', food: 'Fish curry rice, Bebinca', festival: 'Shigmo, Sao Joao', dance: 'Fugdi, Dekhnni', art: 'Azulejo-inspired tile work', heritage: 'Old Goa churches', tradition: 'Konkan, Lusophone and contemporary influences' },
-  { name: 'Gujarat', region: 'West India', languages: 'Gujarati, Hindi', dress: 'Chaniya Choli, Kediyu', food: 'Dhokla, Thepla, Undhiyu', festival: 'Navratri', dance: 'Garba, Dandiya', art: 'Bandhani, Patola', heritage: 'Rani ki Vav, Dholavira', tradition: 'Textiles, crafts and mercantile culture' },
-  { name: 'Haryana', region: 'North India', languages: 'Hindi, Haryanvi, Punjabi', dress: 'Ghagra-Kurti, Dhoti-Kurta', food: 'Bajra roti, Churma', festival: 'Teej, Baisakhi', dance: 'Dhamal, Khoria', art: 'Phulkari and rural crafts', heritage: 'Rakhigarhi', tradition: 'Agrarian folk culture and wrestling traditions' },
-  { name: 'Himachal Pradesh', region: 'Himalayan India', languages: 'Hindi, Pahari varieties', dress: 'Himachali cap, woollens', food: 'Dham, Siddu', festival: 'Kullu Dussehra', dance: 'Nati', art: 'Chamba rumal', heritage: 'Shimla, monasteries and temples', tradition: 'Mountain architecture, weaving and local festivals' },
-  { name: 'Jammu and Kashmir', region: 'Himalayan India', languages: 'Kashmiri, Dogri, Urdu, Hindi', dress: 'Pheran and traditional woollens', food: 'Rogan josh, dum aloo, kahwa', festival: 'Baisakhi, Herath, Tulip Festival', dance: 'Rouff and Hafiza', art: 'Pashmina, carpet weaving and papier-mache', heritage: 'Srinagar, Gulmarg, Vaishno Devi', tradition: 'Mountain heritage shaped by Kashmir, Dogra and Ladakhi influences' },
-  { name: 'Jharkhand', region: 'East India', languages: 'Hindi, Santali, Nagpuri, Kurukh', dress: 'Regional sarees and tribal attire', food: 'Dhuska, Rugra', festival: 'Sarhul, Sohrai', dance: 'Chhau, Jhumar', art: 'Sohrai and Khovar', heritage: 'Maluti temples', tradition: 'Indigenous art, ecology and community festivals' },
-  { name: 'Karnataka', region: 'South India', languages: 'Kannada, Tulu, Konkani, Urdu', dress: 'Mysore silk saree, Panche', food: 'Bisi Bele Bath, Ragi Mudde', festival: 'Mysuru Dasara, Ugadi', dance: 'Yakshagana, Dollu Kunitha', art: 'Mysore painting', heritage: 'Hampi, Pattadakal', tradition: 'Classical literature, temple arts and crafts' },
-  { name: 'Kerala', region: 'South India', languages: 'Malayalam, English', dress: 'Kasavu saree, Mundu', food: 'Appam, Sadya, Puttu', festival: 'Onam, Vishu', dance: 'Kathakali, Mohiniyattam', art: 'Mural painting, coir craft', heritage: 'Padmanabhapuram, backwaters', tradition: 'Ayurveda, performing arts and maritime culture' },
-  { name: 'Madhya Pradesh', region: 'Central India', languages: 'Hindi, Bundeli, Malvi, Gondi', dress: 'Chanderi/Maheshwari sarees', food: 'Poha, Bhutte ka Kees', festival: 'Khajuraho Dance Festival', dance: 'Rai, Matki', art: 'Gond art', heritage: 'Khajuraho, Sanchi', tradition: 'Tribal art, textiles and historic kingdoms' },
-  { name: 'Maharashtra', region: 'West India', languages: 'Marathi, Hindi, Urdu', dress: 'Nauvari saree, Dhoti-Kurta', food: 'Pav Bhaji, Puran Poli, Misal', festival: 'Ganesh Chaturthi, Gudi Padwa', dance: 'Lavani, Powada', art: 'Warli painting', heritage: 'Ajanta-Ellora, forts', tradition: 'Bhakti literature, theatre and urban-rural cultural exchange' },
-  { name: 'Manipur', region: 'North-East India', languages: 'Meitei, English, tribal languages', dress: 'Phanek, Innaphi', food: 'Eromba, Singju', festival: 'Yaoshang, Lai Haraoba', dance: 'Manipuri Raas', art: 'Handloom and bamboo craft', heritage: 'Kangla Fort', tradition: 'Vaishnav, indigenous and martial arts traditions' },
-  { name: 'Meghalaya', region: 'North-East India', languages: 'Khasi, Garo, English', dress: 'Jainsem, Dakmanda', food: 'Jadoh, Tungrymbai', festival: 'Wangala, Nongkrem', dance: 'Wangala, Shad Suk Mynsiem', art: 'Cane and bamboo craft', heritage: 'Living root bridges', tradition: 'Matri-heritage communities and ecological knowledge' },
-  { name: 'Mizoram', region: 'North-East India', languages: 'Mizo, English', dress: 'Puan', food: 'Bai, Vawksa', festival: 'Chapchar Kut', dance: 'Cheraw', art: 'Textile weaving', heritage: 'Reiek', tradition: 'Community singing, weaving and bamboo crafts' },
-  { name: 'Nagaland', region: 'North-East India', languages: 'English, Nagamese, many Naga languages', dress: 'Naga shawls and traditional attire', food: 'Smoked pork, axone dishes', festival: 'Hornbill Festival', dance: 'War dances and folk forms', art: 'Beadwork and weaving', heritage: 'Kisama heritage village', tradition: 'Distinct Naga communities, textiles and oral traditions' },
-  { name: 'Odisha', region: 'East India', languages: 'Odia, Sambalpuri varieties', dress: 'Sambalpuri saree, Dhoti', food: 'Pakhala, Dalma', festival: 'Rath Yatra, Nuakhai', dance: 'Odissi, Chhau', art: 'Pattachitra, applique', heritage: 'Konark Sun Temple, Puri', tradition: 'Temple culture, textiles and classical arts' },
-  { name: 'Punjab', region: 'North India', languages: 'Punjabi, Hindi', dress: 'Salwar Kameez, Turban', food: 'Makki di Roti, Sarson da Saag', festival: 'Baisakhi, Lohri', dance: 'Bhangra, Giddha', art: 'Phulkari', heritage: 'Golden Temple, forts', tradition: 'Punjabi poetry, music and agricultural heritage' },
-  { name: 'Rajasthan', region: 'West India', languages: 'Hindi, Rajasthani varieties', dress: 'Ghagra, Angarkha, Turban', food: 'Dal Baati Churma, Gatte', festival: 'Gangaur, Teej', dance: 'Ghoomar, Kalbelia', art: 'Miniature painting, blue pottery', heritage: 'Forts and havelis', tradition: 'Desert crafts, music and courtly traditions' },
-  { name: 'Sikkim', region: 'Himalayan India', languages: 'Nepali, Sikkimese, Lepcha, Bhutia', dress: 'Bakhu, traditional coats', food: 'Momos, Thukpa', festival: 'Losar, Pang Lhabsol', dance: 'Cham', art: 'Thangka painting', heritage: 'Rumtek Monastery', tradition: 'Himalayan Buddhist and indigenous heritage' },
-  { name: 'Tamil Nadu', region: 'South India', languages: 'Tamil, English', dress: 'Kanjeevaram saree, Veshti', food: 'Dosa, Pongal, Chettinad dishes', festival: 'Pongal, Tamil New Year', dance: 'Bharatanatyam, Karagattam', art: 'Tanjore painting, bronze casting', heritage: 'Brihadisvara, Meenakshi Temple', tradition: 'Tamil literature, temple architecture and classical arts' },
-  { name: 'Telangana', region: 'South India', languages: 'Telugu, Urdu', dress: 'Pochampally ikat, regional sarees', food: 'Hyderabadi biryani, Sarva Pindi', festival: 'Bathukamma, Bonalu', dance: 'Perini, Lambadi folk forms', art: 'Pochampally Ikat, Cheriyal', heritage: 'Charminar, Ramappa Temple', tradition: 'Deccan, Telugu and Dakhni cultural influences' },
-  { name: 'Tripura', region: 'North-East India', languages: 'Bengali, Kokborok, English', dress: 'Rignai, Risa', food: 'Mui Borok dishes', festival: 'Kharchi Puja, Garia', dance: 'Hojagiri', art: 'Bamboo and cane craft', heritage: 'Ujjayanta Palace, Unakoti', tradition: 'Indigenous and Bengali cultural interactions' },
-  { name: 'Uttar Pradesh', region: 'North India', languages: 'Hindi, Urdu, Awadhi, Braj', dress: 'Saree, Kurta-Pajama, regional attire', food: 'Awadhi biryani, Kachori, Petha', festival: 'Holi, Diwali, Ram Navami', dance: 'Kathak, Raslila', art: 'Chikankari, brass craft', heritage: 'Taj Mahal, Varanasi, Sarnath', tradition: 'Ganga-Jamuni cultural exchange, literature and crafts' },
-  { name: 'Uttarakhand', region: 'Himalayan India', languages: 'Hindi, Garhwali, Kumaoni', dress: 'Ghagra-Pichora, woollens', food: 'Kafuli, Aloo ke Gutke', festival: 'Harela, Nanda Devi Raj Jat', dance: 'Chholiya, Jhora', art: 'Aipan', heritage: 'Kedarnath, Jageshwar, Valley of Flowers', tradition: 'Mountain ecology, pilgrimage and folk traditions' },
-  { name: 'West Bengal', region: 'East India', languages: 'Bengali, Hindi, Nepali', dress: 'Taant/Baluchari saree, Dhoti', food: 'Macher Jhol, Mishti Doi', festival: 'Durga Puja, Poila Boishakh', dance: 'Chhau, Gaudiya traditions', art: 'Kantha, Kalighat painting', heritage: 'Victoria Memorial, Bishnupur temples', tradition: 'Literature, theatre, music and craft traditions' }
-];
+import './bharat-ai/bharatAIPopup.css';
+import { states } from './stateData.js';
+const FestivalCalendarPage = React.lazy(() => import('./festivals/FestivalCalendarPage.jsx'));
+const BharatAIPage = React.lazy(() => import('./bharat-ai/BharatAIPage.jsx'));
 
 const politicalData = {
   lastVerified: '17 September 2026 · Re-check state office-holders before publication',
@@ -332,44 +304,54 @@ function getGlobalSearchItems() {
   ];
 }
 
+const stateImageOverrides = {
+  'Andhra Pradesh': 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4e/Tirumala_090615.jpg/330px-Tirumala_090615.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail',
+  'Arunachal Pradesh': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRY140CSV2LTXfoeMVyM-96ulv6_KSkcvB9aYCTn0Rbx7ydryCrvLIU2aNX&s=10',
+  Assam: 'https://www.ibef.org/assets/images/states/Assam-2.jpg',
+  Bihar: 'https://media.istockphoto.com/id/1129899392/photo/big-statue-of-buddha-bodh-gaya-india-famous-buddhist-place-of-interest.jpg?s=612x612&w=0&k=20&c=CMr9OhGrBlvmAXZFgKlQsJ3XihxOdSDorkic7_zA0Nk=',
+  Chhattisgarh: 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/e1/07/70/bhoramdeo-temple.jpg?w=1200&h=1200&s=1',
+  Goa: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVf0XAAEV1-MxfzhPgbQ2LdywsPP7V0MwDdMr6A1yGDdsWHeiSh5XBsZM&s=10',
+  Gujarat: 'https://worldmedianetwork.uk/wp-content/uploads/2020/08/GUJRAT-A-WESTERN-COAST-STATE-IN-INDIA.jpg',
+  Haryana: 'https://i.ytimg.com/vi/hdRjI-Lix3M/maxresdefault.jpg',
+  'Himachal Pradesh': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrpdjG4wWjI_5_Yrya1aXs6lNLK7Pu2zAlbd9_OISzD6AUMJ8ccMM4E0Q&s=10',
+  'Jammu and Kashmir': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5qyToMoXZixd2UXEGZh5DEkZ7Bmkyzemxa0sRyRsD85neq8Xb5YZOlzU&s=10',
+  Jharkhand: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCsw7Kx6A7PdiWLbv995i7Jq1AL8ym7pe_Mt58ado0HrvQ4sj-DCxVktI&s=10',
+  Karnataka: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Virupaksha_Temple%2CHampi%2CKarnataka.jpg/1200px-Virupaksha_Temple%2CHampi%2CKarnataka.jpg',
+  Kerala: 'https://static.toiimg.com/photo/63365869.cms',
+  'Madhya Pradesh': 'https://s7ap1.scene7.com/is/image/incredibleindia/orchha-fort-orchaa1-mp-attr-hero?qlt=82&ts=1726675060379',
+  Maharashtra: 'https://www.fabhotels.com/blog/wp-content/uploads/2019/10/Maharashtra-Tourism_600.jpg',
+  Manipur: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUJKNiJ3rnYnHh9gbwJkMW6LT0vowxWC3bTNXGUljkup_4Js9JPebwq0sP&s=10',
+  Meghalaya: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTdM9GYKaf-JzqhDv0YT1UXyx4dUQW5ihRdWzYZX7AVtUJwReNiDTXsl68&s=10',
+  Mizoram: 'https://s7ap1.scene7.com/is/image/incredibleindia/art-cheraw-dance-aizawl-mizoram?qlt=82&ts=1726674876108',
+  Nagaland: 'https://hornbillfestival.com/wp-content/uploads/2025/11/pexels-anusree-gs-44418848-30952346-1024x833.jpg',
+  Odisha: 'https://neelamtours.com/files/product/image1/92/thumb_Explore_Odissa.jpg',
+  Punjab: 'https://cdn.britannica.com/53/176353-050-5B854179/Harmandir-Sahib-Amritsar-Punjab-India.jpg',
+  Rajasthan: 'https://s7ap1.scene7.com/is/image/incredibleindia/hawa-mahal-jaipur-rajasthan-city-1-hero?qlt=82&ts=1742200253577',
+  Sikkim: 'https://res.cloudinary.com/ddjuftfy2/image/upload/f_webp,c_fill,q_auto/memphis/large/1572162314_1.jpg',
+  'Tamil Nadu': 'https://d1bv4heaa2n05k.cloudfront.net/user-images/1552557246960/shutterstock-1013396287_main_1552557260545.jpeg',
+  Telangana: 'https://s7ap1.scene7.com/is/image/incredibleindia/2-charminar-hyderabad-telangana-state-hero?qlt=82&ts=1726653487606',
+  Tripura: 'https://www.tourmyindia.com/socialimg/tripura-touris.jpg',
+  'Uttar Pradesh': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd62mMvJ2xVTPWrfoE1ya8bVsIeQ1IyQlf9vsb_VlKiUF9Jb0Lw6WVs18&s=10',
+  Uttarakhand: 'https://clubmahindra.gumlet.io/blog/media/section_images/desktop-re-0c53b508b4227b5.jpg?w=376&dpr=2.6',
+  'West Bengal': 'https://s7ap1.scene7.com/is/image/incredibleindia/1-howrah-bridge-kolkata-west-bengal-city-hero?qlt=82&ts=1742154912631'
+};
+const stateImageCredits = {
+  Karnataka: { text:'Virupaksha Temple · Hawin Printo C · CC BY-SA 4.0', url:'https://commons.wikimedia.org/wiki/File:Virupaksha_Temple,Hampi,Karnataka.jpg' }
+};
+
+function getStateImagePlaceholder(name) {
+  const hue = [...name].reduce((total, character) => total + character.charCodeAt(0), 0) % 40;
+  const safeName = name.replace(/[&<>"']/g, (character) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&apos;' })[character]);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700"><defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="hsl(${190 + hue},45%,35%)"/><stop offset="1" stop-color="hsl(${275 + hue},38%,28%)"/></linearGradient></defs><rect width="1200" height="700" fill="url(#bg)"/><circle cx="960" cy="165" r="115" fill="#ffd989" opacity=".72"/><path d="M0 510 260 300l190 170 210-245 290 285 250-180v370H0z" fill="#ffffff" opacity=".13"/><text x="70" y="590" fill="white" font-family="Arial,sans-serif" font-size="62" font-weight="700">${safeName}</text><text x="74" y="635" fill="#ffe5b0" font-family="Arial,sans-serif" font-size="22" letter-spacing="5">INDIAN CULTURE PROFILE</text></svg>`;
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+}
+
 function getStateImage(name, index) {
-  const base = 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=80';
-  return base + '&sig=' + (index + 7);
+  if (stateImageOverrides[name]) return stateImageOverrides[name];
+  return getStateImagePlaceholder(name);
 }
 
 const mapColors = ['#f59e8b', '#8dd3c7', '#80b1d3', '#bebada', '#fb8072', '#b3de69', '#fccde5', '#bc80bd', '#ffed6f', '#a6d854'];
-const mapLabelPositions = {
-  'Jammu and Kashmir': [118, 95],
-  'Himachal Pradesh': [180, 137],
-  Uttarakhand: [245, 164],
-  Punjab: [153, 184],
-  Haryana: [177, 230],
-  Rajasthan: [93, 290],
-  Gujarat: [89, 390],
-  'Uttar Pradesh': [282, 260],
-  Bihar: [379, 314],
-  Sikkim: [438, 187],
-  'West Bengal': [449, 376],
-  Assam: [510, 260],
-  'Arunachal Pradesh': [480, 165],
-  Nagaland: [530, 230],
-  Manipur: [529, 290],
-  Mizoram: [500, 350],
-  Tripura: [470, 336],
-  Meghalaya: [465, 277],
-  'Madhya Pradesh': [218, 337],
-  Chhattisgarh: [322, 390],
-  Jharkhand: [362, 380],
-  Odisha: [390, 443],
-  Maharashtra: [210, 472],
-  Goa: [194, 546],
-  Karnataka: [232, 560],
-  Telangana: [304, 486],
-  'Andhra Pradesh': [345, 555],
-  'Tamil Nadu': [280, 628],
-  Kerala: [210, 625]
-};
-
 const featureDetailsByState = {
   Bihar: {
     Food: {
@@ -446,6 +428,11 @@ function StateDetailPage() {
   const featureDetailRef = useRef(null);
   const state = states.find((item) => item.name === decodeURIComponent(stateName || ''));
 
+  useEffect(() => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [stateName]);
+
   const returnToPrevious = () => {
     const origin = location.state?.returnTo;
     if (origin) {
@@ -487,22 +474,13 @@ function StateDetailPage() {
 
   return (
     <div className="app theme-light detailPage">
-      <header className="nav detailNav">
-        <button className="brand" type="button" onClick={() => navigate('/')}>
-          <span className="brandMark">✦</span>
-          Indian Culture
-        </button>
-        <button className="backButton" type="button" onClick={returnToPrevious}>
+      <main className="stateDetailMain">
+        <button className="detailBackLink" type="button" onClick={returnToPrevious}>
           <ArrowRight className="backIcon" size={16} /> Back to explorer
         </button>
-      </header>
-
-      <main className="stateDetailMain">
-        <button className="detailBackLink" type="button" onClick={() => navigate('/#states')}>
-          <ArrowRight className="backIcon" size={16} /> All states
-        </button>
         <section className="stateDetailHero">
-          <img src={getStateImage(state.name, state.name.length)} alt={state.name} />
+          <img src={getStateImage(state.name, state.name.length)} alt={`${state.name} cultural landscape`} onError={(event)=>{event.currentTarget.onerror=null;event.currentTarget.src=getStateImagePlaceholder(state.name);}} />
+          {stateImageCredits[state.name]&&<a className="stateImageCredit" href={stateImageCredits[state.name].url} target="_blank" rel="noreferrer">Photo: {stateImageCredits[state.name].text}</a>}
           <div className="stateDetailHeroText">
             <div className="eyebrow">{state.region}</div>
             <h1>{state.name}</h1>
@@ -598,7 +576,6 @@ function StateDetailPage() {
           </button>
         </section>
       </main>
-      <BackButton onBack={returnToPrevious} />
     </div>
   );
 }
@@ -680,6 +657,7 @@ function App() {
   const [compareA, setCompareA] = useState('Punjab');
   const [compareB, setCompareB] = useState('Kerala');
   const [mapFocus, setMapFocus] = useState('Punjab');
+  const [hoveredMapLabel, setHoveredMapLabel] = useState(null);
   const [theme, setTheme] = useState('light');
   const [cricketOpen, setCricketOpen] = useState(false);
   const [selectedCricketer, setSelectedCricketer] = useState(null);
@@ -711,6 +689,18 @@ function App() {
   }, [location.state]);
 
   useEffect(() => () => window.clearTimeout(bubbleNavTimer.current), []);
+
+  useEffect(() => {
+    if (!cultureMenuOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const closeOnEscape = (event) => { if (event.key === 'Escape') setCultureMenuOpen(false); };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [cultureMenuOpen]);
 
   const regions = ['All', 'North India', 'South India', 'East India', 'West India', 'Central India', 'North-East India', 'Himalayan India'];
 
@@ -761,6 +751,20 @@ function App() {
     navigate(`/state/${encodeURIComponent(state.name)}`, {
       state: { returnTo: { activeView, target: activeSectionRef.current, scrollY: window.scrollY } }
     });
+  };
+
+  const showMapHoverPopup = (event, stateName, useElementCenter = false) => {
+    const panel = event.currentTarget.closest('.indiaMapPanel');
+    if (!panel) return;
+    const panelBounds = panel.getBoundingClientRect();
+    const targetBounds = event.currentTarget.getBoundingClientRect();
+    const clientX = useElementCenter ? targetBounds.left + targetBounds.width / 2 : event.clientX;
+    const clientY = useElementCenter ? targetBounds.top + targetBounds.height / 2 : event.clientY;
+    const popupWidth = Math.min(190, panelBounds.width - 24);
+    const popupHeight = 44;
+    const left = Math.max(12, Math.min(clientX - panelBounds.left + 14, panelBounds.width - popupWidth - 12));
+    const top = Math.max(12, Math.min(clientY - panelBounds.top - popupHeight / 2, panelBounds.height - popupHeight - 12));
+    setHoveredMapLabel({ name: stateName, left, top });
   };
 
   const navScroll = (id, { remember = true, restoreScrollY } = {}) => {
@@ -821,8 +825,8 @@ function App() {
         </button>
 
         <nav className={mobileMenu ? 'open' : ''}>
-          {[['home', 'Home'], ['states', 'Explore States'], ['languages', 'Culture'], ['sports', 'Sports'], ['politics', 'Governance'], ['about', 'About']].map(([id, label]) => (
-            <button key={id} onClick={() => navScroll(id)}>
+          {[['home', 'Home'], ['states', 'Explore States'], ['languages', 'Culture'], ['festivals-page', 'Festival Calendar'], ['bharat-ai-page', 'Bharat AI'], ['sports', 'Sports'], ['politics', 'Governance'], ['about', 'About']].map(([id, label]) => (
+            <button key={id} onClick={() => id === 'festivals-page' ? navigate('/festivals') : id === 'bharat-ai-page' ? navigate('/bharat-ai') : navScroll(id)}>
               {label}
             </button>
           ))}
@@ -872,12 +876,12 @@ function App() {
 
       {cultureMenuOpen && (
         <div className="cultureDrawerLayer" onClick={() => setCultureMenuOpen(false)}>
-          <aside className="cultureDrawer" onClick={(event) => event.stopPropagation()}>
+          <aside className="cultureDrawer" role="dialog" aria-modal="true" aria-labelledby="culture-drawer-title" onClick={(event) => event.stopPropagation()}>
             <div className="cultureDrawerHeader">
-              <div><span className="eyebrow dark">EXPLORE INDIA</span><h2>Culture menu</h2></div>
+              <div><span className="eyebrow dark">EXPLORE INDIA</span><h2 id="culture-drawer-title">Culture menu</h2></div>
               <button className="drawerClose" type="button" onClick={() => setCultureMenuOpen(false)} aria-label="Close culture navigation"><X size={20} /></button>
             </div>
-            <div className="drawerNavList">
+            <nav className="drawerNavList" aria-label="Explore culture sections">
               {quickNavItems.map(([label, target], index) => (
                 <button key={target} type="button" onClick={() => navScroll(target)}>
                   <span className="drawerIndex">{String(index + 1).padStart(2, '0')}</span>
@@ -885,7 +889,7 @@ function App() {
                   <ArrowRight size={18} />
                 </button>
               ))}
-            </div>
+            </nav>
           </aside>
         </div>
       )}
@@ -895,9 +899,12 @@ function App() {
           <>
             <DiversityMarquee placement="heroTopMarquee" />
             <section id="home" className="hero">
-              <button className="primary heroExploreButton" type="button" onClick={() => navScroll('states')}>
-                Explore States <ArrowRight />
-              </button>
+              <div className="heroCtaCluster">
+                <button className="primary heroExploreButton" type="button" onClick={() => navScroll('states')}>
+                  Explore States <ArrowRight className="heroExploreArrow" />
+                </button>
+                <span className="heroCtaPointer" aria-hidden="true"><ArrowRight size={28} /></span>
+              </div>
             </section>
             <DiversityMarquee placement="heroBottomMarquee" />
 
@@ -910,6 +917,74 @@ function App() {
                 India's cultural landscape is shaped by many languages, communities, landscapes, histories and artistic traditions.
                 Explore examples rather than treating any state as culturally uniform.
               </p>
+            </section>
+
+            <section id="map" className="section mapSection">
+              <div className="sectionHead">
+                <div>
+                  <div className="eyebrow dark">INTERACTIVE INDIA MAP</div>
+                  <h2>Hover and click each state</h2>
+                  <p>Move the cursor over a state to highlight it and click to open its complete cultural details.</p>
+                </div>
+              </div>
+
+              <div className="mapLayout">
+                <div className="indiaMapPanel">
+                  <svg className="indiaMapSvg" viewBox={indiaMap.viewBox} role="img" aria-label="Interactive map of India">
+                    <title>Click a state boundary to open its cultural profile</title>
+                    {indiaMap.locations.map((location, index) => {
+                      const stateInfo = states.find((state) => state.name === location.name);
+                      if (!stateInfo) return null;
+                      const isActive = mapFocus === stateInfo.name;
+                      return (
+                        <path
+                          key={location.id}
+                          d={location.path}
+                          className={isActive ? 'stateBoundary active' : 'stateBoundary'}
+                          style={{ '--state-color': mapColors[index % mapColors.length] }}
+                          onMouseEnter={(event) => {
+                            setMapFocus(stateInfo.name);
+                            showMapHoverPopup(event, stateInfo.name);
+                          }}
+                          onMouseMove={(event) => showMapHoverPopup(event, stateInfo.name)}
+                          onMouseLeave={() => setHoveredMapLabel(null)}
+                          onFocus={(event) => {
+                            setMapFocus(stateInfo.name);
+                            showMapHoverPopup(event, stateInfo.name, true);
+                          }}
+                          onBlur={() => setHoveredMapLabel(null)}
+                          onClick={() => openState(stateInfo)}
+                          aria-label={`Open ${stateInfo.name} details`}
+                          role="button"
+                          tabIndex="0"
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') openState(stateInfo);
+                          }}
+                        />
+                      );
+                    })}
+                  </svg>
+                  {hoveredMapLabel && <div className="mapHoverPopup" style={{ left: hoveredMapLabel.left, top: hoveredMapLabel.top }} role="status">{hoveredMapLabel.name}</div>}
+                </div>
+
+                <aside className="mapDetail">
+                  <div className="eyebrow dark">STATE FOCUS</div>
+                  <h3>{activeMapState.name}</h3>
+                  <p className="mapIntro">{activeMapState.tradition}</p>
+                  <div className="detailGrid compact">
+                    <div><b>Region</b><span>{activeMapState.region}</span></div>
+                    <div><b>Languages</b><span>{activeMapState.languages}</span></div>
+                    <div><b>Food</b><span>{activeMapState.food}</span></div>
+                    <div><b>Dress</b><span>{activeMapState.dress}</span></div>
+                    <div><b>Festival</b><span>{activeMapState.festival}</span></div>
+                    <div><b>Dance</b><span>{activeMapState.dance}</span></div>
+                  </div>
+                  <div className="mapPoliticsSummary"><b>Politics</b><span>Chief Minister: {activePoliticalState.chiefMinister}</span><span>Capital: {activePoliticalState.capital}</span><button type="button" onClick={() => setSelectedPoliticalState(activePoliticalState)}>Open politics details <ArrowRight size={14} /></button></div>
+                  <button className="primary" onClick={() => openState(activeMapState)}>
+                    Open full details
+                  </button>
+                </aside>
+              </div>
             </section>
 
             <section className="section homeIntroSections">
@@ -1071,6 +1146,9 @@ function App() {
                   <div className="eyebrow dark">FESTIVALS</div>
                   <h2>Celebrations across communities</h2>
                   <p>Festivals bring communities together and also reflect local rituals and seasonal rhythms.</p>
+                  <button className="festivalCalendarEntryCta" type="button" onClick={() => navigate('/festivals')}>
+                    Open the Festival Calendar <ArrowRight size={16} />
+                  </button>
                 </div>
               </div>
 
@@ -1243,8 +1321,9 @@ function App() {
                 {visibleStates.map((state, index) => (
                   <article className="stateCard" key={state.name} onClick={() => openState(state)}>
                     <div className="stateImg">
-                      <img src={getStateImage(state.name, index)} alt={state.name} />
+                      <img src={getStateImage(state.name, index)} alt={`${state.name} cultural landscape`} onError={(event)=>{event.currentTarget.onerror=null;event.currentTarget.src=getStateImagePlaceholder(state.name);}} />
                       <span>{state.region}</span>
+                      {stateImageCredits[state.name]&&<a className="stateImageCredit cardImageCredit" href={stateImageCredits[state.name].url} target="_blank" rel="noreferrer" onClick={(event)=>event.stopPropagation()}>Photo: {stateImageCredits[state.name].text}</a>}
                     </div>
                     <div className="stateBody">
                       <h3>{state.name}</h3>
@@ -1270,68 +1349,6 @@ function App() {
                   </button>
                 </div>
               )}
-            </section>
-
-            <section id="map" className="section mapSection">
-              <div className="sectionHead">
-                <div>
-                  <div className="eyebrow dark">INTERACTIVE INDIA MAP</div>
-                  <h2>Hover and click each state</h2>
-                  <p>Move the cursor over a state to highlight it and click to open its complete cultural details.</p>
-                </div>
-              </div>
-
-              <div className="mapLayout">
-                <div className="indiaMapPanel">
-                  <svg className="indiaMapSvg" viewBox={indiaMap.viewBox} role="img" aria-label="Interactive map of India">
-                    <title>Click a state boundary to open its cultural profile</title>
-                    {indiaMap.locations.map((location, index) => {
-                      const stateInfo = states.find((state) => state.name === location.name);
-                      if (!stateInfo) return null;
-                      const isActive = mapFocus === stateInfo.name;
-                      return (
-                        <path
-                          key={location.id}
-                          d={location.path}
-                          className={isActive ? 'stateBoundary active' : 'stateBoundary'}
-                          style={{ '--state-color': mapColors[index % mapColors.length] }}
-                          onMouseEnter={() => setMapFocus(stateInfo.name)}
-                          onClick={() => openState(stateInfo)}
-                          aria-label={`Open ${stateInfo.name} details`}
-                          role="button"
-                          tabIndex="0"
-                          onKeyDown={(event) => {
-                            if (event.key === 'Enter' || event.key === ' ') openState(stateInfo);
-                          }}
-                        />
-                      );
-                    })}
-                    {Object.entries(mapLabelPositions).map(([name, [x, y]]) => (
-                      <text key={name} x={x} y={y} className="stateMapLabel" textAnchor="middle">
-                        {name === 'Jammu and Kashmir' ? 'J&K' : name}
-                      </text>
-                    ))}
-                  </svg>
-                </div>
-
-                <aside className="mapDetail">
-                  <div className="eyebrow dark">STATE FOCUS</div>
-                  <h3>{activeMapState.name}</h3>
-                  <p className="mapIntro">{activeMapState.tradition}</p>
-                  <div className="detailGrid compact">
-                    <div><b>Region</b><span>{activeMapState.region}</span></div>
-                    <div><b>Languages</b><span>{activeMapState.languages}</span></div>
-                    <div><b>Food</b><span>{activeMapState.food}</span></div>
-                    <div><b>Dress</b><span>{activeMapState.dress}</span></div>
-                    <div><b>Festival</b><span>{activeMapState.festival}</span></div>
-                    <div><b>Dance</b><span>{activeMapState.dance}</span></div>
-                  </div>
-                  <div className="mapPoliticsSummary"><b>Politics</b><span>Chief Minister: {activePoliticalState.chiefMinister}</span><span>Capital: {activePoliticalState.capital}</span><button type="button" onClick={() => setSelectedPoliticalState(activePoliticalState)}>Open politics details <ArrowRight size={14} /></button></div>
-                  <button className="primary" onClick={() => openState(activeMapState)}>
-                    Open full details
-                  </button>
-                </aside>
-              </div>
             </section>
 
             <section id="compare" className="section compareSection">
@@ -1786,7 +1803,7 @@ function App() {
             <button className="close" onClick={() => setSelected(null)}>
               <X />
             </button>
-            <img src={getStateImage(selected.name, selected.name.length)} alt={selected.name} />
+            <img src={getStateImage(selected.name, selected.name.length)} alt={`${selected.name} cultural landscape`} onError={(event)=>{event.currentTarget.onerror=null;event.currentTarget.src=getStateImagePlaceholder(selected.name);}} />
             <div className="modalContent">
               <div className="eyebrow dark">{selected.region}</div>
               <h2>{selected.name}</h2>
@@ -1846,6 +1863,100 @@ function App() {
       <BackToTopButton />
     </div>
   );
+}
+
+function BharatAIPopup() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [expanded, setExpanded] = useState(() => location.pathname.startsWith('/bharat-ai'));
+  const [modalInitialTool, setModalInitialTool] = useState(() => location.pathname.startsWith('/bharat-ai/') ? (location.pathname.split('/').filter(Boolean)[1] || 'chat') : 'home');
+  const [orbPosition, setOrbPosition] = useState(null);
+  const dragRef = useRef(null);
+  const suppressClickRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      const savedPosition = JSON.parse(localStorage.getItem('bharat-ai-orb-position') || 'null');
+      if (savedPosition && Number.isFinite(savedPosition.left) && Number.isFinite(savedPosition.top)) {
+        setOrbPosition({
+          left: Math.max(0, Math.min(savedPosition.left, window.innerWidth - 90)),
+          top: Math.max(0, Math.min(savedPosition.top, window.innerHeight - 90))
+        });
+      }
+    } catch {
+      // Ignore unavailable or malformed saved placement and use the default corner.
+    }
+  }, []);
+
+  const startOrbDrag = (event) => {
+    if (event.button !== undefined && event.button !== 0) return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    dragRef.current = { pointerId: event.pointerId, offsetX: event.clientX - bounds.left, offsetY: event.clientY - bounds.top, startX: event.clientX, startY: event.clientY, moved: false };
+    event.currentTarget.setPointerCapture?.(event.pointerId);
+  };
+
+  const moveOrb = (event) => {
+    if (!dragRef.current || dragRef.current.pointerId !== event.pointerId) return;
+    const drag = dragRef.current;
+    if (Math.hypot(event.clientX - drag.startX, event.clientY - drag.startY) > 4) drag.moved = true;
+    if (!drag.moved) return;
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const nextPosition = {
+      left: Math.max(0, Math.min(event.clientX - drag.offsetX, window.innerWidth - bounds.width)),
+      top: Math.max(0, Math.min(event.clientY - drag.offsetY, window.innerHeight - bounds.height))
+    };
+    suppressClickRef.current = true;
+    setOrbPosition(nextPosition);
+  };
+
+  const finishOrbDrag = () => {
+    if (!dragRef.current) return;
+    if (dragRef.current.moved) {
+      try { localStorage.setItem('bharat-ai-orb-position', JSON.stringify(orbPosition)); } catch { /* Keep the orb draggable when storage is unavailable. */ }
+    }
+    dragRef.current = null;
+    if (suppressClickRef.current) window.setTimeout(() => { suppressClickRef.current = false; }, 0);
+  };
+
+  useEffect(() => {
+    if (!expanded) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const closeOnEscape = (event) => { if (event.key === 'Escape') setExpanded(false); };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [expanded]);
+
+  if (!expanded) {
+    return <button className={`bharatAIPopupLauncher${orbPosition ? ' isPositioned' : ''}`} type="button" style={orbPosition ? { left: orbPosition.left, top: orbPosition.top, right: 'auto', bottom: 'auto' } : undefined} onPointerDown={startOrbDrag} onPointerMove={moveOrb} onPointerUp={finishOrbDrag} onPointerCancel={finishOrbDrag} onClick={(event) => { if (suppressClickRef.current) { event.preventDefault(); return; } setModalInitialTool('home'); setExpanded(true); }} aria-label="Drag or open Bharat AI assistant">
+      <span className="bharatAIOrbTooltip"><strong>Ask Bharat AI</strong><small>Your cultural guide 👋</small></span>
+      <svg className="bharatAIOrbRobot" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <linearGradient id="bharatOrb" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#ffbd39"/><stop offset=".48" stopColor="#f15a24"/><stop offset="1" stopColor="#147b72"/></linearGradient>
+          <linearGradient id="bharatFace" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#21495a"/><stop offset="1" stopColor="#102f3c"/></linearGradient>
+        </defs>
+        <circle cx="50" cy="53" r="43" fill="#ffb23f" opacity=".18" />
+        <circle cx="50" cy="53" r="39" fill="url(#bharatOrb)" stroke="#ffe39a" strokeWidth="3" />
+        <circle cx="50" cy="53" r="31" fill="#f5a826" stroke="#147b72" strokeWidth="5" />
+        <path d="M50 8v9" stroke="#f7bd42" strokeWidth="4" strokeLinecap="round" />
+        <circle cx="50" cy="7" r="4" fill="#ed4d28" stroke="#ffe29a" strokeWidth="2" />
+        <rect x="24" y="29" width="52" height="48" rx="19" fill="url(#bharatFace)" stroke="#f8da9d" strokeWidth="2" />
+        <circle cx="40" cy="49" r="4" fill="#fff7df" /><circle cx="60" cy="49" r="4" fill="#fff7df" />
+        <path d="M41 62q9 8 18 0" fill="none" stroke="#8ce2be" strokeWidth="3" strokeLinecap="round" />
+        <circle cx="28" cy="54" r="4" fill="#f28b68" opacity=".85" /><circle cx="72" cy="54" r="4" fill="#f28b68" opacity=".85" />
+      </svg>
+    </button>;
+  }
+
+  return <div className="bharatAIModalOverlay" onMouseDown={(event) => { if (event.target === event.currentTarget) setExpanded(false); }}>
+    <section className="bharatAIModal" role="dialog" aria-modal="true" aria-label="Bharat AI assistant">
+      <header className="bharatAIModalHead"><span className="bharatAIModalMark" aria-hidden="true">🤖</span><span><strong>Bharat AI</strong><small>Your Cultural Guide to India</small></span><button type="button" onClick={() => setExpanded(false)} aria-label="Close Bharat AI"><X size={21} /></button></header>
+      <div className="bharatAIModalContent"><React.Suspense fallback={<div className="bharatModalLoading">Opening Bharat AI…</div>}><BharatAIPage embedded initialTool={modalInitialTool} onClose={() => { setExpanded(false); navigate('/'); }} /></React.Suspense></div>
+    </section>
+  </div>;
 }
 
 function SearchResultsPage() {
@@ -1921,7 +2032,10 @@ function Root() {
         <Route path="/" element={<App />} />
         <Route path="/search" element={<SearchResultsPage />} />
         <Route path="/state/:stateName" element={<StateDetailPage />} />
+        <Route path="/festivals" element={<React.Suspense fallback={<div className="routeLoading">Loading festival calendar…</div>}><FestivalCalendarPage /></React.Suspense>} />
+        <Route path="/bharat-ai/*" element={<App />} />
       </Routes>
+      <BharatAIPopup />
     </BrowserRouter>
   );
 }
