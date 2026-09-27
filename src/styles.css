@@ -366,15 +366,18 @@ main > * { order: 50; }
 .hero {
   position: relative;
   container-type: inline-size;
-  min-height: 760px;
-  background:
-    linear-gradient(180deg, rgba(12, 36, 52, 0.15), rgba(7, 24, 36, 0.38)),
-    url('../Indian_Diversity_Hero.jpg') center/cover;
-  border-bottom: 2px solid rgba(107, 140, 255, 0.45);
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35), 0 18px 50px rgba(119, 168, 255, 0.18);
+  aspect-ratio: 1002 / 635;
+  min-height: 0;
+  height: auto;
+  background: #211832 url('../image.png') center / 100% 100% no-repeat;
+  border-bottom: 0;
+  box-shadow: none;
   display: flex;
   align-items: center;
 }
+
+/* The supplied hero artwork already contains its typography and statistics. */
+.hero .heroCtaCluster { display: none; }
 
 .heroOverlay {
   position: relative;
@@ -1243,6 +1246,104 @@ main > * { order: 50; }
   color: #526d8d;
   font-size: 14px;
   line-height: 1.58;
+}
+
+.featureText .viewMoreDetailsButton {
+  margin-top: 14px;
+}
+
+.viewMoreDetailsButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 9px 14px;
+  border: 1px solid rgba(59, 111, 185, 0.28);
+  border-radius: 999px;
+  background: rgba(233, 245, 255, 0.8);
+  color: #1b4f96;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.viewMoreDetailsButton:hover {
+  transform: translateY(-1px);
+  background: #edf6ff;
+  box-shadow: 0 12px 20px rgba(59, 111, 185, 0.12);
+}
+
+.knowledgeModalCard {
+  width: min(760px, 100%);
+}
+
+.knowledgeDetailMeta {
+  display: grid;
+  gap: 8px;
+  margin: 18px 0 16px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(243, 245, 255, 0.9);
+  border: 1px solid rgba(111, 146, 215, 0.22);
+}
+
+.knowledgeDetailMeta b {
+  color: #1b4f96;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.knowledgeDetailMeta span {
+  color: #365e85;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.knowledgeDetailGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.knowledgeDetailGrid > div {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid rgba(111, 146, 215, 0.18);
+  border-radius: 12px;
+  background: rgba(250, 252, 255, 0.86);
+}
+
+.knowledgeDetailGrid b {
+  color: #1b4f96;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.knowledgeDetailGrid span {
+  color: #4e6784;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.app.theme-dark .knowledgeDetailMeta,
+.app.theme-dark .knowledgeDetailGrid > div {
+  background: rgba(16, 34, 52, 0.9);
+  border-color: rgba(143, 183, 240, 0.2);
+}
+
+.app.theme-dark .knowledgeDetailMeta b,
+.app.theme-dark .knowledgeDetailGrid b { color: #a9d1ff; }
+.app.theme-dark .knowledgeDetailMeta span,
+.app.theme-dark .knowledgeDetailGrid span { color: #d0e4ff; }
+.app.theme-dark .viewMoreDetailsButton {
+  background: rgba(28, 52, 79, 0.9);
+  border-color: rgba(143, 183, 240, 0.26);
+  color: #d9ebff;
 }
 
 .app.theme-dark .knowledgeSection,
@@ -3086,4 +3187,276 @@ body {
 
 .app footer {
   background: linear-gradient(108deg, #874f6a, #515367 58%, #38465a);
+}
+
+/* India, In Many Voices: full-width cultural feature */
+.app main > section.intro.voicesHero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr);
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  column-gap: clamp(28px, 5vw, 84px);
+  width: 100%;
+  max-width: none;
+  min-height: max(620px, 70vh);
+  margin: 0;
+  padding: 68px max(6vw, calc((100vw - 1320px) / 2)) 122px;
+  overflow: hidden;
+  color: #fff7eb;
+  background:
+    radial-gradient(ellipse at 77% 42%, rgba(218, 128, 55, .27), transparent 34%),
+    radial-gradient(ellipse at 13% 90%, rgba(101, 48, 79, .46), transparent 45%),
+    linear-gradient(115deg, #17152f 0%, #30203d 50%, #492b3c 76%, #261b33 100%);
+  border: 0;
+}
+.app main > section.intro.voicesHero::before,
+.app main > section.intro.voicesHero::after { position: absolute; z-index: -1; content: ''; pointer-events: none; }
+.app main > section.intro.voicesHero::before {
+  inset: 0;
+  opacity: .12;
+  background-image: radial-gradient(rgba(255, 226, 176, .54) .65px, transparent .65px);
+  background-size: 5px 5px;
+  mask-image: linear-gradient(110deg, #000, transparent 70%);
+}
+.app main > section.intro.voicesHero::after {
+  width: 420px; height: 420px; right: -170px; top: -215px;
+  border: 1px solid rgba(241, 194, 119, .2); border-radius: 50%;
+  box-shadow: 0 0 0 18px rgba(241,194,119,.025), 0 0 0 42px rgba(241,194,119,.025), 0 0 0 68px rgba(241,194,119,.025);
+}
+.voicesHeroContent { position: relative; z-index: 2; max-width: 660px; }
+.voicesEyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 23px; color: #f4bd72 !important; font-size: 12px; letter-spacing: .27em; }
+.voicesEyebrow::after { width: 56px; height: 1px; background: linear-gradient(90deg, #d6a45b, transparent); content: ''; }
+.app main > section.intro.voicesHero h2 {
+  max-width: 760px; margin: 0 0 22px; color: #fff7eb !important;
+  font: 600 clamp(48px, 5.6vw, 78px)/1.02 'Playfair Display', Georgia, serif;
+  letter-spacing: -.045em; text-wrap: balance; animation: voicesReveal .75s .08s both;
+}
+.app main > section.intro.voicesHero h2 span { color: #f3bd72; }
+.app main > section.intro.voicesHero p {
+  max-width: 550px; margin: 0; color: rgba(255, 246, 232, .83) !important;
+  font: 400 clamp(15px, 1.25vw, 18px)/1.75 'DM Sans', sans-serif;
+  animation: voicesReveal .75s .2s both;
+}
+.voicesHeroActions { display: flex; flex-wrap: wrap; gap: 13px; margin-top: 30px; animation: voicesReveal .75s .32s both; }
+.voicesButton { display: inline-flex; min-height: 49px; align-items: center; justify-content: center; gap: 11px; padding: 0 21px; border: 1px solid transparent; border-radius: 999px; font: 700 14px/1 'DM Sans', sans-serif; text-decoration: none; cursor: pointer; transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease; }
+.voicesButton:hover { transform: translateY(-2px); }
+.voicesButton:focus-visible { outline: 3px solid #ffe2a4; outline-offset: 4px; }
+.voicesButtonPrimary { background: linear-gradient(110deg, #f6d18b, #eaa34d); color: #342038; box-shadow: 0 9px 25px rgba(224, 146, 70, .2); }
+.voicesButtonPrimary:hover { background: #ffdda0; box-shadow: 0 12px 28px rgba(224, 146, 70, .3); }
+.voicesButtonSecondary { border-color: rgba(246, 203, 138, .62); background: rgba(255,255,255,.045); color: #fff7eb; }
+.voicesButtonSecondary:hover { border-color: #f6cb8a; background: rgba(255,255,255,.1); }
+.voicesButtonSecondary span { color: #f4bd72; font-size: 17px; }
+.voicesHeroVisual { position: relative; display: grid; min-height: 400px; place-items: center; isolation: isolate; animation: voicesVisualReveal .95s .16s both; }
+.voicesVisualHalo { position: absolute; z-index: -2; width: min(94%, 440px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255, 199, 126, .17), rgba(185, 107, 81, .08) 49%, transparent 72%); }
+.voicesVisualMandala { position: absolute; z-index: -1; width: min(92%, 410px); aspect-ratio: 1; border: 1px solid rgba(244, 197, 126, .23); border-radius: 50%; background: repeating-conic-gradient(from 8deg, rgba(244,197,126,.10) 0deg 1deg, transparent 1deg 15deg); mask-image: radial-gradient(circle, transparent 0 56%, #000 57% 58%, transparent 59% 63%, #000 64% 64.4%, transparent 65%); }
+.voicesVisualMandala::before, .voicesVisualMandala::after { position: absolute; inset: 8%; border: 1px solid rgba(244, 197, 126, .22); border-radius: 50%; content: ''; }
+.voicesVisualMandala::after { inset: 17%; border-style: dashed; opacity: .65; }
+.voicesIndiaMap { width: min(90%, 405px); max-height: 430px; overflow: visible; filter: drop-shadow(0 18px 24px rgba(7, 8, 24, .34)); }
+.voicesMapStates path { fill: rgba(221, 177, 120, .16); stroke: rgba(255, 226, 182, .57); stroke-width: 2.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; transition: fill .3s ease; }
+.voicesMapStates path:nth-child(3n) { fill: rgba(228, 151, 94, .2); }
+.voicesMapStates path:nth-child(4n) { fill: rgba(187, 126, 130, .2); }
+.voicesMotif { position: absolute; display: grid; width: 54px; height: 54px; place-items: center; border: 1px solid rgba(249, 212, 157, .3); border-radius: 50%; background: rgba(42, 29, 48, .78); color: #f4c47f; box-shadow: 0 9px 24px rgba(10,8,21,.22); backdrop-filter: blur(8px); }
+.voicesMotifTemple { top: 13%; left: 11%; }
+.voicesMotifDance { top: 26%; right: 6%; color: #efad8d; }
+.voicesMotifTextile { bottom: 16%; left: 12%; color: #ead7a6; }
+.voicesVisualCaption { position: absolute; bottom: 4%; color: rgba(255,238,210,.76); font-size: 11px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; }
+.voicesStats { position: absolute; right: max(4.5vw, calc((100vw - 1380px) / 2)); bottom: 25px; left: max(4.5vw, calc((100vw - 1380px) / 2)); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 16px 12px; border: 1px solid rgba(249, 221, 181, .2); border-radius: 18px; background: rgba(31, 23, 42, .64); box-shadow: 0 15px 40px rgba(11, 9, 23, .16); backdrop-filter: blur(14px); }
+.voicesStat { display: flex; min-width: 0; align-items: center; justify-content: center; gap: 12px; padding: 3px 14px; border-right: 1px solid rgba(255, 238, 210, .17); }
+.voicesStat:last-child { border-right: 0; }
+.voicesStat > svg { width: 25px; height: 25px; flex: 0 0 auto; color: #eab673; stroke-width: 1.7; }
+.voicesStat span { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.voicesStat strong { color: #fff2dc; font: 600 clamp(21px, 2.3vw, 30px)/1 'Playfair Display', Georgia, serif; white-space: nowrap; }
+.voicesStat small { color: rgba(255, 241, 222, .76); font: 500 11px/1.3 'DM Sans', sans-serif; white-space: nowrap; }
+@keyframes voicesReveal { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes voicesVisualReveal { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+@media (max-width: 900px) {
+  .app main > section.intro.voicesHero { grid-template-columns: minmax(0, 1.02fr) minmax(0, .98fr); column-gap: 20px; padding-right: 5vw; padding-left: 5vw; }
+  .app main > section.intro.voicesHero h2 { font-size: clamp(46px, 6vw, 60px); }
+  .voicesHeroVisual { min-height: 350px; }
+  .voicesStats { right: 4vw; left: 4vw; }
+  .voicesStat { gap: 8px; padding-inline: 8px; }
+  .voicesStat > svg { width: 21px; height: 21px; }
+  .voicesStat small { font-size: 10px; }
+}
+@media (max-width: 650px) {
+  .app main > section.intro.voicesHero { display: flex; min-height: 0; flex-direction: column; align-items: stretch; gap: 0; padding: 58px 6vw 24px; }
+  .app main > section.intro.voicesHero h2 { max-width: 540px; margin-bottom: 17px; font-size: clamp(42px, 10.5vw, 50px); }
+  .app main > section.intro.voicesHero p { max-width: 540px; font-size: 15px; line-height: 1.7; }
+  .voicesEyebrow { margin-bottom: 18px; font-size: 10px; }
+  .voicesHeroActions { gap: 10px; margin-top: 23px; }
+  .voicesButton { min-height: 46px; padding-inline: 16px; font-size: 13px; }
+  .voicesHeroVisual { min-height: 300px; margin: 10px 0 0; }
+  .voicesIndiaMap { width: min(78%, 310px); max-height: 315px; }
+  .voicesVisualMandala { width: min(85%, 320px); }
+  .voicesMotif { width: 46px; height: 46px; }
+  .voicesMotifTemple { left: 13%; }
+  .voicesMotifDance { right: 9%; }
+  .voicesMotifTextile { bottom: 11%; left: 14%; }
+  .voicesVisualCaption { bottom: 0; font-size: 9px; }
+  .voicesStats { position: relative; inset: auto; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; margin-top: 18px; padding: 8px; border-radius: 15px; }
+  .voicesStat { min-height: 64px; justify-content: flex-start; padding: 8px 10px; }
+  .voicesStat:nth-child(2) { border-right: 0; }
+  .voicesStat:nth-child(n+3) { border-top: 1px solid rgba(255, 238, 210, .17); }
+  .voicesStat strong { font-size: 23px; }
+}
+@media (max-width: 380px) {
+  .app main > section.intro.voicesHero { padding-right: 5vw; padding-left: 5vw; }
+  .app main > section.intro.voicesHero h2 { font-size: 40px; }
+  .voicesStat { gap: 7px; padding-inline: 7px; }
+  .voicesStat > svg { width: 18px; height: 18px; }
+  .voicesStat small { font-size: 9px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app main > section.intro.voicesHero h2, .app main > section.intro.voicesHero p, .voicesHeroActions, .voicesHeroVisual { animation: none; }
+  .voicesButton, .voicesMapStates path { transition: none; }
+}
+
+/* Premium, continuously moving showcase immediately below the voices hero. */
+.app main > section.culturalGallerySection {
+  position: relative;
+  isolation: isolate;
+  order: 3;
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: -1px 0 0;
+  padding: 38px 0 54px;
+  overflow: hidden;
+  border: 0;
+  color: #28213a;
+  background:
+    radial-gradient(ellipse at 50% -35%, rgba(238, 179, 105, .18), transparent 58%),
+    linear-gradient(180deg, #fff7eb 0%, #fbf0df 100%);
+}
+.app main > section.culturalGallerySection::before,
+.app main > section.culturalGallerySection::after {
+  position: absolute;
+  z-index: -1;
+  top: -76px;
+  width: 230px;
+  height: 230px;
+  border: 1px solid rgba(198, 128, 62, .12);
+  border-radius: 50%;
+  box-shadow: 0 0 0 15px rgba(198,128,62,.025), 0 0 0 31px rgba(198,128,62,.025), 0 0 0 47px rgba(198,128,62,.025);
+  content: '';
+  pointer-events: none;
+}
+.app main > section.culturalGallerySection::before { left: -142px; }
+.app main > section.culturalGallerySection::after { right: -142px; }
+.culturalGalleryHeading { position: relative; z-index: 1; margin: 0 auto 23px; padding: 0 20px; text-align: center; }
+.culturalGalleryHeading h2 {
+  margin: 0;
+  color: #39233f;
+  background: linear-gradient(95deg, #39234a 20%, #8e354b 78%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font: 700 clamp(29px, 3.5vw, 43px)/1.15 'Playfair Display', Georgia, serif;
+  letter-spacing: -.025em;
+}
+.culturalGalleryHeading p { margin: 8px 0 0; color: #594b54; font: 500 14px/1.5 'DM Sans', sans-serif; }
+.culturalGalleryOrnament { display: none; color: #d99c55; }
+.culturalGalleryViewport { width: 100%; overflow: hidden; outline: none; }
+.culturalGalleryViewport:focus-visible { outline: 3px solid rgba(180, 111, 57, .55); outline-offset: -3px; }
+.culturalGalleryTrack { display: flex; width: max-content; animation: culturalGalleryTravelRight 40s linear infinite; will-change: transform; }
+.culturalGalleryViewport:hover .culturalGalleryTrack,
+.culturalGalleryViewport:focus-within .culturalGalleryTrack { animation-play-state: paused; }
+.culturalGalleryGroup { display: flex; flex: 0 0 auto; gap: 14px; width: max-content; padding: 2px 14px 10px; }
+.culturalGalleryCard { position: relative; flex: 0 0 250px; width: 250px; height: 170px; overflow: hidden; border: 1px solid rgba(93, 56, 57, .1); border-radius: 20px; background: #d8c8ac; box-shadow: 0 10px 22px rgba(53, 34, 40, .15); }
+.culturalGalleryCard::after { position: absolute; inset: 35% 0 0; background: linear-gradient(180deg, transparent 0%, rgba(18, 18, 31, .7) 100%); content: ''; pointer-events: none; }
+.culturalGalleryCard img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform .6s cubic-bezier(.2,.65,.25,1); }
+.culturalGalleryCard:hover img { transform: scale(1.045); }
+.culturalGalleryLabel { position: absolute; z-index: 1; right: 12px; bottom: 11px; left: 12px; overflow: hidden; color: #fffaf1; font: 700 14px/1.2 'DM Sans', sans-serif; text-overflow: ellipsis; text-shadow: 0 2px 8px rgba(0,0,0,.4); white-space: nowrap; }
+@keyframes culturalGalleryTravelRight { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@media (max-width: 900px) {
+  .app main > section.culturalGallerySection { padding: 34px 0 44px; }
+  .culturalGalleryCard { flex-basis: 220px; width: 220px; height: 155px; border-radius: 18px; }
+  .culturalGalleryGroup { gap: 12px; padding-right: 12px; padding-left: 12px; }
+  .culturalGalleryTrack { animation-duration: 40s; }
+}
+@media (max-width: 600px) {
+  .app main > section.culturalGallerySection { padding: 30px 0 36px; }
+  .culturalGalleryHeading { margin-bottom: 18px; }
+  .culturalGalleryHeading h2 { font-size: clamp(27px, 7vw, 34px); }
+  .culturalGalleryHeading p { max-width: 360px; margin: 7px auto 0; font-size: 12px; }
+  .culturalGalleryCard { flex-basis: 190px; width: 190px; height: 135px; border-radius: 16px; }
+  .culturalGalleryGroup { gap: 10px; padding-right: 10px; padding-left: 10px; }
+  .culturalGalleryLabel { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .culturalGalleryViewport { overflow-x: auto; overscroll-behavior-inline: contain; scrollbar-color: rgba(137,82,58,.45) transparent; scrollbar-width: thin; }
+  .culturalGalleryTrack { width: max-content; animation: none; transform: none; will-change: auto; }
+  .culturalGalleryGroup[aria-hidden="true"] { display: none; }
+  .culturalGalleryCard img { transition: none; }
+}
+
+/* Closing Bharat AI insights panel, connected to the existing assistant chat. */
+.app main > section.aiInsightsSection {
+  position: relative;
+  isolation: isolate;
+  order: 100;
+  display: grid;
+  grid-template-columns: minmax(175px, .72fr) minmax(350px, 1.28fr) minmax(310px, 1.08fr);
+  align-items: center;
+  gap: clamp(22px, 3vw, 46px);
+  width: 100%;
+  max-width: none;
+  min-height: 240px;
+  margin: 0;
+  padding: 34px max(6vw, calc((100vw - 1380px) / 2));
+  overflow: hidden;
+  border: 0;
+  border-top: 1px solid rgba(255, 220, 170, .22);
+  color: #fff8ef;
+  background:
+    radial-gradient(ellipse at 38% 110%, rgba(199, 91, 62, .25), transparent 46%),
+    radial-gradient(ellipse at 5% 0%, rgba(118, 58, 108, .45), transparent 40%),
+    linear-gradient(110deg, #18172f 0%, #29203a 58%, #39243b 100%);
+}
+.aiInsightsIntro { position: relative; z-index: 1; }
+.aiInsightsEyebrow { display: inline-flex; align-items: center; gap: 8px; color: #f3bd78; font-size: 10px; font-weight: 800; letter-spacing: .19em; text-transform: uppercase; }
+.aiInsightsEyebrow::before { width: 19px; height: 1px; background: #eab16d; content: ''; }
+.aiInsightsIntro h2 { margin: 9px 0 8px; color: #fff7ec; font: 700 clamp(25px, 2.6vw, 34px)/1.1 'Playfair Display', Georgia, serif; }
+.aiInsightsIntro p { max-width: 255px; margin: 0; color: rgba(255, 242, 222, .72); font-size: 13px; line-height: 1.6; }
+.aiInsightsAsk { display: flex; min-width: 0; align-items: center; gap: clamp(14px, 2vw, 28px); }
+.aiInsightsBot { position: relative; display: grid; width: 94px; height: 94px; flex: 0 0 94px; place-items: center; border: 1px solid rgba(255, 211, 139, .34); border-radius: 50%; background: radial-gradient(circle at 35% 26%, rgba(255, 193, 92, .3), rgba(226, 93, 54, .2) 42%, rgba(20, 99, 105, .26) 76%); color: #ffe0a3; filter: drop-shadow(0 0 16px rgba(243, 151, 63, .3)); }
+.aiInsightsBot::before { position: absolute; inset: 7px; border: 1px dashed rgba(255, 223, 166, .4); border-radius: 50%; content: ''; }
+.aiInsightsBotGlow { position: absolute; inset: -10px; border: 1px solid rgba(241, 178, 102, .18); border-radius: 50%; animation: aiInsightGlow 3.6s ease-in-out infinite; }
+.aiInsightsComposerWrap { flex: 1; min-width: 0; }
+.aiInsightsLabel { display: block; margin-bottom: 10px; color: #f8d9a8; font: 600 17px/1.2 'Playfair Display', Georgia, serif; }
+.aiInsightsComposer { display: flex; min-height: 49px; align-items: center; gap: 8px; padding: 5px 6px 5px 15px; border: 1px solid rgba(255, 237, 206, .35); border-radius: 14px; background: rgba(255, 248, 237, .96); box-shadow: 0 10px 24px rgba(8, 8, 20, .22); }
+.aiInsightsComposer:focus-within { border-color: #f0bd77; box-shadow: 0 0 0 3px rgba(240, 189, 119, .2), 0 10px 24px rgba(8, 8, 20, .22); }
+.aiInsightsComposer input { width: 100%; min-width: 0; height: 36px; border: 0; outline: 0; background: transparent; color: #342940; font-size: 13px; }
+.aiInsightsComposer input::placeholder { color: #887c85; }
+.aiInsightsComposer button { display: grid; width: 36px; height: 36px; flex: 0 0 36px; place-items: center; border: 0; border-radius: 11px; background: linear-gradient(135deg, #e9b26b, #d7784c); color: #281c31; transition: transform .18s ease, opacity .18s ease; }
+.aiInsightsComposer button:hover:not(:disabled) { transform: translateX(2px); }
+.aiInsightsComposer button:disabled { cursor: not-allowed; opacity: .48; }
+.aiInsightsComposer button:focus-visible,
+.aiInsightsChips button:focus-visible { outline: 3px solid #ffd997; outline-offset: 3px; }
+.aiInsightsComposerWrap > small { display: block; margin: 8px 0 0 2px; color: rgba(255, 239, 214, .57); font-size: 10px; }
+.aiInsightsPopular { min-width: 0; padding-left: clamp(0px, 2vw, 28px); border-left: 1px solid rgba(255, 238, 209, .17); }
+.aiInsightsPopular h3 { margin: 0 0 12px; color: #f3cf9e; font: 600 15px/1.2 'Playfair Display', Georgia, serif; }
+.aiInsightsChips { display: flex; flex-wrap: wrap; gap: 8px; }
+.aiInsightsChips button { max-width: 100%; padding: 8px 11px; border: 1px solid rgba(255, 230, 194, .21); border-radius: 999px; background: rgba(255, 248, 238, .065); color: rgba(255, 247, 236, .9); font-size: 10px; line-height: 1.2; text-align: left; transition: background .18s ease, border-color .18s ease, transform .18s ease; }
+.aiInsightsChips button:hover { transform: translateY(-1px); border-color: rgba(247, 199, 132, .65); background: rgba(255, 248, 238, .13); }
+@keyframes aiInsightGlow { 0%, 100% { transform: scale(.96); opacity: .45; } 50% { transform: scale(1.06); opacity: .9; } }
+@media (max-width: 900px) {
+  .app main > section.aiInsightsSection { grid-template-columns: minmax(150px, .65fr) minmax(0, 1.35fr); gap: 22px; padding: 30px 5vw; }
+  .aiInsightsPopular { grid-column: 1 / -1; padding: 17px 0 0; border-top: 1px solid rgba(255, 238, 209, .17); border-left: 0; }
+  .aiInsightsPopular h3 { margin-bottom: 10px; }
+}
+@media (max-width: 600px) {
+  .app main > section.aiInsightsSection { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 30px 6vw; }
+  .aiInsightsIntro p { max-width: 340px; }
+  .aiInsightsAsk { gap: 14px; }
+  .aiInsightsBot { width: 68px; height: 68px; flex-basis: 68px; }
+  .aiInsightsBot > svg { width: 43px; height: 43px; }
+  .aiInsightsLabel { font-size: 15px; }
+  .aiInsightsPopular { grid-column: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aiInsightsBotGlow { animation: none; }
+  .aiInsightsComposer button, .aiInsightsChips button { transition: none; }
 }

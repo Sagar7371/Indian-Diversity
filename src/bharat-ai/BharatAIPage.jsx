@@ -103,7 +103,7 @@ function googleResultsUrl(query, type) {
   return `https://www.google.com/search?${type === 'image' ? 'tbm=isch&' : ''}q=${encodeURIComponent(query)}`;
 }
 
-export default function BharatAIPage({ embedded = false, initialTool = 'chat', onClose }) {
+export default function BharatAIPage({ embedded = false, initialTool = 'chat', initialPrompt = '', onInitialPromptSent, onClose }) {
   const location = useLocation(); const navigate = useNavigate(); const tool = location.pathname.split('/').filter(Boolean)[1] || 'chat';
   const [embeddedPath, setEmbeddedPath] = useState(`/bharat-ai/${initialTool}`);
   const currentPath = embedded ? embeddedPath : location.pathname;
@@ -120,6 +120,7 @@ export default function BharatAIPage({ embedded = false, initialTool = 'chat', o
   const [quizScore, setQuizScore] = useState(null); const [nextDifficulty, setNextDifficulty] = useState('');
   const [journeySteps, setJourneySteps] = useState([]); const [journeyNext, setJourneyNext] = useState('');
   const bottomRef = useRef(null); const fileRef = useRef(null); const workspaceRef = useRef(null);
+  const initialPromptSentRef = useRef(false);
   useEffect(() => { localStorage.setItem('bharat-ai-guest-chat', JSON.stringify(messages.slice(-30))); const list = bottomRef.current?.parentElement; if (list) list.scrollTo({ top:list.scrollHeight, behavior:'smooth' }); }, [messages]);
   useEffect(() => { setError(''); setResult(null); if (embedded && workspaceRef.current) workspaceRef.current.scrollTop = 0; }, [currentTool, embeddedPath, embedded]);
 
@@ -180,6 +181,13 @@ export default function BharatAIPage({ embedded = false, initialTool = 'chat', o
     if (response) { setFailedChat(''); if (response.conversationId) setConversationId(response.conversationId); setMessages((old) => [...old.map((item)=>item.clientMessageId===clientMessageId?{...item,serverMessageId:response.userMessageId}:item), { role:'assistant', content:response.reply, related:response.related || [], serverMessageId:response.assistantMessageId, time:new Date().toISOString() }]); }
     else setFailedChat(message);
   };
+  useEffect(() => {
+    const prompt = initialPrompt.trim();
+    if (!embedded || !prompt || initialPromptSentRef.current) return;
+    initialPromptSentRef.current = true;
+    sendChat(prompt);
+    onInitialPromptSent?.();
+  }, [embedded, initialPrompt]);
   const retryChat = async () => {
     if (!failedChat || loading) return;
     const greeting = isSimpleChatMessage(failedChat);

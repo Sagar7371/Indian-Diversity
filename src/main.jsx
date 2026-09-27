@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import indiaMap from '@svg-maps/india';
-import { Search, ArrowRight, Menu, PanelRightOpen, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun, Trophy } from 'lucide-react';
+import { Search, ArrowRight, Menu, PanelRightOpen, Languages, Utensils, Crown, Music, Palette, Landmark, BookOpen, CalendarDays, Shuffle, X, ExternalLink, Building2, Users, Shield, Mail, Instagram, Moon, Sun, Trophy, Bot, Send } from 'lucide-react';
 import './styles.css';
 import './bharat-ai/bharatAIPopup.css';
 import { states } from './stateData.js';
@@ -215,12 +215,84 @@ const heritageCards = [
 ];
 
 const knowledgeCards = [
-  { title: 'Yoga', description: 'Yoga brings together movement, breath and concentration. Its many schools connect physical discipline with self-awareness and contemplative practice.', image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=900&q=80' },
-  { title: 'Ayurveda', description: 'Ayurveda views wellbeing through balance, daily routines, food and observation of the body. It remains part of India’s living health and wellness heritage.', image: 'https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=900&q=80' },
-  { title: 'Meditation', description: 'Meditative practices appear across Indian philosophical and spiritual traditions. They encourage attention, reflection and a calmer relationship with everyday experience.', image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=900&q=80' },
-  { title: 'Traditional Education', description: 'Gurukuls, temple learning, manuscripts and oral teaching preserved knowledge across generations. Storytelling and practice often worked alongside formal study.', image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=900&q=80' },
-  { title: 'Indian Philosophy', description: 'Vedanta, Samkhya, Nyaya, Buddhism and many other traditions asked deep questions about knowledge, ethics, reality and the self.', image: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=900&q=80' },
-  { title: 'Agricultural Knowledge', description: 'Farmers have developed local knowledge of seasons, soil, seed diversity and water. This ecological understanding continues to shape sustainable rural life.', image: 'https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=900&q=80' }
+  {
+    title: 'Yoga',
+    description: 'Yoga brings together movement, breath and concentration. Its many schools connect physical discipline with self-awareness and contemplative practice.',
+    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=900&q=80',
+    detailTitle: 'Living practice of body, breath and attention',
+    details: 'Yoga is not only a physical routine. In Indian traditions, it is a disciplined way of aligning breath, posture, attention and ethical living so the mind can settle and become more aware.',
+    focus: 'Wellbeing, concentration and mindful living',
+    keyPoints: [
+      'Links breath, movement and meditation to develop discipline and calm.',
+      'Includes many schools such as Hatha, Vinyasa, Kundalini and contemplative yoga traditions.',
+      'Used widely for physical health, stress reduction and inner awareness in daily life.'
+    ]
+  },
+  {
+    title: 'Ayurveda',
+    description: 'Ayurveda views wellbeing through balance, daily routines, food and observation of the body. It remains part of India’s living health and wellness heritage.',
+    image: 'https://images.unsplash.com/photo-1552693673-1bf958298935?auto=format&fit=crop&w=900&q=80',
+    detailTitle: 'A health system rooted in balance and daily rhythm',
+    details: 'Ayurveda is one of India’s traditional systems of healthcare. It examines balance between body, digestion, environment and habits, with emphasis on prevention, lifestyle and seasonal awareness.',
+    focus: 'Personalized wellness and everyday balance',
+    keyPoints: [
+      'Focuses on digestion, sleep, food, routines and seasonal living.',
+      'Uses herbs, oils, massage and lifestyle adjustments as part of a holistic approach.',
+      'Still influences modern wellness practices and community health traditions across India.'
+    ]
+  },
+  {
+    title: 'Meditation',
+    description: 'Meditative practices appear across Indian philosophical and spiritual traditions. They encourage attention, reflection and a calmer relationship with everyday experience.',
+    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=900&q=80',
+    detailTitle: 'Practices for attention, calm and insight',
+    details: 'Meditation in India is embedded in many traditions, from Buddhist mindfulness to Vedantic reflection and devotional contemplation. It is used to develop awareness, emotional balance and clarity.',
+    focus: 'Reflection, mental calm and inner clarity',
+    keyPoints: [
+      'Encourages concentration through breath, sound, mantra, silence or mindful observation.',
+      'Supported by centuries of practice in monastic, household and yogic settings.',
+      'Often used to reduce stress, improve focus and cultivate compassion.'
+    ]
+  },
+  {
+    title: 'Traditional Education',
+    description: 'Gurukuls, temple learning, manuscripts and oral teaching preserved knowledge across generations. Storytelling and practice often worked alongside formal study.',
+    image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=900&q=80',
+    detailTitle: 'Knowledge preserved through teachers, practice and memory',
+    details: 'Traditional education in India often worked through apprenticeship, memorization, oral recitation and close teacher-student learning. Forms of knowledge were carried through families, temples, monasteries and community spaces.',
+    focus: 'Teacher-led learning and living knowledge',
+    keyPoints: [
+      'Gurukuls and local schools emphasized character, discipline and practical wisdom.',
+      'Manuscripts, poetry and oral traditions carried language, law and cultural memory.',
+      'Learning often linked theory with ritual, craft, ethics and community responsibility.'
+    ]
+  },
+  {
+    title: 'Indian Philosophy',
+    description: 'Vedanta, Samkhya, Nyaya, Buddhism and many other traditions asked deep questions about knowledge, ethics, reality and the self.',
+    image: 'https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=900&q=80',
+    detailTitle: 'Ideas that shaped ethics, inquiry and self-understanding',
+    details: 'Indian philosophy is deeply diverse. It includes debates about reality, perception, duty, consciousness and liberation. These traditions shaped literature, politics, law, ritual and everyday moral thinking.',
+    focus: 'Reason, ethics and experiential wisdom',
+    keyPoints: [
+      'Explores questions of self, reality, action and liberation across many schools.',
+      'Influenced ethics, public life, yoga, literature and spiritual practice.',
+      'Its insights continue to shape debates about knowledge, society and human purpose.'
+    ]
+  },
+  {
+    title: 'Agricultural Knowledge',
+    description: 'Farmers have developed local knowledge of seasons, soil, seed diversity and water. This ecological understanding continues to shape sustainable rural life.',
+    image: 'https://images.unsplash.com/photo-1499529112087-3cb3b73cec95?auto=format&fit=crop&w=900&q=80',
+    detailTitle: 'Ecological wisdom shaped by land, seasons and community practice',
+    details: 'Agricultural knowledge in India is rooted in careful observation of rainfall, soil, crop cycles and ecosystem relationships. Communities have built sophisticated systems for water use, seed selection and crop planning over generations.',
+    focus: 'Sustainability, resilience and local adaptation',
+    keyPoints: [
+      'Includes knowledge of seasonal timing, soil health and crop diversity.',
+      'Often passed through family farming traditions and regional ecological practices.',
+      'Remains crucial for climate adaptation and resilient local food systems.'
+    ]
+  }
 ];
 
 const modernCards = [
@@ -657,6 +729,110 @@ function DiversityMarquee({ placement }) {
   );
 }
 
+const culturalGalleryItems = [
+  { state: 'Rajasthan', alt: 'Hawa Mahal and heritage architecture in Rajasthan' },
+  { state: 'Kerala', alt: 'Kerala landscape and backwater traditions' },
+  { state: 'Punjab', alt: 'Golden Temple in Amritsar, Punjab' },
+  { state: 'West Bengal', alt: 'Culture and landmarks of West Bengal' },
+  { state: 'Tamil Nadu', alt: 'Temple architecture and traditions of Tamil Nadu' },
+  { state: 'Jammu and Kashmir', label: 'Kashmir', alt: 'Mountain landscape of Jammu and Kashmir' },
+  { state: 'Assam', alt: 'Landscape and cultural traditions of Assam' },
+  { state: 'Gujarat', alt: 'Heritage and folk traditions of Gujarat' },
+  { state: 'Maharashtra', alt: 'Cultural landmarks of Maharashtra' },
+  { state: 'Odisha', alt: 'Temple heritage of Odisha' },
+  { state: 'Himachal Pradesh', alt: 'Himalayan landscape in Himachal Pradesh' },
+  { state: 'Goa', alt: 'Coastal landscape and heritage of Goa' }
+];
+
+function CulturalImageGallery() {
+  const renderGalleryGroup = (isDuplicate = false) => (
+    <div className="culturalGalleryGroup" aria-hidden={isDuplicate || undefined}>
+      {culturalGalleryItems.map((item, index) => (
+        <article className="culturalGalleryCard" key={item.state}>
+          <img
+            src={getStateImage(item.state, index)}
+            alt={isDuplicate ? '' : item.alt}
+            loading="lazy"
+            draggable="false"
+          />
+          <span className="culturalGalleryLabel">{item.label || item.state}</span>
+        </article>
+      ))}
+    </div>
+  );
+
+  return (
+    <section className="culturalGallerySection" aria-labelledby="cultural-gallery-title">
+      <div className="culturalGalleryHeading">
+        <span className="culturalGalleryOrnament" aria-hidden="true">✣</span>
+        <h2 id="cultural-gallery-title">Explore India's Diversity</h2>
+        <p>A glimpse into the cultures, traditions and landscapes that make India unique.</p>
+      </div>
+      <div className="culturalGalleryViewport" role="group" aria-label="Cultural images from across India" tabIndex="0">
+        <div className="culturalGalleryTrack">
+          {renderGalleryGroup()}
+          {renderGalleryGroup(true)}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const aiInsightQuestions = [
+  'Famous festivals in Rajasthan',
+  'Traditional food of Kerala',
+  'Languages spoken in India',
+  'Best time to visit Kashmir',
+  'Classical dance forms of India',
+  'UNESCO sites in India'
+];
+
+function AIInsightsSection({ onAsk }) {
+  const [question, setQuestion] = useState('');
+  const submitQuestion = (event) => {
+    event.preventDefault();
+    const prompt = question.trim();
+    if (!prompt) return;
+    onAsk(prompt);
+    setQuestion('');
+  };
+
+  return (
+    <section className="aiInsightsSection" aria-labelledby="ai-insights-title">
+      <div className="aiInsightsIntro">
+        <span className="aiInsightsEyebrow">AI / INSIGHTS</span>
+        <h2 id="ai-insights-title">Ask Bharat AI</h2>
+        <p>Your guide to India's culture, traditions, festivals and history.</p>
+      </div>
+      <div className="aiInsightsAsk">
+        <div className="aiInsightsBot" aria-hidden="true"><span className="aiInsightsBotGlow" /><Bot size={58} strokeWidth={1.35} /></div>
+        <div className="aiInsightsComposerWrap">
+          <span className="aiInsightsLabel">A little more curious?</span>
+          <form className="aiInsightsComposer" onSubmit={submitQuestion}>
+            <input
+              value={question}
+              onChange={(event) => setQuestion(event.target.value)}
+              aria-label="Ask Bharat AI a question"
+              placeholder="Ask anything about India..."
+              maxLength={2000}
+            />
+            <button type="submit" disabled={!question.trim()} aria-label="Send question to Bharat AI"><Send size={17} /></button>
+          </form>
+          <small>Answers from your Bharat AI cultural guide</small>
+        </div>
+      </div>
+      <div className="aiInsightsPopular">
+        <h3>Popular Questions</h3>
+        <div className="aiInsightsChips">
+          {aiInsightQuestions.map((prompt) => (
+            <button key={prompt} type="button" onClick={() => onAsk(prompt)}>{prompt}</button>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function App() {
   const location = useLocation();
   const [navScrolled, setNavScrolled] = useState(() => window.scrollY > 32);
@@ -674,6 +850,8 @@ function App() {
   const [theme, setTheme] = useState('light');
   const [cricketOpen, setCricketOpen] = useState(false);
   const [selectedCricketer, setSelectedCricketer] = useState(null);
+  const [selectedKnowledgeItem, setSelectedKnowledgeItem] = useState(null);
+  const [selectedDetailItem, setSelectedDetailItem] = useState(null);
   const [showAllStates, setShowAllStates] = useState(false);
   const [politicalSearch, setPoliticalSearch] = useState('');
   const [politicalRegion, setPoliticalRegion] = useState('All');
@@ -745,6 +923,81 @@ function App() {
   const visiblePoliticalStates = showAllPoliticalStates || politicalSearch || politicalRegion !== 'All' ? politicalStates : politicalStates.slice(0, 4);
 
   const globalSearchItems = useMemo(() => getGlobalSearchItems(), []);
+
+  const getDetailCardData = (item, kind) => {
+    const title = item.name || item.title || item.location || 'Cultural tradition';
+    const focusMap = {
+      language: `Language heritage • ${item.script || 'regional script'}`,
+      dress: `Regional identity • ${item.state || 'traditional dress'}`,
+      cuisine: `Food culture • ${item.region || 'regional cuisine'}`,
+      festival: `Celebration • ${item.region || 'community festival'}`,
+      music: `Performance tradition • ${item.type || 'music & dance'}`,
+      art: `Craft tradition • ${item.state || 'art form'}`,
+      heritage: `Heritage site • ${item.location || 'historic landmark'}`,
+      modern: `Contemporary life • ${item.title || 'modern culture'}`
+    };
+
+    const detailsMap = {
+      language: item.note || 'This language carries identity, memory and community history through everyday speech, literature and ritual life.',
+      dress: item.summary || 'This form of dress reflects local climate, craft traditions and cultural identity across generations.',
+      cuisine: item.description || item.background || 'This food tradition helps preserve agricultural knowledge, ritual memory and social connection.',
+      festival: item.significance || item.celebration || 'This festival marks a seasonal, devotional or communal rhythm that binds communities together.',
+      music: item.note || 'This performance tradition keeps stories, values and social memory alive through rhythm, movement and collective participation.',
+      art: item.background || item.note || 'This craft tradition links community memory, symbolism and making practices across generations.',
+      heritage: item.significance || 'This heritage site reflects the architecture, faith and historical memory of a region and its people.',
+      modern: item.description || 'This modern cultural practice shows how traditions continue to evolve while staying rooted in identity and community.'
+    };
+
+    const keyPoints = {
+      language: [
+        `Script: ${item.script || 'regional script'}`,
+        `Cultural context: ${item.note || 'Important in everyday life and cultural identity.'}`,
+        'Language preserves memory, stories, social relationships and regional identity.'
+      ],
+      dress: [
+        `Region: ${item.state || 'regional tradition'}`,
+        `Meaning: ${item.summary || 'Clothing reflects heritage and local aesthetics.'}`,
+        'Traditional dress remains a living expression of craft, climate and community memory.'
+      ],
+      cuisine: [
+        `Region: ${item.region || 'regional cuisine'}`,
+        `Flavor profile: ${item.description || 'Distinctive dish with local identity.'}`,
+        `Heritage: ${item.background || 'A food tradition shaped by culture, ingredients and rituals.'}`
+      ],
+      festival: [
+        `Region: ${item.region || 'community celebration'}`,
+        `Season: ${item.season || 'seasonal timing'}`,
+        `Celebration: ${item.celebration || item.significance || 'Shared ritual and community gathering.'}`
+      ],
+      music: [
+        `Form: ${item.type || 'traditional performance'}`,
+        `Identity: ${item.note || 'A musical tradition rooted in culture, movement and memory.'}`,
+        'Music and dance continue to preserve stories, values and social belonging.'
+      ],
+      art: [
+        `Region: ${item.state || 'traditional craft region'}`,
+        `Practice: ${item.background || 'Handmade visual tradition rooted in local culture.'}`,
+        `Legacy: ${item.note || 'Craft continues to shape identity, rituals and everyday life.'}`
+      ],
+      heritage: [
+        `Location: ${item.location || 'historic site'}`,
+        `Style: ${item.style || 'architectural tradition'}`,
+        `Why it matters: ${item.significance || 'A landmark reflecting faith, craft and historical continuity.'}`
+      ],
+      modern: [
+        `Theme: ${item.title || 'modern transformation'}`,
+        `Context: ${item.description || 'Contemporary culture shaped by media, migration and exchange.'}`,
+        'Modern practices show how traditions adapt while retaining their emotional and social meaning.'
+      ]
+    };
+
+    return {
+      title,
+      details: detailsMap[kind] || 'This tradition reflects the wider cultural identity and social memory of the region.',
+      focus: focusMap[kind] || 'Cultural heritage',
+      keyPoints: keyPoints[kind] || ['This practice remains important to community identity and continuity.']
+    };
+  };
 
   const globalResults = useMemo(() => {
     const query = navSearch.trim().toLowerCase();
@@ -917,7 +1170,12 @@ function App() {
       <main>
         {activeView === 'home' && (
           <>
-            <section id="home" className="hero">
+            <section
+              id="home"
+              className="hero"
+              role="img"
+              aria-label="India, in many voices. One country, many cultural worlds, shown through a map, heritage sites, dance, landscapes, and statistics about India's states, languages, and festivals."
+            >
               <div className="heroCtaCluster">
                 <button className="primary heroExploreButton" type="button" onClick={() => navScroll('states')}>
                   Explore States <ArrowRight className="heroExploreArrow" />
@@ -927,16 +1185,49 @@ function App() {
             </section>
             <DiversityMarquee placement="heroBottomMarquee" />
 
-            <section className="intro">
-              <div>
-                <div className="eyebrow dark">INDIA, IN MANY VOICES</div>
-                <h2>One country, many cultural worlds.</h2>
+            <section className="intro voicesHero" aria-labelledby="voices-title">
+              <div className="voicesHeroContent">
+                <div className="eyebrow voicesEyebrow">INDIA, IN MANY VOICES</div>
+                <h2 id="voices-title">One country, many <span>cultural worlds.</span></h2>
+                <p>
+                  India's cultural landscape is shaped by many languages, communities, landscapes, histories and artistic traditions.
+                  Explore the traditions, stories and identities that make India extraordinarily diverse.
+                </p>
+                <div className="voicesHeroActions">
+                  <button className="voicesButton voicesButtonPrimary" type="button" onClick={() => navScroll('states')}>
+                    Explore Cultures <ArrowRight size={17} aria-hidden="true" />
+                  </button>
+                  <button className="voicesButton voicesButtonSecondary" type="button" onClick={() => window.dispatchEvent(new Event('bharat-ai:open'))}>
+                    Ask Bharat AI <span aria-hidden="true">✦</span>
+                  </button>
+                </div>
               </div>
-              <p>
-                India's cultural landscape is shaped by many languages, communities, landscapes, histories and artistic traditions.
-                Explore examples rather than treating any state as culturally uniform.
-              </p>
+
+              <div className="voicesHeroVisual" aria-hidden="true">
+                <div className="voicesVisualHalo" />
+                <div className="voicesVisualMandala" />
+                <svg className="voicesIndiaMap" viewBox={indiaMap.viewBox} focusable="false">
+                  <g className="voicesMapStates">
+                    {indiaMap.locations.map((location, index) => (
+                      <path key={location.id} d={location.path} style={{ '--map-index': index }} />
+                    ))}
+                  </g>
+                </svg>
+                <span className="voicesMotif voicesMotifTemple"><Landmark size={25} /></span>
+                <span className="voicesMotif voicesMotifDance"><Music size={23} /></span>
+                <span className="voicesMotif voicesMotifTextile"><Palette size={22} /></span>
+                <span className="voicesVisualCaption">A living tapestry of traditions</span>
+              </div>
+
+              <div className="voicesStats" aria-label="India at a glance">
+                <div className="voicesStat"><Landmark aria-hidden="true" /><span><strong>28</strong><small>States</small></span></div>
+                <div className="voicesStat"><Building2 aria-hidden="true" /><span><strong>8</strong><small>Union Territories</small></span></div>
+                <div className="voicesStat"><Languages aria-hidden="true" /><span><strong>700+</strong><small>Languages &amp; Dialects</small></span></div>
+                <div className="voicesStat"><CalendarDays aria-hidden="true" /><span><strong>2000+</strong><small>Major Festivals</small></span></div>
+              </div>
             </section>
+
+            <CulturalImageGallery />
 
             <section id="map" className="section mapSection">
               <div className="sectionHead">
@@ -1106,7 +1397,9 @@ function App() {
                   <article key={item.name} className="languageTile">
                     <div className="scriptBadge">{item.script}</div>
                     <div className="languageTileBody"><span>Language {String(languageCards.indexOf(item) + 1).padStart(2, '0')}</span><h3>{item.name}</h3><p>{item.note}</p></div>
-                    <ArrowRight className="languageTileArrow" size={18} />
+                    <button type="button" className="viewMoreDetailsButton languageTileAction" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(item, 'language')); }}>
+                      View more details <ArrowRight size={14} />
+                    </button>
                   </article>
                 ))}
               </div>
@@ -1129,6 +1422,9 @@ function App() {
                       <span>{dress.state}</span>
                       <h3>{dress.name}</h3>
                       <p>{dress.summary}</p>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(dress, 'dress')); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1153,6 +1449,9 @@ function App() {
                       <h3>{food.name}</h3>
                       <p>{food.description}</p>
                       <small>{food.background}</small>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(food, 'cuisine')); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1181,6 +1480,9 @@ function App() {
                       <p><b>Season:</b> {festival.season}</p>
                       <p>{festival.significance}</p>
                       <small>{festival.celebration}</small>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(festival, 'festival')); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1204,6 +1506,9 @@ function App() {
                       <span>{item.type}</span>
                       <h3>{item.name}</h3>
                       <p>{item.note}</p>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(item, 'music')); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1228,6 +1533,9 @@ function App() {
                       <h3>{art.name}</h3>
                       <p>{art.background}</p>
                       <small>{art.note}</small>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(art, 'art')); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1252,6 +1560,9 @@ function App() {
                       <h3>{site.name}</h3>
                       <p><b>{site.style}</b></p>
                       <small>{site.significance}</small>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(site, 'heritage')); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1275,6 +1586,9 @@ function App() {
                       <span>Living knowledge</span>
                       <h3>{item.title}</h3>
                       <p>{item.description}</p>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedKnowledgeItem(item); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1298,6 +1612,9 @@ function App() {
                       <span>Contemporary India</span>
                       <h3>{item.title}</h3>
                       <p>{item.description}</p>
+                      <button type="button" className="viewMoreDetailsButton" onClick={(event) => { event.preventDefault(); setSelectedDetailItem(getDetailCardData(item, 'modern')); }}>
+                        View more details <ArrowRight size={14} />
+                      </button>
                     </div>
                   </article>
                 ))}
@@ -1771,6 +2088,9 @@ function App() {
             </section>
           </>
         )}
+        {activeView === 'home' && (
+          <AIInsightsSection onAsk={(prompt) => window.dispatchEvent(new CustomEvent('bharat-ai:open', { detail: { prompt } }))} />
+        )}
       </main>
 
       <footer>
@@ -1881,6 +2201,62 @@ function App() {
         </div>
       )}
 
+      {selectedKnowledgeItem && (
+        <div className="modal knowledgeModal" onClick={() => setSelectedKnowledgeItem(null)}>
+          <div className="modalCard knowledgeModalCard" onClick={(e) => e.stopPropagation()}>
+            <button className="close" onClick={() => setSelectedKnowledgeItem(null)} aria-label="Close knowledge details">
+              <X />
+            </button>
+            <img src={selectedKnowledgeItem.image} alt={selectedKnowledgeItem.title} />
+            <div className="modalContent">
+              <div className="eyebrow dark">LIVING KNOWLEDGE</div>
+              <h2>{selectedKnowledgeItem.title}</h2>
+              <p className="lead">{selectedKnowledgeItem.details}</p>
+              <div className="knowledgeDetailMeta">
+                <b>Focus</b>
+                <span>{selectedKnowledgeItem.focus}</span>
+              </div>
+              <div className="knowledgeDetailGrid">
+                {selectedKnowledgeItem.keyPoints.map((point) => (
+                  <div key={point}>
+                    <b>Why it matters</b>
+                    <span>{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedDetailItem && (
+        <div className="modal knowledgeModal" onClick={() => setSelectedDetailItem(null)}>
+          <div className="modalCard knowledgeModalCard" onClick={(e) => e.stopPropagation()}>
+            <button className="close" onClick={() => setSelectedDetailItem(null)} aria-label="Close details">
+              <X />
+            </button>
+            {selectedDetailItem.image && <img src={selectedDetailItem.image} alt={selectedDetailItem.title} />}
+            <div className="modalContent">
+              <div className="eyebrow dark">{selectedDetailItem.focus}</div>
+              <h2>{selectedDetailItem.title}</h2>
+              <p className="lead">{selectedDetailItem.details}</p>
+              <div className="knowledgeDetailMeta">
+                <b>Culture focus</b>
+                <span>{selectedDetailItem.focus}</span>
+              </div>
+              <div className="knowledgeDetailGrid">
+                {selectedDetailItem.keyPoints.map((point) => (
+                  <div key={point}>
+                    <b>Detail</b>
+                    <span>{point}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {selectedCricketer && (
         <div className="modal sportsModal" onClick={() => setSelectedCricketer(null)}>
           <div className="modalCard sportsModalCard" onClick={(e) => e.stopPropagation()}>
@@ -1912,10 +2288,22 @@ function BharatAIPopup() {
   const location = useLocation();
   const [expanded, setExpanded] = useState(() => location.pathname.startsWith('/bharat-ai'));
   const [modalInitialTool, setModalInitialTool] = useState(() => location.pathname.startsWith('/bharat-ai/') ? (location.pathname.split('/').filter(Boolean)[1] || 'chat') : 'home');
+  const [assistantPrompt, setAssistantPrompt] = useState('');
   const [orbPosition, setOrbPosition] = useState(null);
   const dragRef = useRef(null);
   const orbElementRef = useRef(null);
   const suppressClickRef = useRef(false);
+
+  useEffect(() => {
+    const openAssistant = (event) => {
+      const prompt = event.detail?.prompt?.trim() || '';
+      setAssistantPrompt(prompt);
+      setModalInitialTool(prompt ? 'chat' : 'home');
+      setExpanded(true);
+    };
+    window.addEventListener('bharat-ai:open', openAssistant);
+    return () => window.removeEventListener('bharat-ai:open', openAssistant);
+  }, []);
 
   useEffect(() => {
     try {
@@ -2019,7 +2407,7 @@ function BharatAIPopup() {
   return <div className="bharatAIModalOverlay" onMouseDown={(event) => { if (event.target === event.currentTarget) setExpanded(false); }}>
     <section className="bharatAIModal" role="dialog" aria-modal="true" aria-label="Bharat AI assistant">
       <header className="bharatAIModalHead"><span className="bharatAIModalMark" aria-hidden="true">🤖</span><span><strong>Bharat AI</strong><small>Your Cultural Guide to India</small></span><button type="button" onClick={() => setExpanded(false)} aria-label="Close Bharat AI"><X size={21} /></button></header>
-      <div className="bharatAIModalContent"><React.Suspense fallback={<div className="bharatModalLoading">Opening Bharat AI…</div>}><BharatAIPage embedded initialTool={modalInitialTool} onClose={() => { setExpanded(false); navigate('/'); }} /></React.Suspense></div>
+      <div className="bharatAIModalContent"><React.Suspense fallback={<div className="bharatModalLoading">Opening Bharat AI…</div>}><BharatAIPage embedded initialTool={modalInitialTool} initialPrompt={assistantPrompt} onInitialPromptSent={() => setAssistantPrompt('')} onClose={() => { setExpanded(false); navigate('/'); }} /></React.Suspense></div>
     </section>
   </div>;
 }
