@@ -659,6 +659,7 @@ function DiversityMarquee({ placement }) {
 
 function App() {
   const location = useLocation();
+  const [navScrolled, setNavScrolled] = useState(() => window.scrollY > 32);
   const [navSearch, setNavSearch] = useState('');
   const [stateSearch, setStateSearch] = useState('');
   const [region, setRegion] = useState('All');
@@ -686,6 +687,13 @@ function App() {
   const sectionHistoryRef = useRef([]);
   const activeSectionRef = useRef(location.state?.target || 'home');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const updateNavbar = () => setNavScrolled(window.scrollY > 32);
+    window.addEventListener('scroll', updateNavbar, { passive: true });
+    updateNavbar();
+    return () => window.removeEventListener('scroll', updateNavbar);
+  }, []);
 
   useEffect(() => {
     const view = location.state?.activeView;
@@ -826,7 +834,7 @@ function App() {
 
   return (
     <div className={`${theme === 'dark' ? 'app theme-dark' : 'app theme-light'} ${activeView !== 'home' ? 'hasBackButton' : ''}`}>
-      <header className="nav">
+      <header className={`nav${navScrolled ? ' isScrolled' : ''}`}>
         <div className="brand" onClick={() => navScroll('home')}>
           <span className="brandMark">✦</span>
           Indian Culture
@@ -909,7 +917,6 @@ function App() {
       <main>
         {activeView === 'home' && (
           <>
-            <DiversityMarquee placement="heroTopMarquee" />
             <section id="home" className="hero">
               <div className="heroCtaCluster">
                 <button className="primary heroExploreButton" type="button" onClick={() => navScroll('states')}>

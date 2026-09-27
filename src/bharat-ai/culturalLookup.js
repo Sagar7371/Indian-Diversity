@@ -39,7 +39,7 @@ export function findDirectCultureTarget(message, festivals) {
   const query = normalizeCultureName(message);
   if (!query || /\b(compare|difference|versus|vs)\b/.test(query)) return null;
 
-  const state = indianStateNames.find((name) => query === normalizeCultureName(name) || new RegExp(`(^| )${normalizeCultureName(name).replace(/\s+/g, '\\s+')}($| )`).test(query));
+  const state = indianStateNames.find((name) => query === normalizeCultureName(name));
   if (state) return { type:'state', name:state };
 
   const intent = /\b(show|open|detail|details|tell me about|what is|explain|information|info|explore|image|photo|picture|pic|visual)\b/.test(query);

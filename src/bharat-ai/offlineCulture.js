@@ -100,7 +100,7 @@ export function answerOfflineQuestion(message) {
   if (/how many states/.test(text)) return 'India has 28 states and 8 Union Territories.';
   if (text.includes('bhojpuri')) return 'Bhojpuri is an Indo-Aryan language spoken mainly in western Bihar and eastern Uttar Pradesh, and by diaspora communities. It has rich folk-song, theatre and film traditions. Language use and identity vary across communities.';
   if (text.includes('union territor')) return 'India has 8 Union Territories. India also has 28 states.';
-  const culture = states.find((item) => text.includes(normalizeCultureName(item.name)));
+  const culture = states.find((item) => text === normalizeCultureName(item.name));
   if (culture && /(food|festival|dance|language|art|heritage|culture|tradition|tell|about)/.test(text)) {
     return `${culture.name} · ${culture.region}\n\nLanguages: ${culture.languages}\nFood: ${culture.food}\nFestivals: ${culture.festival}\nDance: ${culture.dance}\nArt: ${culture.art}\nHeritage: ${culture.heritage}\n\n${culture.tradition}.`;
   }

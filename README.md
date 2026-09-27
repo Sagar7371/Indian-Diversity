@@ -20,9 +20,9 @@ Images are loaded from public image URLs so the project stays lightweight. An in
 
 ## Bharat AI (optional backend)
 
-The Bharat AI workspace is available from the main navigation or at `/bharat-ai`. It includes cultural chat, recommendations, image identification, AI quizzes, multilingual explanations, a cultural journey planner, comparisons, and story generation. The API key is used only by the backend. If it is not configured, AI actions show a setup message instead of returning a mock answer.
+The Bharat AI workspace is available from the main navigation or at `/bharat-ai`. Its existing chat supports India-focused cultural questions as well as general knowledge, coding, writing, study help, translation and follow-up questions. Guest chat history stays in the browser and is sent with each chat request; signed-in conversation history is also stored on the server. The API key is used only by the backend. If it is not configured, the chat shows a setup message instead of returning a mock answer.
 
-1. Copy `.env.example` to `.env` and set `AI_API_KEY`, `AI_MODEL`, `JWT_SECRET` (at least 32 random characters), and `MONGO_URI` if you want account and activity persistence. `AI_BASE_URL` supports OpenAI-compatible chat-completions providers. Do not use a `VITE_` prefix for secrets.
+1. Copy `.env.example` to `.env` and set `AI_API_KEY` to a key for an OpenAI-compatible chat-completions provider. The default is OpenAI's `gpt-4o-mini` at `https://api.openai.com/v1`; set `AI_BASE_URL` and `AI_MODEL` to use another compatible provider/model. Keep the key in the backend `.env` only—never use a `VITE_` prefix for secrets. Add `JWT_SECRET` (at least 32 random characters) and `MONGO_URI` if you want account and activity persistence.
 2. For inline Google web/image result cards, also set `GOOGLE_SEARCH_API_KEY` and `GOOGLE_SEARCH_ENGINE_ID`. Without these, search prompts still get a direct Google results link in the chat. Google currently limits Custom Search JSON API access to existing customers; see [Google's API availability and migration notice](https://developers.google.com/custom-search/v1/overview).
 3. Install packages with `npm install`.
 4. Start the API with `npm run server` in one terminal, and the frontend with `npm run dev` in a second terminal.

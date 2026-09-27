@@ -27,3 +27,4 @@ function renderQuiz(){
 }
 function checkAnswer(){const q=questions[quizIndex%questions.length], v=document.querySelector('input[name=q]:checked'), a=document.getElementById('answer');if(!v){a.innerHTML='<p>Please select an option.</p>';return}if(+v.value===q[2]){score++;a.innerHTML='<p style="color:#28733a;font-weight:700">✓ Correct!</p>'}else a.innerHTML=`<p style="color:#9b2f2f;font-weight:700">Not quite. Correct answer: ${q[1][q[2]]}</p>`;a.innerHTML+=`<p>${q[3]}</p><button class="quiz-btn" onclick="quizIndex++;renderQuiz()">Next Question →</button>`}
 renderStates();renderQuiz();
+

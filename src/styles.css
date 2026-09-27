@@ -100,17 +100,17 @@ main > * { order: 50; }
 
 .nav {
   height: 76px;
+  width: 100%;
+  flex-shrink: 0;
   background: linear-gradient(100deg, rgba(220, 238, 255, 0.94), rgba(235, 243, 255, 0.96) 52%, rgba(245, 225, 255, 0.92));
   border-bottom: 1px solid rgba(91, 132, 204, 0.22);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 7vw;
-  position: absolute;
-  left: 0;
-  right: 0;
+  position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 1000;
   backdrop-filter: blur(8px);
   box-shadow: 0 8px 24px rgba(55, 103, 170, 0.04);
 }
@@ -455,7 +455,6 @@ main > * { order: 50; }
   box-shadow: 0 8px 22px rgba(107,22,43,.22);
 }
 
-.heroTopMarquee { order: 0; margin-top: 76px; margin-bottom: 32px; }
 .heroBottomMarquee { order: 2; }
 .heroMarqueeTrack,
 .heroMarqueeGroup { display: flex; width: max-content; flex: 0 0 auto; align-items: center; }
@@ -482,9 +481,10 @@ main > * { order: 50; }
 .hero h1 {
   font-family: 'Playfair Display', serif;
   font-size: clamp(52px, 6vw, 100px);
-  line-height: 0.9;
+  line-height: 1.05;
   letter-spacing: -0.05em;
-  margin: 0 0 18px;
+  margin: 0 0 20px;
+  padding-block: 0.04em;
   color: #0b1d2e;
   text-shadow: 0 2px 18px rgba(255,255,255,0.18);
 }
@@ -2759,7 +2759,7 @@ footer button {
 
   .hero h1 {
     font-size: clamp(46px, 17vw, 84px);
-    line-height: 0.9;
+    line-height: 1.05;
     letter-spacing: -0.06em;
   }
 
@@ -2941,7 +2941,6 @@ footer button {
   .searchPageForm button { width: 100%; justify-content: center; }
   .searchResultGrid { grid-template-columns: 1fr; }
   .heroMarquee { min-height: 54px; }
-  .heroTopMarquee { margin-top: 68px; margin-bottom: 24px; }
   .heroMarqueeItem { gap: 24px; padding: 0 18px; font-size: 13px; letter-spacing: .1em; }
   .homeIntroGrid { grid-template-columns: 1fr; }
   .homeIntroCard { min-height: 220px; }
@@ -2959,9 +2958,55 @@ body {
 }
 
 .app .nav {
-  background: linear-gradient(105deg, rgba(190, 91, 120, .96), rgba(88, 79, 101, .96) 58%, rgba(57, 69, 89, .97));
-  border-bottom-color: rgba(255, 255, 255, .2);
+  background: rgba(255, 255, 255, .08);
+  border-bottom-color: rgba(255, 255, 255, .18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: background .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
+
+.app.theme-dark .nav {
+  background: rgba(255, 255, 255, .08);
+}
+
+.app .nav.isScrolled {
+  background: rgba(14, 25, 39, .92);
+  border-bottom-color: rgba(255, 255, 255, .2);
+  box-shadow: 0 8px 24px rgba(38, 29, 24, .08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.app.theme-dark .nav.isScrolled {
+  background: rgba(14, 25, 39, .92);
+}
+
+.app .nav .brand,
+.app .nav nav > button:not(.themeToggle):not(.cultureMenuToggle),
+.app .nav .search,
+.app .nav .search svg,
+.app .nav .hamb,
+.app .nav .hamb svg,
+.app .nav .themeToggle,
+.app .nav .cultureMenuToggle { color: #111 !important; }
+.app .nav .brandMark { color: #fff !important; }
+.app .nav nav > button:not(.themeToggle):not(.cultureMenuToggle):hover,
+.app .nav nav > button:not(.themeToggle):not(.cultureMenuToggle):focus-visible { color: #111 !important; }
+.app .nav.isScrolled .brand,
+.app .nav.isScrolled nav > button:not(.themeToggle):not(.cultureMenuToggle),
+.app .nav.isScrolled .search,
+.app .nav.isScrolled .search svg,
+.app .nav.isScrolled .hamb,
+.app .nav.isScrolled .hamb svg,
+.app .nav.isScrolled .themeToggle,
+.app .nav.isScrolled .cultureMenuToggle { color: #fff !important; }
+.app .nav.isScrolled nav > button:not(.themeToggle):not(.cultureMenuToggle):hover,
+.app .nav.isScrolled nav > button:not(.themeToggle):not(.cultureMenuToggle):focus-visible { color: #fff !important; }
+.app .nav .search input {
+  color: #111 !important;
+  background: rgba(255, 255, 255, .92);
+}
+.app .nav .search input::placeholder { color: #555; }
 
 .app .searchPageNav {
   background: linear-gradient(105deg, rgba(190, 91, 120, .96), rgba(88, 79, 101, .96) 58%, rgba(57, 69, 89, .97));

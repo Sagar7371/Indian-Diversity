@@ -58,3 +58,190 @@
 .festivalCalendarPage:not(.theme-dark) .festivalUpcomingDate { color:#cf6341; }
 .festivalCalendarPage button:focus-visible,.festivalCalendarPage select:focus-visible,.festivalCalendarPage input:focus-visible { outline:3px solid #e9a84d; outline-offset:2px; }
 @media(prefers-reduced-motion:reduce) { .festivalCalendarPage *, .festivalCalendarPage *::before, .festivalCalendarPage *::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; } }
+
+/* Festival calendar dashboard inspired by the supplied reference. */
+.festivalCalendarPage:not(.theme-dark) { --fc-bg:#fff9f0; --fc-surface:#fff; --fc-ink:#192d4d; --fc-muted:#75839b; --fc-line:#f1e3d5; --fc-accent:#f05b2b; --fc-soft:#fff0dd; background:#fff9f0; }
+.festivalCalendarMain { width:100%; max-width:none; padding:0 7.1vw 44px; }
+.festivalPageHeading { position:relative; display:grid; align-content:center; justify-items:center; min-height:118px; margin:0 calc(50% - 50vw) 0; padding:12px 24px 14px; overflow:hidden; text-align:center; background:linear-gradient(90deg,#fff0dc 0%,#fffaf2 23%,#fffaf2 76%,#ffedd8 100%); border-bottom:1px solid #f2d9bd; }
+.festivalPageHeading::before,.festivalPageHeading::after { position:absolute; content:""; bottom:-30px; width:34%; height:130px; opacity:.72; background:linear-gradient(0deg,#f0b16f66,transparent 72%); clip-path:polygon(0 100%,0 60%,8% 60%,8% 48%,15% 48%,15% 35%,23% 35%,23% 55%,30% 55%,30% 23%,38% 23%,38% 10%,43% 10%,43% 23%,51% 23%,51% 59%,60% 59%,60% 40%,67% 40%,67% 58%,76% 58%,76% 31%,83% 31%,83% 46%,92% 46%,92% 63%,100% 63%,100% 100%); }
+.festivalPageHeading::before { left:0; }
+.festivalPageHeading::after { right:0; transform:scaleX(-1); }
+.festivalPageHeading .festivalEyebrow { z-index:1; gap:7px; margin-bottom:0; color:#e7492c; font-size:10px; text-transform:uppercase; letter-spacing:.15em; }
+.festivalPageHeading h1 { z-index:1; margin:0; color:#142747; font:700 clamp(27px,3vw,39px)/1.15 'Playfair Display',serif; letter-spacing:-.035em; }
+.festivalPageHeading h1 em { color:#e84e32; font-style:normal; }
+.festivalPageHeading p { z-index:1; margin:2px 0 0; color:#7787a0; font-size:12px; }
+.festivalHeroLandmarks { position:absolute; inset:0; display:flex; align-items:center; justify-content:space-between; padding:0 2.5vw; pointer-events:none; }
+.festivalHeroLandmarks span { font-size:40px; filter:drop-shadow(0 4px 6px #7d543333); opacity:.82; }
+.festivalHeroLandmarks span:nth-child(2),.festivalHeroLandmarks span:nth-child(3) { font-size:32px; }
+.festivalToday,.festivalFilters,.festivalTagFilters,.festivalCalendarLayout,.festivalStatsSection,.festivalUpcomingSection,.festivalMonthFestivals { width:min(100%,1104px); margin-left:auto; margin-right:auto; }
+.festivalToday { min-height:58px; margin-top:0; margin-bottom:13px; padding:8px 17px; border:1px solid #ffc66f; border-radius:14px; box-shadow:0 6px 18px #b7653210; }
+.festivalTodayIcon { width:38px; height:38px; flex:0 0 38px; border-radius:50%; }
+.festivalTodayCopy>span { font-size:13px; }
+.festivalTodayCopy p { margin:0; font-size:11px; }
+.festivalFilters { grid-template-columns:minmax(200px,1.7fr) repeat(4,minmax(110px,.8fr)) auto; gap:8px; margin-top:0; padding:0; border:0; background:transparent; }
+.festivalFilters label:not(.festivalSearch) { min-width:0; position:relative; padding:4px 9px 2px 30px; border:1px solid var(--fc-line); border-radius:9px; background:#fff; }
+.festivalFilters label:not(.festivalSearch)::before { position:absolute; left:10px; top:11px; color:#f26937; font-size:13px; content:'▦'; }
+.festivalFilters label:nth-of-type(3)::before { content:'▧'; }
+.festivalFilters label:nth-of-type(4)::before { content:'♜'; }
+.festivalFilters label:nth-of-type(5)::before { content:'♟'; }
+.festivalFilters label:not(.festivalSearch)>span { font-size:9px; line-height:1.2; text-transform:capitalize; }
+.festivalFilters select { height:23px; padding:0; border:0; font-size:11px; font-weight:700; }
+.festivalSearch { height:42px; border:1px solid var(--fc-line); border-radius:9px; background:white; }
+.festivalFavoritesFilter { height:42px; font-size:11px; }
+.festivalTagFilters { gap:7px; padding:12px 4px 15px; font-size:11px; }
+.festivalTagFilters button { padding:6px 11px; font-size:10px; }
+.festivalCalendarLayout { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(260px,.78fr) minmax(275px,.87fr); gap:12px; margin-top:0; align-items:stretch; }
+.festivalCalendarPanel,.festivalDatePanel,.festivalQuickUpcoming { min-width:0; overflow:hidden; border:1px solid #f1e3d5; border-radius:13px; background:white; box-shadow:0 5px 18px #a75a1710; }
+.festivalCalendarPanel { padding:12px; }
+.festivalCalendarToolbar { align-items:center; margin-bottom:5px; }
+.festivalMonthLabel h2 { margin:0; font:700 23px/1.2 'Playfair Display',serif; }
+.festivalMonthControls { gap:5px; }
+.festivalTodayButton,.festivalArrowButton { height:32px; }
+.festivalArrowButton { width:32px; }
+.festivalCalendarGrid { gap:2px; }
+.festivalCalendarDay,.festivalCalendarBlank { min-height:43px; }
+.festivalCalendarDay { padding:5px; font-size:11px; }
+.festivalCalendarLegend { margin-top:8px; gap:10px; font-size:9px; }
+.festivalQuickUpcoming { padding:12px 10px; }
+.festivalQuickHeading { display:flex; align-items:center; justify-content:space-between; gap:6px; margin:0 0 8px; }
+.festivalQuickHeading h2 { margin:0; color:#1b2b48; font:700 14px 'Playfair Display',serif; }
+.festivalQuickHeading button { display:flex; align-items:center; gap:4px; flex:0 0 auto; border:0; background:none; color:#e94d2e; font-size:10px; }
+.festivalQuickList { display:grid; gap:6px; }
+.festivalQuickCard { min-width:0; display:flex; align-items:center; gap:8px; padding:5px; border:1px solid #f3e7dc; border-radius:10px; background:#fff; text-align:left; transition:transform .16s ease,border-color .16s ease; }
+.festivalQuickCard:hover { transform:translateY(-1px); border-color:#f2b77b; }
+.festivalQuickCard>img { width:60px; height:49px; flex:0 0 60px; border-radius:7px; object-fit:cover; }
+.festivalQuickInfo { min-width:0; flex:1; display:grid; gap:2px; }
+.festivalQuickInfo strong { overflow:hidden; color:#20334f; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }
+.festivalQuickInfo small { display:flex; align-items:center; gap:4px; overflow:hidden; color:#78859b; font-size:9px; text-overflow:ellipsis; white-space:nowrap; }
+.festivalQuickInfo small svg { flex:0 0 auto; }
+.festivalQuickCard>svg { flex:0 0 auto; color:#687b9b; }
+.festivalDatePanel { position:relative; min-height:300px; padding:13px; }
+.festivalDatePanel::before { position:absolute; z-index:0; top:80px; right:0; left:0; height:115px; content:""; background:linear-gradient(180deg,#fff0d2aa,#ffffff00),url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=75') center 46%/cover; opacity:.72; clip-path:polygon(0 45%,8% 43%,13% 30%,20% 38%,29% 34%,37% 48%,47% 25%,58% 38%,64% 31%,72% 48%,81% 35%,88% 44%,100% 31%,100% 100%,0 100%); }
+.festivalDatePanelHeading,.festivalDatePanel>.festivalResultList,.festivalDatePanel>.festivalEmpty,.festivalDatePanel>.festivalLoading,.festivalDatePanel>.festivalError { position:relative; z-index:1; }
+.festivalDatePanelHeading { padding:0 0 8px; border:0; }
+.festivalDatePanelHeading h2 { color:#203452; font:700 18px 'Playfair Display',serif; }
+.festivalDatePanelHeading .festivalEyebrow { color:#ef5933; font-size:10px; }
+.festivalDatePanel .festivalResultList { max-height:150px; margin-top:100px; padding:0; overflow:auto; }
+.festivalDatePanel .festivalEmpty { min-height:160px; align-content:end; padding:100px 8px 12px; color:#687b9b; }
+.festivalDatePanel .festivalEmpty strong { font-size:11px; }
+.festivalDatePanel .festivalEmpty span { font-size:10px; }
+.festivalMonthFestivals,.festivalStatsSection,.festivalUpcomingSection { margin-top:25px; }
+.festivalMonthFestivals { display:none; }
+.festivalStatsSection { display:none; }
+.festivalUpcomingSection { display:none; }
+.festivalTodayList button { font-size:11px; }
+@media(max-width:1000px) { .festivalCalendarMain { padding-right:4vw; padding-left:4vw; }.festivalCalendarLayout { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }.festivalDatePanel { grid-column:1/-1; min-height:210px; }.festivalDatePanel::before { top:65px; }.festivalDatePanel .festivalResultList { margin-top:95px; }.festivalFilters { grid-template-columns:repeat(3,minmax(0,1fr)); }.festivalSearch { grid-column:span 2; } }
+@media(max-width:650px) { .festivalCalendarMain { padding:0 12px 32px; }.festivalPageHeading { min-height:130px; padding:12px 14px; }.festivalPageHeading h1 { font-size:27px; }.festivalPageHeading p { max-width:300px; line-height:1.35; }.festivalHeroLandmarks { padding:0 10px; opacity:.38; }.festivalHeroLandmarks span { font-size:27px; }.festivalHeroLandmarks span:nth-child(2),.festivalHeroLandmarks span:nth-child(3) { font-size:24px; }.festivalToday { align-items:flex-start; margin-bottom:10px; padding:8px 10px; }.festivalTodayCopy>span { font-size:11px; }.festivalTodayCopy p { font-size:10px; }.festivalFilters { grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; }.festivalSearch { grid-column:1/-1; }.festivalFilters label:not(.festivalSearch) { min-height:43px; }.festivalFavoritesFilter { grid-column:1/-1; justify-content:center; }.festivalTagFilters { gap:6px; padding:10px 0 12px; }.festivalTagFilters>span { flex-basis:100%; }.festivalTagFilters button { padding:5px 8px; font-size:9px; }.festivalTagFilters .festivalClearFilters { margin-left:0; }.festivalCalendarLayout { grid-template-columns:1fr; gap:9px; }.festivalCalendarPanel { padding:10px; }.festivalCalendarToolbar { align-items:center; }.festivalMonthLabel h2 { font-size:21px; }.festivalMonthControls { width:auto; }.festivalMonthControls .festivalTodayButton { margin:0; padding:0 8px; font-size:11px; }.festivalCalendarDay,.festivalCalendarBlank { min-height:43px; }.festivalQuickUpcoming { padding:11px; }.festivalQuickCard>img { width:58px; flex-basis:58px; }.festivalDatePanel { grid-column:auto; min-height:230px; }.festivalDatePanel .festivalResultList { grid-template-columns:1fr; margin-top:96px; }.festivalDatePanel .festivalEmpty { min-height:165px; }.festivalCalendarLegend { font-size:8px; } }
+.festivalCultureFooter { width:100vw; min-height:60px; display:flex; align-items:center; justify-content:space-between; gap:20px; margin:10px 0 0 calc(50% - 50vw); padding:6px max(7.1vw,20px); border-top:1px solid #f5d5ae; background:linear-gradient(100deg,#fff1dc,#ffe4cf 53%,#fff6e9); }
+.festivalCultureFact { display:flex; align-items:center; gap:10px; min-width:0; }
+.festivalCultureFact>span { font-size:23px; }
+.festivalCultureFact strong { color:#743d27; font-family:'Playfair Display',serif; font-size:13px; }
+.festivalCultureFact p { margin:0; color:#7b6f69; font-size:10px; }
+.festivalFooterPhotos { display:flex; gap:7px; }
+.festivalFooterPhotos button { width:82px; height:46px; overflow:hidden; padding:0; border:0; border-radius:7px; background:#f4dfce; }
+.festivalFooterPhotos img { width:100%; height:100%; object-fit:cover; transition:transform .2s ease; }
+.festivalFooterPhotos button:hover img { transform:scale(1.06); }
+@media(max-width:650px) { .festivalCultureFooter { align-items:flex-start; flex-direction:column; gap:8px; padding:9px 14px; }.festivalCultureFact p { max-width:300px; }.festivalFooterPhotos { width:100%; }.festivalFooterPhotos button { flex:1; height:52px; } }
+/* Use the available viewport, then flow into a readable month-by-month catalogue. */
+.festivalCalendarMain { padding-right:clamp(18px,4vw,68px); padding-left:clamp(18px,4vw,68px); }
+.festivalToday,.festivalFilters,.festivalTagFilters,.festivalCalendarLayout,.festivalStatsSection,.festivalUpcomingSection,.festivalMonthFestivals,.festivalYearOverview { width:min(100%,1660px); }
+.festivalCalendarLayout { grid-template-columns:minmax(0,1.08fr) minmax(300px,.82fr) minmax(300px,.88fr); gap:14px; }
+.festivalYearOverview { margin:30px auto 0; }
+.festivalYearHeading { display:flex; align-items:flex-end; justify-content:space-between; gap:18px; margin-bottom:17px; padding-bottom:13px; border-bottom:1px solid var(--fc-line); }
+.festivalYearHeading h2 { margin:3px 0 4px; color:#1c3152; font:700 clamp(23px,2vw,31px)/1.2 'Playfair Display',serif; }
+.festivalYearHeading p { max-width:720px; margin:0; color:var(--fc-muted); font-size:13px; }
+.festivalYearCount { flex:0 0 auto; padding:6px 11px; border:1px solid #f3d7bd; border-radius:99px; background:#fff; color:#b64a32; font-size:12px; font-weight:700; }
+.festivalYearMonths { display:grid; gap:20px; }
+.festivalYearMonth { min-width:0; }
+.festivalYearMonth>h3 { display:flex; align-items:center; gap:8px; margin:0 0 10px; color:#243956; font:700 19px 'Playfair Display',serif; }
+.festivalYearMonth>h3 span { display:grid; place-items:center; min-width:22px; height:22px; padding:0 5px; border-radius:50px; background:#fff0dc; color:#bb5639; font:700 11px 'DM Sans',sans-serif; }
+.festivalYearCards { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+.festivalYearCard { min-width:0; overflow:hidden; border:1px solid var(--fc-line); border-radius:12px; background:var(--fc-surface); box-shadow:0 5px 16px #51321b0b; transition:transform .18s ease,box-shadow .18s ease; }
+.festivalYearCard:hover { transform:translateY(-3px); box-shadow:0 10px 22px #51321b18; }
+.festivalYearImageButton { display:block; width:100%; height:clamp(120px,13vw,190px); overflow:hidden; padding:0; border:0; background:var(--fc-soft); }
+.festivalYearImageButton img { width:100%; height:100%; object-fit:cover; transition:transform .3s ease; }
+.festivalYearCard:hover .festivalYearImageButton img { transform:scale(1.045); }
+.festivalYearCardBody { padding:12px 13px 13px; }
+.festivalYearDate { color:#c55b3c; font-size:10px; font-weight:700; }
+.festivalYearCardBody h4 { margin:4px 0 2px; color:var(--fc-ink); font:700 16px/1.3 'Playfair Display',serif; }
+.festivalYearCardBody p { overflow:hidden; margin:0 0 10px; color:var(--fc-muted); font-size:11px; text-overflow:ellipsis; white-space:nowrap; }
+.festivalKnowMore { display:flex; align-items:center; justify-content:space-between; width:100%; padding:8px 0 0; border:0; border-top:1px solid var(--fc-line); background:transparent; color:#d44f30; font-size:12px; font-weight:700; }
+.festivalKnowMore svg { transition:transform .16s ease; }
+.festivalKnowMore:hover svg { transform:translateX(4px); }
+.theme-dark .festivalYearHeading h2,.theme-dark .festivalYearMonth>h3 { color:var(--fc-ink); }
+.theme-dark .festivalYearCount { border-color:var(--fc-line); background:var(--fc-surface); color:var(--fc-accent); }
+@media(max-width:1100px) { .festivalCalendarLayout { grid-template-columns:minmax(0,1fr) minmax(0,1fr); }.festivalDatePanel { grid-column:1/-1; }.festivalYearCards { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:700px) { .festivalCalendarMain { padding-right:12px; padding-left:12px; }.festivalCalendarLayout { grid-template-columns:1fr; }.festivalDatePanel { grid-column:auto; }.festivalYearOverview { margin-top:22px; }.festivalYearHeading { align-items:flex-start; flex-direction:column; gap:8px; }.festivalYearHeading p { font-size:12px; }.festivalYearMonths { gap:16px; }.festivalYearMonth>h3 { font-size:17px; }.festivalYearCards { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }.festivalYearImageButton { height:clamp(105px,36vw,170px); }.festivalYearCardBody { padding:9px; }.festivalYearCardBody h4 { font-size:14px; }.festivalYearCardBody p { font-size:10px; }.festivalKnowMore { font-size:11px; } }
+@media(max-width:390px) { .festivalYearCards { grid-template-columns:1fr; }.festivalYearImageButton { height:190px; } }
+/* Animated festival tiles with a soft box shadow. */
+.festivalYearCard { position:relative; animation:festivalCardEnter .48s cubic-bezier(.2,.75,.25,1) both; box-shadow:0 5px 16px rgba(53,40,26,.10); transition:transform .24s ease,box-shadow .24s ease,border-color .24s ease; }
+.festivalYearCard:nth-child(4n + 2) { animation-delay:55ms; }
+.festivalYearCard:nth-child(4n + 3) { animation-delay:110ms; }
+.festivalYearCard:nth-child(4n + 4) { animation-delay:165ms; }
+.festivalYearCard:hover,.festivalYearCard:focus-within { z-index:1; transform:translateY(-5px) scale(1.012); border-color:#efb27c; box-shadow:0 15px 30px rgba(105,60,30,.20); }
+.festivalYearCard:active { transform:translateY(-1px) scale(.99); }
+@keyframes festivalCardEnter { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+@media(prefers-reduced-motion:reduce) { .festivalYearCard { animation:none; transition:none; } .festivalYearCard:hover,.festivalYearCard:focus-within,.festivalYearCard:active { transform:none; } }
+/* Keep the festival-card shadow alive even when the pointer is elsewhere. */
+.festivalYearCard { animation:festivalCardEnter .48s ease both,festivalCardShadow 3.2s ease-in-out .5s infinite; box-shadow:0 6px 18px rgba(53,40,26,.13); }
+@keyframes festivalCardEnter { from { opacity:0; } to { opacity:1; } }
+@keyframes festivalCardShadow { 0%,100% { box-shadow:0 6px 18px rgba(53,40,26,.12); } 50% { box-shadow:0 9px 23px rgba(105,60,30,.2); } }
+@media(prefers-reduced-motion:reduce) { .festivalYearCard { animation:none; box-shadow:0 6px 18px rgba(53,40,26,.15); } }
+/* Stronger always-visible card edge and shadow. */
+.festivalYearCard { border:2px solid #e7c4a0; box-shadow:0 8px 22px rgba(81,48,24,.2); }
+@keyframes festivalCardShadow { 0%,100% { box-shadow:0 8px 22px rgba(81,48,24,.18); } 50% { box-shadow:0 12px 30px rgba(105,60,30,.28); } }
+.festivalYearCard:hover,.festivalYearCard:focus-within { border-color:#e68c54; box-shadow:0 16px 34px rgba(105,60,30,.3); }
+.theme-dark .festivalYearCard { border-color:#69513f; box-shadow:0 8px 22px rgba(0,0,0,.34); }
+/* Editorial month rows and image-led festival cards. */
+.festivalYearMonths { gap:23px; }
+.festivalYearMonth { position:relative; padding:15px 16px 17px; border:1px solid #f3dfc7; border-radius:16px; background:linear-gradient(180deg,#fffaf1,#fff7e9); box-shadow:0 8px 24px rgba(123,76,32,.09); }
+.festivalYearMonthHeading { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:0 1px 11px; }
+.festivalYearMonthHeading>div:first-child { min-width:0; }
+.festivalYearMonthHeading h3 { display:flex; align-items:center; gap:8px; margin:0; color:#183452; font:700 25px/1.1 'Playfair Display',serif; }
+.festivalYearMonthHeading h3 span { display:grid; place-items:center; width:21px; height:21px; border-radius:50%; background:#ffd19a; color:#d85e2d; font:700 12px 'DM Sans',sans-serif; }
+.festivalYearMonthHeading p { margin:2px 0 0; color:#6e8196; font-size:11px; }
+.festivalYearMonthHeading>div:first-child::after { display:inline-block; width:145px; height:9px; margin-left:12px; vertical-align:middle; content:""; background:linear-gradient(90deg,#f3a560,#f6d5aa 22%,transparent 23%,transparent 27%,#f3a560 28%,transparent 31%,#f3a560 32%,transparent 35%); clip-path:polygon(0 50%,10% 50%,14% 15%,19% 50%,24% 25%,29% 50%,100% 50%,100% 65%,29% 65%,24% 90%,19% 65%,14% 90%,10% 65%,0 65%); }
+.festivalMonthBrowse { display:flex; align-items:center; gap:8px; flex:0 0 auto; }
+.festivalMonthBrowse button { display:grid; place-items:center; width:35px; height:35px; border:1px solid #f5d8bd; border-radius:50%; background:#fffdfa; color:#b64b2d; box-shadow:0 3px 8px rgba(100,62,37,.1); transition:transform .16s ease,box-shadow .16s ease; }
+.festivalMonthBrowse button:hover { transform:translateY(-2px); box-shadow:0 6px 14px rgba(100,62,37,.18); }
+.festivalMonthBrowse .festivalMonthViewAll { display:flex; width:auto; height:31px; gap:5px; padding:0 13px; border-radius:99px; background:#fff0e4; color:#d74a26; font-size:10px; font-weight:700; }
+.festivalYearCards { grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr)); gap:14px; overflow-x:auto; scroll-behavior:smooth; scroll-snap-type:x proximity; scrollbar-width:thin; scrollbar-color:#e9b17f transparent; }
+.festivalYearCard { min-width:0; scroll-snap-align:start; overflow:hidden; border:1px solid #f1e2d2; border-radius:12px; background:#fff; box-shadow:0 8px 22px rgba(81,48,24,.18); }
+.festivalYearImageButton { position:relative; height:clamp(110px,10vw,150px); }
+.festivalYearImageButton::after { position:absolute; inset:35% 0 0; content:""; background:linear-gradient(transparent,rgba(29,31,38,.26)); pointer-events:none; }
+.festivalYearImageButton img { display:block; }
+.festivalImageDate { position:absolute; z-index:1; left:10px; bottom:-1px; display:flex; align-items:center; gap:5px; padding:5px 9px; border-radius:8px 8px 0 0; background:#fff; color:#df4e2b; font-size:9px; font-weight:700; }
+.festivalYearCardBody { position:relative; min-height:116px; padding:11px 13px 10px; }
+.festivalYearCardBody::after { position:absolute; right:14px; bottom:31px; color:#f1bd86; content:"❋"; font-size:56px; line-height:1; opacity:.32; pointer-events:none; }
+.festivalYearCardBody h4 { position:relative; z-index:1; margin:0 0 5px; color:#1e3654; font:700 16px/1.2 'Playfair Display',serif; }
+.festivalCardBadges { position:relative; z-index:1; display:flex; gap:5px; margin-bottom:7px; }
+.festivalBadge { padding:3px 9px; border-radius:99px; background:#e5efff; color:#2767b7; font-size:9px; line-height:1.2; }
+.festivalBadge-religious { background:#ffe0eb; color:#c52d65; }
+.festivalBadge-cultural,.festivalBadge-folk { background:#eee5ff; color:#6b42bd; }
+.festivalBadge-national { background:#dfedff; color:#2767b7; }
+.festivalBadge-harvest { background:#e5f2d9; color:#527f2e; }
+.festivalYearCardBody .festivalYearRegion { position:relative; z-index:1; display:flex; align-items:center; gap:4px; margin:0 0 8px; color:#677c91; font-size:10px; }
+.festivalYearCardBody .festivalYearRegion svg { flex:0 0 auto; color:#e7472e; }
+.festivalKnowMore { position:relative; z-index:1; display:inline-flex; justify-content:center; width:auto; gap:10px; padding:5px 11px; border:1px solid #ffb28e; border-radius:99px; background:#fff4eb; color:#df4e2b; font-size:10px; }
+.festivalKnowMore:hover { background:#ffe9da; }
+.festivalYearCard { animation:festivalCardEnter .48s ease both,festivalCardShadow 3.2s ease-in-out .5s infinite; }
+.festivalYearCard:hover,.festivalYearCard:focus-within { border-color:#eea56f; transform:translateY(-4px); box-shadow:0 16px 34px rgba(105,60,30,.3); }
+@media(max-width:700px) { .festivalYearMonth { padding:12px 10px; }.festivalYearMonthHeading { align-items:flex-start; }.festivalYearMonthHeading h3 { font-size:21px; }.festivalYearMonthHeading>div:first-child::after { display:none; }.festivalMonthBrowse { gap:4px; }.festivalMonthBrowse button { width:30px; height:30px; }.festivalMonthBrowse .festivalMonthViewAll { height:28px; padding:0 9px; }.festivalYearCards { grid-template-columns:repeat(auto-fit,minmax(235px,82%)); grid-auto-flow:column; grid-auto-columns:82%; grid-template-rows:1fr; }.festivalYearImageButton { height:145px; }.festivalYearCardBody { min-height:112px; } }
+@media(max-width:380px) { .festivalMonthBrowse { gap:3px; }.festivalMonthBrowse button { width:27px; height:27px; }.festivalMonthBrowse .festivalMonthViewAll { font-size:9px; padding:0 7px; }.festivalYearCards { grid-auto-columns:92%; grid-template-columns:repeat(auto-fit,minmax(230px,92%)); } }
+@media(prefers-reduced-motion:reduce) { .festivalYearCard { animation:none; box-shadow:0 8px 22px rgba(81,48,24,.18); transition:none; }.festivalYearCard:hover,.festivalYearCard:focus-within { transform:none; }.festivalYearCards { scroll-behavior:auto; } }
+/* Match the reference festival-card proportions: compact image and detail box. */
+.festivalYearMonth { width:min(100%,1200px); margin-right:auto; margin-left:auto; }
+.festivalYearCards { grid-template-columns:repeat(auto-fit,minmax(min(250px,100%),1fr)); gap:14px; }
+.festivalYearImageButton { height:112px; }
+.festivalYearCardBody { min-height:116px; padding:10px 12px 9px; }
+.festivalYearCardBody h4 { font-size:15px; }
+.festivalYearCardBody .festivalYearRegion { margin-bottom:7px; }
+@media(max-width:700px) { .festivalYearMonth { width:100%; }.festivalYearCards { grid-template-columns:repeat(auto-fit,minmax(235px,82%)); grid-auto-flow:column; grid-auto-columns:82%; grid-template-rows:1fr; }.festivalYearImageButton { height:132px; } }
+/* Keep cards at a consistent width when a month has only one or two entries. */
+.festivalYearCards { grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr)); justify-content:start; }
+.festivalYearCard { width:100%; max-width:100%; }
+.festivalMonthBrowse button:disabled { cursor:not-allowed; opacity:.4; box-shadow:none; transform:none; }
+.festivalYearCards { overflow-x:hidden; }
+@media(max-width:700px) { .festivalYearCards { grid-template-columns:repeat(auto-fit,minmax(235px,82%)); grid-auto-flow:column; grid-auto-columns:82%; } }
+@media(max-width:700px) { .festivalYearCards:not(.is-expanded) { overflow-x:auto; }.festivalYearCards.is-expanded { grid-auto-flow:row; grid-auto-columns:auto; grid-template-columns:repeat(2,minmax(0,1fr)); overflow:visible; } }
+@media(max-width:380px) { .festivalYearCards.is-expanded { grid-template-columns:1fr; } }

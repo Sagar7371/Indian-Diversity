@@ -70,6 +70,34 @@ export const festivalRecords = [
     sources: [{ title: 'Pongal: observance and traditions', url: 'https://en.wikipedia.org/wiki/Pongal_(festival)' }, { title: 'Makar Sankranti: 2026–2028 solar dates', url: 'https://en.wikipedia.org/wiki/Makar_Sankranti' }]
   },
   {
+    id: 'saraswati-puja',
+    name: 'Saraswati Puja (Vasant Panchami)',
+    slug: 'saraswati-puja-vasant-panchami',
+    dates: [{ year: 2026, startDate: '2026-01-23', endDate: '2026-01-23' }],
+    states: ['West Bengal', 'Bihar', 'Uttar Pradesh', 'Odisha', 'Assam'],
+    regions: ['East India', 'North India', 'Pan India'],
+    category: 'Religious Festival',
+    traditionType: 'Religious',
+    scale: 'Major',
+    tags: ['Religious', 'Cultural', 'Folk'],
+    shortDescription: 'A spring festival honouring Saraswati, the goddess associated with learning, music and the arts.',
+    description: 'Saraswati Puja is observed on Vasant Panchami. Devotees worship Saraswati, visit pandals or temples, and in some communities place books and musical instruments near the altar.',
+    significance: 'The festival celebrates learning, creativity and the arrival of spring. Customs and the prominence of the observance vary across regions.',
+    history: 'Vasant Panchami is a seasonal festival associated with the fifth day of the bright fortnight of Magha. In several regions, especially Bengal, it is celebrated as Saraswati Puja.',
+    traditions: ['Saraswati worship at homes, schools and pandals', 'Offering flowers and seasonal foods', 'Cultural programmes and music'],
+    rituals: ['Books and instruments may be placed near the altar', 'Students and families offer prayers for learning'],
+    traditionalFoods: ['Khichuri', 'Kesari sweets', 'Seasonal yellow foods'],
+    traditionalClothing: ['Yellow or spring-coloured festive attire in some communities'],
+    dances: ['Regional cultural performances'],
+    music: ['Devotional and classical music'],
+    duration: 'One day',
+    bestPlaces: ['Kolkata, West Bengal', 'Patna, Bihar', 'Schools and temples across India'],
+    relatedFestivals: ['makar-sankranti', 'pongal'],
+    relatedStates: ['West Bengal', 'Bihar', 'Uttar Pradesh', 'Odisha', 'Assam'],
+    images: [{ url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85', alt: 'Spring landscape for Vasant Panchami' }],
+    sources: [{ title: 'Vasant Panchami and Saraswati Puja 2026 date', url: 'https://www.drikpanchang.com/festivals/vasant-panchami/vasant-panchami-puja-date-time.html?geoname-id=1261481&year=2026' }]
+  },
+  {
     id: 'magh-bihu',
     name: 'Magh Bihu',
     slug: 'magh-bihu',
@@ -122,7 +150,7 @@ export const festivalRecords = [
     bestPlaces: ['Kartavya Path, New Delhi', 'State capitals across India'],
     relatedFestivals: ['independence-day', 'gandhi-jayanti'],
     relatedStates: ['Pan India'],
-    images: [{ url: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=85', alt: 'Indian architectural heritage' }],
+    images: [{ url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGxLfgie-dKpotxK14sILgz29Rf1TRXW_d6XNLI_ITa1Yi8Zb24foeGUup&s=10', alt: 'Republic Day celebration in India' }],
     sources: [{ title: 'Republic Day (India)', url: 'https://en.wikipedia.org/wiki/Republic_Day_(India)' }]
   },
   {
@@ -150,7 +178,7 @@ export const festivalRecords = [
     bestPlaces: ['Red Fort, New Delhi', 'State capitals across India'],
     relatedFestivals: ['republic-day', 'gandhi-jayanti'],
     relatedStates: ['Pan India'],
-    images: [{ url: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=85', alt: 'Indian architectural heritage' }],
+    images: [{ url: 'https://s7ap1.scene7.com/is/image/incredibleindia/independence-day-fes-hero?qlt=82&ts=1726639288095', alt: 'India Independence Day celebration' }],
     sources: [{ title: 'Independence Day (India)', url: 'https://en.wikipedia.org/wiki/Independence_Day_(India)' }]
   },
   {
@@ -182,6 +210,34 @@ export const festivalRecords = [
     sources: [{ title: 'Hindi Day', url: 'https://en.wikipedia.org/wiki/Hindi_Day' }]
   },
   {
+    id: 'engineers-day',
+    name: "Engineers' Day",
+    slug: 'engineers-day',
+    dates: annualDate('09-15'),
+    states: ['Pan India'],
+    regions: ['Pan India'],
+    category: 'Cultural Observance',
+    traditionType: 'Civic',
+    scale: 'Major',
+    tags: ['National', 'Cultural'],
+    shortDescription: 'India honours engineers and the contributions of Sir M. Visvesvaraya.',
+    description: "Engineers' Day is observed in India on 15 September, the birth anniversary of engineer and statesman Sir Mokshagundam Visvesvaraya.",
+    significance: 'The day recognises engineering, innovation and the people whose work supports public life and development.',
+    history: "India's Engineers' Day has been observed on Visvesvaraya's birth anniversary since 1968.",
+    traditions: ['Engineering institution events', 'Technical talks and exhibitions', 'Recognition of engineering achievements'],
+    rituals: ['Educational and professional programmes'],
+    traditionalFoods: ['Regional foods at community events'],
+    traditionalClothing: ['Everyday or professional attire'],
+    dances: [],
+    music: [],
+    duration: 'One day',
+    bestPlaces: ['Engineering colleges and institutions across India'],
+    relatedFestivals: ['hindi-diwas', 'gandhi-jayanti'],
+    relatedStates: ['Pan India'],
+    images: [{ url: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&w=1200&q=85', alt: 'Engineering and technology workspace' }],
+    sources: [{ title: "Engineers' Day in India", url: 'https://en.wikipedia.org/wiki/Engineers%27_Day_(India)' }]
+  },
+  {
     id: 'gandhi-jayanti',
     name: 'Gandhi Jayanti',
     slug: 'gandhi-jayanti',
@@ -206,7 +262,7 @@ export const festivalRecords = [
     bestPlaces: ['Raj Ghat, New Delhi', 'Sabarmati Ashram, Ahmedabad'],
     relatedFestivals: ['republic-day', 'independence-day'],
     relatedStates: ['Pan India', 'Gujarat'],
-    images: [{ url: 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1200&q=85', alt: 'Indian heritage' }],
+    images: [{ url: 'https://gosharpener.com/content/uploads/photos/2024/08/sngine_faefd76e1ad49d7e0eed3f38bf5af550.jpg', alt: 'Mahatma Gandhi portrait for Gandhi Jayanti' }],
     sources: [{ title: 'Gandhi Jayanti', url: 'https://en.wikipedia.org/wiki/Gandhi_Jayanti' }]
   },
   {
@@ -234,7 +290,7 @@ export const festivalRecords = [
     bestPlaces: ['Kolkata, West Bengal', 'Cuttack, Odisha', 'Guwahati, Assam'],
     relatedFestivals: ['vijayadashami', 'diwali'],
     relatedStates: ['West Bengal', 'Assam', 'Odisha', 'Tripura'],
-    images: [{ url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85', alt: 'Festival lights and celebration' }],
+    images: [{ url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBqYnoqvF11N1sy2GaM2_joh4bL01qISxVBnCxCtC45QG85RnS4Jo2k5Ph&s=10', alt: 'Durga Puja celebration' }],
     sources: [{ title: 'Durga Puja: 2026 observance dates and cultural background', url: 'https://en.wikipedia.org/wiki/Durga_Puja' }, { title: 'Durga Puja in Kolkata, UNESCO Intangible Cultural Heritage', url: 'https://ich.unesco.org/en/RL/durga-puja-in-kolkata-00703' }]
   },
   {
@@ -322,7 +378,7 @@ export const festivalRecords = [
     bestPlaces: ['Kolkata, West Bengal', 'Barasat, West Bengal'],
     relatedFestivals: ['diwali', 'durga-puja'],
     relatedStates: ['West Bengal', 'Assam', 'Odisha'],
-    images: [{ url: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85', alt: 'Festival lamps and lights' }],
+    images: [{ url: 'https://d1msew97rp2nin.cloudfront.net/prod/phool/blogimages/1727305032380why-is-kali-puja-celebrated-in-diwali.webp', alt: 'Kali Puja celebration' }],
     sources: [{ title: 'Diwali and regional observances', url: 'https://en.wikipedia.org/wiki/Diwali' }]
   },
   {
@@ -352,6 +408,34 @@ export const festivalRecords = [
     relatedStates: ['Punjab'],
     images: [{ url: 'https://cdn.britannica.com/53/176353-050-5B854179/Harmandir-Sahib-Amritsar-Punjab-India.jpg', alt: 'Harmandir Sahib in Amritsar' }],
     sources: [{ title: 'Diwali and Sikh observances', url: 'https://en.wikipedia.org/wiki/Diwali' }, { title: 'Bandi Chhor Divas', url: 'https://en.wikipedia.org/wiki/Bandi_Chhor_Divas' }]
+  },
+  {
+    id: 'chhath-puja',
+    name: 'Chhath Puja',
+    slug: 'chhath-puja',
+    dates: [{ year: 2026, startDate: '2026-11-16', endDate: '2026-11-17' }],
+    states: ['Bihar', 'Jharkhand', 'Uttar Pradesh', 'West Bengal'],
+    regions: ['East India', 'North India'],
+    category: 'Religious Festival',
+    traditionType: 'Religious',
+    scale: 'Major',
+    tags: ['Religious', 'Cultural', 'Folk'],
+    shortDescription: 'A multi-day festival dedicated to Surya and Chhathi Maiya, especially celebrated in eastern India.',
+    description: 'Chhath Puja is a Hindu festival dedicated to the Sun God, Surya, and Chhathi Maiya. Devotees observe periods of fasting and offer arghya to the setting and rising Sun at rivers, ponds and other water bodies.',
+    significance: 'The observance expresses gratitude to the Sun for sustaining life and is associated with family well-being and renewal.',
+    history: 'Chhath is a long-standing folk and devotional tradition, especially associated with Bihar and neighbouring regions. Customs vary among communities.',
+    traditions: ['Offerings at rivers and ponds', 'Community gatherings at ghats', 'Preparing thekua and seasonal offerings'],
+    rituals: ['Evening arghya to the setting Sun', 'Morning arghya to the rising Sun', 'Fasting and offerings, according to family tradition'],
+    traditionalFoods: ['Thekua', 'Seasonal fruits', 'Rice and jaggery offerings'],
+    traditionalClothing: ['Traditional regional festive attire'],
+    dances: [],
+    music: ['Chhath devotional songs'],
+    duration: '16–17 November 2026 in this calendar listing; observance dates vary each year',
+    bestPlaces: ['Patna, Bihar', 'Dev, Bihar', 'Ranchi, Jharkhand', 'Varanasi, Uttar Pradesh'],
+    relatedFestivals: ['diwali', 'kali-puja'],
+    relatedStates: ['Bihar', 'Jharkhand', 'Uttar Pradesh', 'West Bengal'],
+    images: [{ url: 'https://c.ndtvimg.com/2025-10/3gcq79f_-chhath-puja-2025_625x300_13_October_25.jpg?im=FitAndFill,algorithm=dnn,width=1200,height=738', alt: 'Chhath Puja offerings at a river' }],
+    sources: [{ title: 'Chhath', url: 'https://en.wikipedia.org/wiki/Chhath' }]
   },
   {
     id: 'christmas',

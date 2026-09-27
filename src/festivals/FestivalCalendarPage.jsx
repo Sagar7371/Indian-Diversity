@@ -7,7 +7,15 @@ import './festivalCalendar.css';
 
 const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const tagFilters = ['Harvest', 'Folk', 'National', 'Tribal'];
+const tagFilters = [
+  { value: 'Harvest', label: '🌿 Harvest' },
+  { value: 'Religious', label: 'ॐ Religious' },
+  { value: 'National', label: '🇮🇳 National' },
+  { value: 'Tribal', label: '🔺 Tribal' },
+  { value: 'Seasonal', label: '☀️ Seasonal' },
+  { value: 'Cultural', label: '🎭 Cultural' },
+  { value: 'Folk', label: '🎭 Folk' }
+];
 const fallbackImage = 'https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=900&q=75';
 
 function toISODate(date) {
@@ -77,6 +85,8 @@ export default function FestivalCalendarPage() {
   const [selectedFestival, setSelectedFestival] = useState(null);
   const [selectedOccurrence, setSelectedOccurrence] = useState(null);
   const [reminderMessage, setReminderMessage] = useState('');
+  const [festivalMonthPages, setFestivalMonthPages] = useState({});
+  const [expandedFestivalMonths, setExpandedFestivalMonths] = useState({});
 
   const year = viewMonth.getFullYear();
   const month = viewMonth.getMonth();
@@ -160,6 +170,14 @@ export default function FestivalCalendarPage() {
   const selectedFestivals = useMemo(() => festivals
     .map((festival) => ({ festival, occurrence: getOccurrenceOnDate(festival, selectedDate) }))
     .filter((item) => item.occurrence), [festivals, selectedDate]);
+
+  const annualFestivalMonths = useMemo(() => Array.from({ length: 12 }, (_, monthIndex) => ({
+    monthIndex,
+    festivals: festivalRecords.flatMap((festival) => festival.dates
+      .filter((occurrence) => occurrence.year === year && Number(occurrence.startDate.slice(5, 7)) - 1 === monthIndex)
+      .map((occurrence) => ({ festival, occurrence })))
+      .sort((a, b) => a.occurrence.startDate.localeCompare(b.occurrence.startDate))
+  })).filter((monthItem) => monthItem.festivals.length), [year]);
 
   const monthFestivals = useMemo(() => festivals
     .map((festival) => ({
@@ -255,21 +273,12 @@ export default function FestivalCalendarPage() {
 
   return (
     <div className={`festivalCalendarPage theme-${theme}`}>
-      <header className="festivalCalendarNav">
-        <button className="festivalBrand" type="button" onClick={() => navigate('/')}><span className="festivalBrandMark">✦</span>Indian Diversity</button>
-        <div className="festivalNavActions">
-          <button className="festivalBackButton" type="button" onClick={() => navigate('/')}><ArrowLeft size={16} /> Back to explorer</button>
-          <button className="festivalThemeButton" type="button" onClick={() => setTheme((current) => current === 'light' ? 'dark' : 'light')} aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}>
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-          </button>
-        </div>
-      </header>
-
       <main className="festivalCalendarMain">
         <div className="festivalPageHeading">
           <div className="festivalEyebrow"><CalendarDays size={15} />Indian Culture · Year-round</div>
-          <h1>Festival Calendar of India</h1>
+          <h1>Festival Calendar of <em>India</em></h1>
           <p>Explore the festivals, traditions and celebrations of India throughout the year.</p>
+          <div className="festivalHeroLandmarks" aria-hidden="true"><span>🛕</span><span>🪷</span><span>💃</span><span>🐘</span><span>🏰</span></div>
         </div>
 
         <section className="festivalToday" aria-labelledby="festivalTodayTitle">
@@ -293,23 +302,20 @@ export default function FestivalCalendarPage() {
 
         <div className="festivalTagFilters" aria-label="Festival themes">
           <span>Explore by theme</span>
-          {tagFilters.map((tag) => <button type="button" className={tagFilter === tag ? 'is-active' : ''} aria-pressed={tagFilter === tag} key={tag} onClick={() => toggleTag(tag)}>{tag}</button>)}
+          {tagFilters.map(({ value, label }) => <button type="button" className={tagFilter === value ? 'is-active' : ''} aria-pressed={tagFilter === value} key={value} onClick={() => toggleTag(value)}>{label}</button>)}
           {(search || stateFilter || categoryFilter || typeFilter || scaleFilter || tagFilter || favoritesOnly) && <button className="festivalClearFilters" type="button" onClick={clearFilters}>Clear filters</button>}
-        </div>
-
-        <div className="festivalCalendarToolbar">
-          <div className="festivalMonthLabel"><span className="festivalEyebrow">BROWSE DATES</span><h2>{monthNames[month]} {year}</h2></div>
-          <div className="festivalMonthControls">
-            <button type="button" className="festivalTodayButton" onClick={showToday}>Today</button>
-            <label className="festivalSelectLabel"><span className="visuallyHidden">Month</span><select value={month} onChange={(event) => selectMonth(event.target.value)} aria-label="Select month">{monthNames.map((name, index) => <option value={index} key={name}>{name}</option>)}</select></label>
-            <label className="festivalSelectLabel"><span className="visuallyHidden">Year</span><select value={year} onChange={(event) => selectYear(event.target.value)} aria-label="Select year">{festivalYears.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>
-            <button type="button" className="festivalArrowButton" onClick={() => changeMonth(-1)} aria-label="Previous month"><ChevronLeft size={20} /></button>
-            <button type="button" className="festivalArrowButton" onClick={() => changeMonth(1)} aria-label="Next month"><ChevronRight size={20} /></button>
-          </div>
         </div>
 
         <div className="festivalCalendarLayout">
           <section className="festivalCalendarPanel" aria-label={`${monthNames[month]} ${year} calendar`}>
+            <div className="festivalCalendarToolbar">
+              <div className="festivalMonthLabel"><h2>{monthNames[month]} {year}</h2></div>
+              <div className="festivalMonthControls">
+                <button type="button" className="festivalArrowButton" onClick={() => changeMonth(-1)} aria-label="Previous month"><ChevronLeft size={20} /></button>
+                <button type="button" className="festivalTodayButton" onClick={showToday}>Today</button>
+                <button type="button" className="festivalArrowButton" onClick={() => changeMonth(1)} aria-label="Next month"><ChevronRight size={20} /></button>
+              </div>
+            </div>
             <div className="festivalWeekdays">{weekDays.map((day) => <span key={day}>{day}</span>)}</div>
             <div className="festivalCalendarGrid">
               {calendarCells.map((day, index) => {
@@ -329,6 +335,11 @@ export default function FestivalCalendarPage() {
             <div className="festivalCalendarLegend"><span><i className="legendToday" />Today</span><span><i className="legendEvent" />Festival date</span><span>Number indicates multiple festivals</span></div>
           </section>
 
+          <aside className="festivalQuickUpcoming" aria-labelledby="festivalQuickUpcomingTitle">
+            <div className="festivalQuickHeading"><h2 id="festivalQuickUpcomingTitle">Festivals on {formatDate(selectedDate)}</h2><button type="button" onClick={() => document.getElementById('festivalUpcomingTitle')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}>View all <ArrowRight size={14} /></button></div>
+            {upcoming.length ? <div className="festivalQuickList">{upcoming.slice(0, 4).map(({ festival, occurrence }) => <button className="festivalQuickCard" type="button" key={`${festival.id}-${occurrence.startDate}`} onClick={() => openDetails(festival, occurrence)}><img src={festival.images?.[0]?.url || fallbackImage} alt="" loading="lazy" onError={(event) => { event.currentTarget.src = fallbackImage; }} /><span className="festivalQuickInfo"><strong>{festival.name}</strong><small><CalendarDays size={12} />{formatOccurrence(occurrence)}</small><small><MapPin size={12} />{festival.regions.filter((region) => region !== 'Pan India').join(', ') || 'Pan India'}</small></span><ChevronRight size={16} /></button>)}</div> : <div className="festivalEmpty"><CalendarDays size={23} /><strong>No upcoming festivals listed.</strong></div>}
+          </aside>
+
           <aside className="festivalDatePanel" aria-live="polite">
             <div className="festivalDatePanelHeading">
               <span className="festivalEyebrow">{search.trim() ? 'SEARCH RESULTS' : 'SELECTED DATE'}</span>
@@ -342,6 +353,28 @@ export default function FestivalCalendarPage() {
                 ) : <div className="festivalEmpty"><CalendarDays size={23} /><strong>No major festival is listed for this date.</strong><span>Try another date, month, or filter.</span></div>}
           </aside>
         </div>
+
+        <section className="festivalCultureFooter" aria-label="Festival calendar fact">
+          <div className="festivalCultureFact"><span aria-hidden="true">💡</span><div><strong>Did you know?</strong><p>India celebrates over 2,000 festivals across regions, languages and communities throughout the year.</p></div></div>
+          <div className="festivalFooterPhotos">{upcoming.slice(0, 4).map(({ festival, occurrence }) => <button type="button" key={`${festival.id}-${occurrence.startDate}`} onClick={() => openDetails(festival, occurrence)} aria-label={`Explore ${festival.name}`}><img src={festival.images?.[0]?.url || fallbackImage} alt={festival.name} loading="lazy" onError={(event) => { event.currentTarget.src = fallbackImage; }} /></button>)}</div>
+        </section>
+
+        <section className="festivalYearOverview" aria-labelledby="festivalYearOverviewTitle">
+          <div className="festivalYearHeading"><div><span className="festivalEyebrow">PLAN AHEAD</span><h2 id="festivalYearOverviewTitle">Festivals of {year}, month by month</h2><p>Browse every festival listed for this year. Open any card to learn about its traditions, food and regional celebrations.</p></div><span className="festivalYearCount">{annualFestivalMonths.reduce((count, monthItem) => count + monthItem.festivals.length, 0)} festivals</span></div>
+          <div className="festivalYearMonths">{annualFestivalMonths.map(({ monthIndex, festivals: monthItems }) => {
+            const pageIndex = festivalMonthPages[monthIndex] || 0;
+            const isExpanded = Boolean(expandedFestivalMonths[monthIndex]);
+            const totalPages = Math.ceil(monthItems.length / 4);
+            const visibleMonthItems = isExpanded ? monthItems : monthItems.slice(pageIndex * 4, pageIndex * 4 + 4);
+            return <section className="festivalYearMonth" key={monthIndex} aria-labelledby={`festival-month-${monthIndex}`}>
+            <div className="festivalYearMonthHeading"><div><h3 id={`festival-month-${monthIndex}`}>{monthNames[monthIndex]} <span>{monthItems.length}</span></h3><p>Festivals and celebrations in {monthNames[monthIndex]}</p></div><div className="festivalMonthBrowse">{monthItems.length > 4 && <><button className="festivalMonthViewAll" type="button" onClick={() => setExpandedFestivalMonths((current) => ({ ...current, [monthIndex]: !isExpanded }))}>{isExpanded ? 'Show less' : 'View All'} <ArrowRight size={14} /></button>{!isExpanded && <><button type="button" aria-label={`Previous ${monthNames[monthIndex]} festivals`} disabled={pageIndex === 0} onClick={() => setFestivalMonthPages((current) => ({ ...current, [monthIndex]: Math.max(0, pageIndex - 1) }))}><ChevronLeft size={17} /></button><button type="button" aria-label={`More ${monthNames[monthIndex]} festivals`} disabled={pageIndex >= totalPages - 1} onClick={() => setFestivalMonthPages((current) => ({ ...current, [monthIndex]: Math.min(totalPages - 1, pageIndex + 1) }))}><ChevronRight size={17} /></button></>}</>}</div></div>
+            <div className={`festivalYearCards${isExpanded ? ' is-expanded' : ''}`} id={`festival-cards-${monthIndex}`}>{visibleMonthItems.map(({ festival, occurrence }) => <article className="festivalYearCard" key={`${festival.id}-${occurrence.startDate}`}>
+              <button className="festivalYearImageButton" type="button" onClick={() => openDetails(festival, occurrence)} aria-label={`Know more about ${festival.name}`}><img src={festival.images?.[0]?.url || fallbackImage} alt={festival.images?.[0]?.alt || festival.name} loading="lazy" onError={(event) => { event.currentTarget.src = fallbackImage; }} /><span className="festivalImageDate"><CalendarDays size={12} />{formatOccurrence(occurrence)}</span></button>
+              <div className="festivalYearCardBody"><h4>{festival.name}</h4><div className="festivalCardBadges">{festival.tags.slice(0, 2).map((tag) => <span className={`festivalBadge festivalBadge-${tag.toLowerCase()}`} key={tag}>{tag}</span>)}</div><p className="festivalYearRegion"><MapPin size={12} />{festival.regions.filter((region) => region !== 'Pan India').join(' · ') || 'Across India'}</p><button className="festivalKnowMore" type="button" onClick={() => openDetails(festival, occurrence)}>Know More <ArrowRight size={15} /></button></div>
+            </article>)}</div>
+          </section>;
+          })}</div>
+        </section>
 
         <section className="festivalMonthFestivals" aria-labelledby="festivalMonthFestivalsTitle">
           <div className="festivalSectionHeading">
