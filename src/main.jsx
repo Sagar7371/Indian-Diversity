@@ -1872,21 +1872,44 @@ function BharatAIPopup() {
   const [modalInitialTool, setModalInitialTool] = useState(() => location.pathname.startsWith('/bharat-ai/') ? (location.pathname.split('/').filter(Boolean)[1] || 'chat') : 'home');
   const [orbPosition, setOrbPosition] = useState(null);
   const dragRef = useRef(null);
+  const orbElementRef = useRef(null);
   const suppressClickRef = useRef(false);
 
   useEffect(() => {
     try {
       const savedPosition = JSON.parse(localStorage.getItem('bharat-ai-orb-position') || 'null');
       if (savedPosition && Number.isFinite(savedPosition.left) && Number.isFinite(savedPosition.top)) {
+        const orbSize = window.matchMedia('(max-width: 600px)').matches ? 82 : 94;
         setOrbPosition({
-          left: Math.max(0, Math.min(savedPosition.left, window.innerWidth - 90)),
-          top: Math.max(0, Math.min(savedPosition.top, window.innerHeight - 90))
+          left: Math.max(8, Math.min(savedPosition.left, window.innerWidth - orbSize - 8)),
+          top: Math.max(8, Math.min(savedPosition.top, window.innerHeight - orbSize - 8))
         });
       }
     } catch {
       // Ignore unavailable or malformed saved placement and use the default corner.
     }
   }, []);
+
+  useEffect(() => {
+    if (!orbPosition || expanded) return undefined;
+    const keepOrbInViewport = () => {
+      const bounds = orbElementRef.current?.getBoundingClientRect();
+      if (!bounds) return;
+      setOrbPosition((position) => {
+        if (!position) return position;
+        const next = {
+          left: Math.max(8, Math.min(position.left, window.innerWidth - bounds.width - 8)),
+          top: Math.max(8, Math.min(position.top, window.innerHeight - bounds.height - 8))
+        };
+        if (next.left === position.left && next.top === position.top) return position;
+        try { localStorage.setItem('bharat-ai-orb-position', JSON.stringify(next)); } catch { /* Keep the orb visible even when storage is unavailable. */ }
+        return next;
+      });
+    };
+    window.addEventListener('resize', keepOrbInViewport);
+    keepOrbInViewport();
+    return () => window.removeEventListener('resize', keepOrbInViewport);
+  }, [orbPosition, expanded]);
 
   const startOrbDrag = (event) => {
     if (event.button !== undefined && event.button !== 0) return;
@@ -1931,7 +1954,7 @@ function BharatAIPopup() {
   }, [expanded]);
 
   if (!expanded) {
-    return <button className={`bharatAIPopupLauncher${orbPosition ? ' isPositioned' : ''}`} type="button" style={orbPosition ? { left: orbPosition.left, top: orbPosition.top, right: 'auto', bottom: 'auto' } : undefined} onPointerDown={startOrbDrag} onPointerMove={moveOrb} onPointerUp={finishOrbDrag} onPointerCancel={finishOrbDrag} onClick={(event) => { if (suppressClickRef.current) { event.preventDefault(); return; } setModalInitialTool('home'); setExpanded(true); }} aria-label="Drag or open Bharat AI assistant">
+    return <button ref={orbElementRef} className={`bharatAIPopupLauncher${orbPosition ? ' isPositioned' : ''}`} type="button" style={orbPosition ? { left: orbPosition.left, top: orbPosition.top, right: 'auto', bottom: 'auto' } : undefined} onPointerDown={startOrbDrag} onPointerMove={moveOrb} onPointerUp={finishOrbDrag} onPointerCancel={finishOrbDrag} onClick={(event) => { if (suppressClickRef.current) { event.preventDefault(); return; } setModalInitialTool('home'); setExpanded(true); }} aria-label="Drag or open Bharat AI assistant">
       <span className="bharatAIOrbTooltip"><strong>Ask Bharat AI</strong><small>Your cultural guide 👋</small></span>
       <svg className="bharatAIOrbRobot" viewBox="0 0 100 100" aria-hidden="true">
         <defs>

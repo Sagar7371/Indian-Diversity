@@ -75,7 +75,7 @@
 
 .bharatAIPopupLauncher {
   position: fixed;
-  z-index: 1200;
+  z-index: 1400;
   right: 24px;
   bottom: 24px;
   display: grid;
@@ -137,9 +137,9 @@
 @keyframes orbFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @media (max-width: 600px) {
   .bharatAIPopup { right: 16px; bottom: 16px; width: min(236px, calc(100vw - 32px)); }
-  .bharatAIPopupLauncher { right: 16px; bottom: 18px; width: 82px; height: 82px; }
-  .bharatAIOrbRobot { width: 78px; height: 78px; }
-  .bharatAIOrbTooltip { right: 48px; bottom: 64px; }
+  .bharatAIPopupLauncher { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); left: auto; top: auto; width: 76px; height: 76px; touch-action: none; }
+  .bharatAIOrbRobot { width: 70px; height: 70px; }
+  .bharatAIOrbTooltip { right: 42px; bottom: 59px; min-width: 146px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bharatAIPopup, .bharatAIPopupLauncher, .bharatAIPopup * { animation: none !important; transition: none !important; }
